@@ -1,0 +1,613 @@
+/* ---------- Hilfe-Center ---------- */
+
+/* Deliberately no backdrop sibling (unlike .modal-overlay/.browser-overlay):
+   this is a drawer next to the work, not a gate in front of it — the
+   timeline underneath stays visible and usable while it's open. Highest
+   z-index in the app (above .context-menu's 80) so it's reachable no
+   matter what else happens to be open. */
+.help-center {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(460px, 100vw);
+  z-index: 85;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding: 1rem;
+  background-color: var(--cs-surface);
+  border-left: 1px solid var(--cs-border);
+  box-shadow: -12px 0 32px rgba(var(--cs-shadow-rgb), calc(0.5 * var(--cs-shadow-k)));
+  overflow-y: auto;
+}
+
+.help-center__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.help-center__title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.help-center__search {
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+  background-color: var(--cs-bg);
+  border: 1px solid var(--cs-border);
+  border-radius: 8px;
+  color: var(--cs-text);
+  font-size: 0.9rem;
+}
+
+.help-center__videos {
+  align-self: flex-start;
+}
+
+.help-center__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-y: auto;
+}
+
+.help-center__empty {
+  color: var(--cs-text-dim);
+  font-size: 0.88rem;
+}
+
+.help-center__view-switch {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.help-center__view-switch .help-center__category-title {
+  margin: 0;
+}
+
+.help-center__all {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+/* Two columns: sixteen categories stacked one per row pushed the topics
+   themselves below the fold. */
+.help-center__category-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.15rem 0.3rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--cs-border);
+}
+
+.help-center__category-nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  color: var(--cs-text-muted);
+  font-size: 0.85rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.help-center__category-nav-item:hover {
+  background-color: var(--cs-surface-hover);
+}
+
+.help-center__category-nav-item--active {
+  background-color: var(--cs-surface-hover);
+  color: var(--cs-text);
+  font-weight: 600;
+}
+
+.help-center__category-nav-count {
+  color: var(--cs-text-dim);
+  font-size: 0.78rem;
+}
+
+.help-center__category-title {
+  margin: 0 0 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--cs-text-dim);
+}
+
+.help-center__topics {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* A little air above a topic scrolled to the top edge (see HelpCenter's
+   scroll-to-opened-topic effect). */
+.help-center__topic {
+  scroll-margin-top: 0.4rem;
+}
+
+.help-center__topic-trigger {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0.6rem;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  color: var(--cs-text);
+  font-size: 0.88rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.help-center__topic-trigger:hover {
+  background-color: var(--cs-surface-hover);
+}
+
+.help-center__topic-caret {
+  color: var(--cs-text-dim);
+  flex-shrink: 0;
+}
+
+.help-center__topic-body {
+  padding: 0.2rem 0.6rem 0.7rem 2.1rem;
+  color: var(--cs-text-muted);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.help-center__topic-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.help-center__topic-body p {
+  margin: 0;
+}
+
+.help-center__topic-body strong {
+  color: var(--cs-text);
+  font-weight: 600;
+}
+
+.help-center__topic-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.help-center__topic-category {
+  color: var(--cs-text-dim);
+  font-size: 0.74rem;
+}
+
+.help-center__steps,
+.help-center__list {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.help-center__steps li,
+.help-center__list li {
+  margin-bottom: 0.3rem;
+}
+
+.help-center__note {
+  padding: 0.45rem 0.6rem;
+  border-left: 3px solid var(--cs-accent-fg);
+  border-radius: 4px;
+  background-color: var(--cs-bg);
+}
+
+.help-center__keys {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.help-center__keys th,
+.help-center__keys td {
+  padding: 0.3rem 0.4rem;
+  border-bottom: 1px solid var(--cs-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.help-center__keys th {
+  width: 38%;
+  font-weight: 400;
+}
+
+.help-center__keys kbd {
+  display: inline-block;
+  padding: 0.05rem 0.35rem;
+  border: 1px solid var(--cs-border);
+  border-radius: 4px;
+  background-color: var(--cs-bg);
+  color: var(--cs-text);
+  font-family: inherit;
+  font-size: 0.8rem;
+  white-space: normal;
+}
+
+.help-center__related {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 0.5rem;
+  padding-top: 0.4rem;
+  border-top: 1px solid var(--cs-border);
+}
+
+.help-center__related-label {
+  color: var(--cs-text-dim);
+  font-size: 0.78rem;
+}
+
+.help-center__related-link {
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--cs-accent-fg);
+  font-size: 0.82rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.help-center__related-link:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Datums-Quell-Badge (SegmentedDateTimeInput) ---------- */
+
+.dt-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.dt-input-wrapper__row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dt-input__source-badge {
+  padding: 0.1rem 0.5rem;
+  background-color: var(--cs-surface-hover);
+  border: 1px solid var(--cs-border);
+  border-radius: 999px;
+  color: var(--cs-text-dim);
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.dt-input__source-hint {
+  margin: 0;
+  color: var(--cs-text-dim);
+  font-size: 0.75rem;
+}
+
+/* Date dropdown above a tile's filename (drop box + marked file-manager tiles). */
+/* Drawn without the native control: WebKitGTK's own arrow button took so
+   much of the narrow tile width that the source was cut ("(Metadate").
+   A small arrow made of two gradients leaves the text the room. */
+.date-choice-select {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  min-width: 0;
+  font-size: 0.72rem;
+  padding: 0.15rem 0.9rem 0.15rem 0.3rem;
+  background-color: var(--cs-surface, transparent);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--cs-text-muted) 50%),
+    linear-gradient(135deg, var(--cs-text-muted) 50%, transparent 50%);
+  background-position:
+    calc(100% - 0.55rem) 55%,
+    calc(100% - 0.3rem) 55%;
+  background-size: 0.25rem 0.25rem;
+  background-repeat: no-repeat;
+  color: var(--cs-text);
+  border: 1px solid var(--cs-border, currentColor);
+  border-radius: 4px;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+/* "Datei im Stream ersetzen" */
+.replace-dialog {
+  width: min(760px, 92vw);
+}
+.replace-dialog__explain p {
+  margin: 0 0 0.7rem;
+}
+.replace-dialog__explain ul {
+  margin: 0 0 0.9rem;
+  padding-left: 1.2rem;
+}
+.replace-dialog__explain li {
+  margin-bottom: 0.3rem;
+}
+.replace-dialog__scope {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+}
+.replace-dialog__warn {
+  color: var(--cs-accent-fg);
+  font-size: 0.85rem;
+}
+.replace-dialog__list {
+  max-height: 46vh;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius);
+}
+.replace-dialog__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr) auto;
+  gap: 0.2rem 0.8rem;
+  align-items: center;
+  padding: 0.45rem 0.7rem;
+  border-bottom: 1px solid var(--cs-border);
+  font-size: 0.88rem;
+}
+.replace-dialog__row:last-child {
+  border-bottom: none;
+}
+.replace-dialog__name {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+.replace-dialog__name span,
+.replace-dialog__cand {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+.replace-dialog__size {
+  color: var(--cs-text-dim);
+  white-space: nowrap;
+}
+.replace-dialog__row .replace-dialog__warn {
+  grid-column: 1 / -1;
+}
+.replace-report__totals {
+  display: flex;
+  gap: 1.6rem;
+  margin: 0 0 1.2rem;
+}
+.replace-report__totals div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.replace-report__totals span {
+  color: var(--cs-text-dim);
+  font-size: 0.82rem;
+}
+.replace-report__totals strong {
+  font-size: 1.1rem;
+}
+
+/* Diary entry dialog (DiaryDialog.tsx) — same modal shape as the recording
+   overlay. */
+.diary-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: rgba(var(--cs-shadow-rgb), calc(0.62 * var(--cs-backdrop-k)));
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+.diary-modal__panel {
+  display: flex;
+  flex-direction: column;
+  width: min(40rem, 100%);
+  max-height: 100%;
+  background-color: var(--cs-surface);
+  border: 1px solid var(--cs-border-strong);
+  border-radius: var(--cs-radius);
+  box-shadow: 0 18px 50px rgba(var(--cs-shadow-rgb), calc(0.8 * var(--cs-shadow-k)));
+}
+.diary-modal__panel--dragover {
+  border-color: var(--cs-accent);
+  box-shadow: 0 0 0 2px var(--cs-accent), 0 18px 50px rgba(var(--cs-shadow-rgb), calc(0.8 * var(--cs-shadow-k)));
+}
+.diary-modal__header {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 1rem 1.2rem 0.6rem;
+}
+.diary-modal__title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.diary-modal__header-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+.diary-modal__body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0 1.2rem 0.8rem;
+}
+.diary-modal__field {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.diary-modal__label {
+  color: var(--cs-text-muted);
+  font-size: 0.8rem;
+}
+.diary-modal__text {
+  min-height: 11rem;
+  resize: vertical;
+  font-family: inherit;
+  line-height: 1.45;
+}
+.diary-modal__text-view {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.45;
+  min-height: 3rem;
+}
+.diary-modal__hint {
+  color: var(--cs-text-muted);
+  font-size: 0.8rem;
+}
+.diary-modal__error {
+  color: var(--cs-danger);
+  font-size: 0.85rem;
+}
+.diary-modal__attachments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.diary-modal__attach-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+.diary-modal__footer {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem 1rem;
+}
+.diary-attachment {
+  position: relative;
+  display: flex;
+  width: 7.5rem;
+  border: 1px solid var(--cs-border-strong);
+  border-radius: var(--cs-radius);
+  overflow: hidden;
+}
+.diary-attachment__open {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.25rem;
+  width: 100%;
+  min-height: 5.5rem;
+  padding: 0.3rem;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+}
+button.diary-attachment__open:hover {
+  background-color: var(--cs-surface-hover);
+}
+.diary-attachment__open img {
+  width: 100%;
+  height: 4.5rem;
+  object-fit: cover;
+  border-radius: 4px;
+}
+.diary-attachment__icon {
+  font-size: 2rem;
+  line-height: 4.5rem;
+}
+.diary-attachment__name {
+  width: 100%;
+  font-size: 0.72rem;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.diary-attachment__remove {
+  position: absolute;
+  top: 0.1rem;
+  right: 0.1rem;
+  background-color: rgba(0, 0, 0, 0.55);
+}
+.timeline-tile__icon--diary {
+  font-size: 2rem;
+}
+.timeline-tile__pencil {
+  position: absolute;
+  top: -0.35rem;
+  right: -0.35rem;
+  display: none;
+  width: 1.6rem;
+  height: 1.6rem;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  line-height: 1;
+  background-color: var(--cs-surface);
+  border: 1px solid var(--cs-border-strong);
+  border-radius: 50%;
+  cursor: pointer;
+}
+.timeline-tile:hover .timeline-tile__pencil {
+  display: flex;
+}
+
+.diary-modal__panel--narrow {
+  width: min(26rem, 100%);
+}
+.diary-modal__choice-preview {
+  max-width: 100%;
+  max-height: 16rem;
+  object-fit: contain;
+  align-self: center;
+  border-radius: 4px;
+}
+
+.icon-btn__img {
+  display: block;
+  width: 1.4rem;
+  height: 1.4rem;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* File browser preview zoom: must sit above the browser overlay itself. */
+.image-zoom-overlay {
+  z-index: 2000;
+}
+

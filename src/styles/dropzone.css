@@ -1,0 +1,781 @@
+/* ---------- Mini drag & drop window (window label "dropzone") ---------- */
+
+/* `inset: 0` + flex-grow sizing rather than height percentages — see the
+   WebKitGTK note elsewhere in this file: `height: 100%` doesn't cascade
+   reliably through nested flex items in Tauri's Linux webview. */
+.dropzone {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--cs-bg);
+  border: 1px solid var(--cs-border);
+  color: var(--cs-text);
+  font-size: 0.85rem;
+}
+
+.dropzone--over {
+  border-color: var(--cs-accent-fg);
+  box-shadow: inset 0 0 0 1px var(--cs-accent-fg);
+}
+
+.dropzone__topbar {
+  cursor: move;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid var(--cs-border);
+}
+
+/* No border-radius: the "L" of the logo runs right into the image's top-left
+   corner, and rounding it off clipped that stroke. */
+.dropzone__logo {
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+}
+
+/* flex:1 on the title (rather than margin-left:auto on the count) keeps the
+   ✕ hard right even when the count element isn't rendered at all. */
+.dropzone__heading {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropzone__title {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+
+.dropzone__count {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--cs-text-muted);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.dropzone__hide {
+  margin-left: 0.2rem;
+  background: none;
+  border: none;
+  color: var(--cs-text-muted);
+  font-size: 0.95rem;
+  line-height: 1;
+  padding: 0.2rem 0.3rem;
+}
+
+.dropzone__hide:hover {
+  color: var(--cs-text);
+}
+
+/* Minimised state: a 104px circle, logo centred, waiting count bottom-right. */
+.dropzone-mini {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--cs-bg);
+  border: 2px solid var(--cs-border);
+  cursor: move;
+  user-select: none;
+}
+
+.dropzone-mini--over {
+  border-color: var(--cs-accent-fg);
+  box-shadow: inset 0 0 0 2px var(--cs-accent-fg);
+}
+
+/* Fills the circle and is cropped to it, so the image's opaque black square
+   becomes the disc; the "CS" itself lies within that inscribed circle.
+   Relative rather than rem/px: the webview scales both with the system DPI,
+   while the window size is set independently of that. */
+.dropzone-mini__logo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.dropzone-mini__count {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  min-width: 1.6rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  background-color: var(--cs-accent);
+  color: var(--cs-accent-contrast);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.dropzone__list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.dropzone__empty {
+  padding: 1rem 0.6rem;
+  color: var(--cs-text-muted);
+  font-size: 0.82rem;
+  white-space: pre-line;
+  text-align: center;
+}
+
+.dropzone__error {
+  padding: 0.5rem 0.6rem;
+  color: var(--cs-danger);
+  font-size: 0.8rem;
+}
+
+.dropzone__row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.4rem;
+  border: 1px solid var(--cs-border);
+  border-radius: 8px;
+  background-color: var(--cs-surface);
+}
+
+.dropzone__icon {
+  flex: none;
+  font-size: 0.95rem;
+}
+
+.dropzone__name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dropzone__remove {
+  flex: none;
+  background: none;
+  border: none;
+  color: var(--cs-text-muted);
+  font-size: 0.85rem;
+  line-height: 1;
+  padding: 0.15rem 0.25rem;
+}
+
+.dropzone__remove:hover {
+  color: var(--cs-danger);
+}
+
+.dropzone__hint {
+  flex: none;
+  padding: 0.45rem 0.6rem;
+  border-top: 1px solid var(--cs-border);
+  color: var(--cs-text-dim);
+  font-size: 0.76rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.dropzone__clear {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--cs-text-muted);
+  font-size: 0.76rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.dropzone__clear:hover {
+  color: var(--cs-text);
+}
+
+/* ---------- Pending drops badge + panel (main window) ---------- */
+
+.fab--pending {
+  bottom: 1.75rem;
+  right: 6.1rem;
+  width: 2.9rem;
+  height: 2.9rem;
+  font-size: 1.2rem;
+  background-color: var(--cs-surface);
+  color: var(--cs-text);
+  border: 1px solid var(--cs-border-strong);
+}
+
+.fab__badge {
+  position: absolute;
+  top: -0.25rem;
+  right: -0.25rem;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 0.3rem;
+  border-radius: 999px;
+  background-color: var(--cs-accent);
+  color: var(--cs-accent-contrast);
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Centered review modal for the drop box. Backdrop dims *and* blurs; the
+   dim carries the "locked" reading on its own, since WebKitGTK may or may
+   not honour backdrop-filter (same reasoning as the timeline pile). */
+.pending-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: rgba(var(--cs-shadow-rgb), calc(0.62 * var(--cs-backdrop-k)));
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+/* Sized by content up to a cap, so three dropped files don't get a panel
+   sized for thirty. flex column + flex:1 on the grid rather than any
+   percentage height — see the WebKitGTK note earlier in this file. */
+.pending-modal__panel {
+  display: flex;
+  flex-direction: column;
+  width: min(54rem, 100%);
+  max-height: min(42rem, 100%);
+  background-color: var(--cs-surface);
+  border: 1px solid var(--cs-border-strong);
+  border-radius: var(--cs-radius);
+  box-shadow: 0 18px 50px rgba(var(--cs-shadow-rgb), calc(0.8 * var(--cs-shadow-k)));
+}
+
+.pending-modal__header {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 1rem 1.2rem 0.4rem;
+}
+
+.pending-modal__title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.pending-modal__explain {
+  flex: none;
+  padding: 0 1.2rem 0.8rem;
+  color: var(--cs-text-muted);
+  font-size: 0.85rem;
+}
+
+.pending-modal__grid {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 1.2rem 0.4rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+  gap: 0.9rem;
+  align-content: start;
+}
+
+.pending-modal__footer {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 0.9rem 1.2rem;
+  border-top: 1px solid var(--cs-border);
+}
+
+.pending-modal__checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-right: auto;
+}
+
+.pending-modal__ai-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--cs-text-muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.pending-modal__progress {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.9rem 1.2rem 0;
+}
+
+.pending-modal__progress-bar {
+  height: 0.4rem;
+  border-radius: 999px;
+  background: rgba(var(--cs-overlay-rgb), 0.12);
+  overflow: hidden;
+}
+
+.pending-modal__progress-fill {
+  height: 100%;
+  background: var(--cs-accent-fg);
+  transition: width 120ms linear;
+}
+
+.pending-modal__progress-text {
+  color: var(--cs-text-muted);
+  font-size: 0.8rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Recording overlay (RecordMedia.tsx) — same modal shape as the drop-box
+   panel above, with a stage area that holds either the live camera picture
+   or the finished take's player. */
+.record-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: rgba(var(--cs-shadow-rgb), calc(0.62 * var(--cs-backdrop-k)));
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+.record-modal__panel {
+  display: flex;
+  flex-direction: column;
+  width: min(48rem, 100%);
+  max-height: min(42rem, 100%);
+  background-color: var(--cs-surface);
+  border: 1px solid var(--cs-border-strong);
+  border-radius: var(--cs-radius);
+  box-shadow: 0 18px 50px rgba(var(--cs-shadow-rgb), calc(0.8 * var(--cs-shadow-k)));
+}
+.record-modal__header {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 1rem 1.2rem 0.4rem;
+}
+.record-modal__title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.record-modal__explain {
+  flex: none;
+  padding: 0 1.2rem 0.8rem;
+  color: var(--cs-text-muted);
+  font-size: 0.85rem;
+}
+/* The one part that grows: everything else in the panel is fixed height,
+   so the live picture / player takes whatever is left. */
+.record-modal__stage {
+  position: relative;
+  flex: 1;
+  min-height: 14rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 0 1.2rem;
+  padding: 0.75rem;
+  background-color: var(--cs-bg);
+  border: 1px solid var(--cs-border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.record-modal__live {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  object-fit: contain;
+  background-color: #000;
+  border-radius: 10px;
+  /* Mirrored like every other self-view: raising your right hand should
+     raise the right hand on screen. Only the preview is flipped — the
+     recorded file keeps its real orientation. */
+  transform: scaleX(-1);
+}
+/* The video take fills what the stage has left, the audio bar keeps its
+   own height — hence two classes rather than one. */
+.record-modal__player--video {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}
+.record-modal__player--audio {
+  flex: none;
+  width: 100%;
+}
+.record-modal__audio-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.record-modal__audio-icon {
+  font-size: 3rem;
+  line-height: 1;
+}
+.record-modal__hint {
+  color: var(--cs-text-muted);
+  font-size: 0.9rem;
+  text-align: center;
+}
+.record-modal__status {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+.record-modal__elapsed {
+  font-variant-numeric: tabular-nums;
+  color: var(--cs-text-muted);
+}
+.record-modal__dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background-color: var(--cs-danger);
+  animation: record-pulse 1.4s ease-in-out infinite;
+}
+.record-modal__dot--paused {
+  background-color: var(--cs-text-dim);
+  animation: none;
+}
+@keyframes record-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+.record-modal__error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  text-align: center;
+}
+.record-modal__error-text {
+  color: var(--cs-danger);
+  font-size: 0.9rem;
+  max-width: 28rem;
+}
+.record-modal__name {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.9rem 1.2rem 0;
+}
+.record-modal__name-label {
+  color: var(--cs-text-muted);
+  font-size: 0.8rem;
+}
+.record-modal__footer {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 0.9rem 1.2rem;
+}
+/* Device pickers — only rendered when there is something to choose. */
+.record-modal__devices {
+  flex: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0 1.2rem 0.8rem;
+}
+.record-modal__device {
+  flex: 1 1 14rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+.record-modal__overlay-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 1rem;
+  transform: translateX(-50%);
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  background: var(--cs-scrim);
+  color: var(--cs-text-muted);
+  font-size: 0.85rem;
+}
+/* The live microphone level: a scrolling, mirrored bar waveform. */
+.record-modal__wave {
+  width: min(36rem, 100%);
+  height: 7rem;
+  transition: opacity 0.2s ease;
+}
+.record-modal__wave--idle {
+  opacity: 0.4;
+}
+.record-modal__install {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: 32rem;
+  padding: 1rem;
+  text-align: center;
+}
+.record-modal__install-title {
+  font-weight: 600;
+}
+.record-modal__command {
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--cs-border);
+  border-radius: 6px;
+  background-color: var(--cs-surface);
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  user-select: all;
+}
+.record-modal__install-progress {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--cs-text-muted);
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+.record-modal__spinner {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid var(--cs-border);
+  border-top-color: var(--cs-accent-fg);
+  border-radius: 50%;
+  animation: record-spin 0.8s linear infinite;
+}
+/* Explicit `from`, not just `to`: the start value must not be inherited
+   from the element's computed style, because the rule below gives these
+   elements their own compositing layer and an implicit start can keep the
+   animation on the main thread instead. */
+@keyframes record-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Every spinner in the app, hoisted onto its own compositing layer.
+   `will-change: transform` is the whole point: a `transform` animation can
+   run on the compositor, independently of the JS main thread, but WebKit
+   only promotes an element that asks for it. Without this the spinners sat
+   perfectly still through exactly the waits they exist to cover — measured
+   while opening a 1779-item project: the main thread blocked for 3.0-3.6s
+   with a 200ms heartbeat timer missing 16 consecutive ticks, and the
+   "Stream wird geladen" spinner frozen for all of it.
+
+   Keep these animating `transform` and `opacity` only. Any other animated
+   property needs layout or paint on the main thread, which puts the
+   spinner right back where it was. */
+.timeline__loading-spinner,
+.project-opening__spinner,
+.record-modal__spinner {
+  will-change: transform;
+}
+
+.pending-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.pending-tile__thumb {
+  position: relative;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: rgba(var(--cs-overlay-rgb), 0.05);
+  border: 1px solid var(--cs-border);
+  border-radius: 10px;
+}
+
+.pending-tile__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pending-tile__icon {
+  font-size: 2rem;
+  opacity: 0.8;
+}
+
+/* Always visible rather than hover-only: the whole point of this modal is
+   reviewing and weeding out before the import, and a hidden control is one
+   the user has to discover. */
+.pending-tile__remove {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  width: 1.4rem;
+  height: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.65);
+  color: var(--cs-text);
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.pending-tile__remove:hover {
+  background-color: var(--cs-danger);
+}
+
+.pending-tile__name {
+  font-size: 0.78rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pending-tile__mail {
+  font-size: 0.72rem;
+  color: var(--cs-text-muted);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.pending-tile__mail--sender {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pending-tile__note {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--cs-danger);
+}
+
+/* A dropped file can be missing from disk or of an unsupported type — the
+   tile stays visible (so the user sees *which* file) but reads as unusable
+   and is excluded from the import. */
+.pending-tile--unusable .pending-tile__thumb {
+  border-color: var(--cs-danger);
+  background-color: color-mix(in srgb, var(--cs-danger) 10%, transparent);
+}
+
+.pending-tile--unusable .pending-tile__name {
+  color: var(--cs-text-dim);
+  text-decoration: line-through;
+}
+
+/* A likely duplicate (same filename+size as something already in the
+   project, confirmed by content hash for audio/documents — see
+   check_pending_duplicates) gets the full grid width so its two thumbnails
+   are actually big enough to compare at a glance. */
+.pending-tile--duplicate {
+  grid-column: 1 / -1;
+}
+
+.pending-tile__compare {
+  position: relative;
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.6rem;
+  border: 1px solid var(--cs-border);
+  border-radius: 10px;
+  background-color: rgba(var(--cs-overlay-rgb), 0.04);
+}
+
+.pending-tile__compare-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.pending-tile__compare-img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--cs-border);
+}
+
+.pending-tile__compare-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--cs-text-muted);
+}
+
+.pending-tile__compare-meta {
+  font-size: 0.75rem;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pending-tile--duplicate .pending-tile__note {
+  color: var(--cs-text-muted);
+  margin-top: 0.35rem;
+}
+
+/* Same treatment in the mini window's compact list. */
+.dropzone__row--missing {
+  border-color: var(--cs-danger);
+  background-color: color-mix(in srgb, var(--cs-danger) 10%, transparent);
+}
+
+.dropzone__row--missing .dropzone__name {
+  color: var(--cs-text-dim);
+  text-decoration: line-through;
+}
+

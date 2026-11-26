@@ -1,0 +1,1019 @@
+/* ---------- Timeline ---------- */
+
+.timeline {
+  flex: 1;
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+}
+
+.timeline__empty {
+  /* flex statt height: 100% — wie .timeline__scroll, damit der Block in
+     WebKitGTK zuverlaessig die volle Resthoehe bekommt und der Teaser
+     wirklich im Viewport zentriert sitzt. */
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cs-text-muted);
+  text-align: center;
+  padding: 2rem;
+}
+
+/* Shown while `list_items` is still in flight — same flex-center shape as
+   `.timeline__empty` above, just with a spinner instead of the teaser, so
+   a large stream's load time reads as "loading" instead of nothing. */
+.timeline__loading {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: var(--cs-text-muted);
+}
+
+.timeline__loading-spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid var(--cs-border);
+  border-top-color: var(--cs-accent-fg);
+  border-radius: 50%;
+  animation: record-spin 0.8s linear infinite;
+}
+
+.timeline__loading-label {
+  font-size: 0.95rem;
+}
+
+/* Bild und Text als eine Einheit: gemeinsame Breite, gemeinsame vertikale
+   Mitte. Die Gesamthoehe ist durch die Spalte begrenzt, das Bild gibt per
+   flex-shrink nach, damit der Text nie aus dem Viewport gedrueckt wird. */
+.timeline__empty-teaser {
+  margin: 0;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Quadratisch, nach oben durch die verfuegbare Hoehe begrenzt: so bleibt
+   der Teaser auch im flachen Fenster komplett sichtbar. */
+.timeline__empty-art {
+  position: relative;
+  width: min(26rem, 68vw, 52vh);
+  aspect-ratio: 1 / 1;
+  min-height: 0;
+  flex-shrink: 1;
+}
+
+.timeline__empty-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.timeline__empty-caption {
+  /* Klarer Abstand, keine Ueberlappung mit dem Bild — der Text steht
+     vollstaendig darunter, auf eigenem Hintergrund. */
+  margin-top: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.timeline__empty-title {
+  margin: 0;
+  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: var(--cs-text);
+}
+
+/* max-width in ch statt in px: begrenzt die Zeile auf eine gut lesbare
+   Zeichenzahl, egal wie gross die Schrift gerade skaliert ist. */
+.timeline__empty-hint {
+  margin: 0;
+  max-width: 38ch;
+  font-size: clamp(0.88rem, 1.1vw, 0.98rem);
+  line-height: 1.5;
+  color: var(--cs-text-muted);
+  text-wrap: balance;
+}
+
+/* Echo von .fab / .icon-btn--add: gefuellter Akzentkreis. */
+.timeline__empty-plus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35em;
+  height: 1.35em;
+  margin-left: 0.15em;
+  vertical-align: 0em;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--cs-accent);
+  color: var(--cs-accent-contrast);
+  box-shadow: inset 0 0 0 1px var(--cs-accent-edge);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+}
+
+.timeline__empty-plus:hover {
+  background-color: var(--cs-accent-hover);
+}
+
+/* While a video plays in the viewer, everything behind it is hidden from
+   painting. The overlay is only 85% opaque, so the page behind it still
+   counts as visible and is composited again on every video frame — with a
+   thousand tiles, blur plates and fish-eye transforms that is what made
+   playback stutter, while a project with a handful of files played fine.
+   `visibility` (not `display`) keeps layout and the scroll position, so
+   closing the viewer lands exactly where it was; the overlay itself is a
+   fixed sibling and unaffected. The right-click menu is a sibling too and
+   must stay visible, otherwise it opens invisibly over a playing video. */
+.timeline--video-open > :not(.viewer-overlay):not(.context-menu) {
+  visibility: hidden;
+}
+
+/* visibility alone is not enough: every tile carries will-change:
+   transform, so each one stays a compositing layer of its own even while
+   hidden, and WebKitGTK still walks that whole layer tree for every video
+   frame. With a thousand tiles that slowed each frame enough for the
+   hardware decoder to recycle a frame buffer the compositor was still
+   showing — the picture jumped back and forth every few seconds. Taking
+   the two scrolling tracks out of the render tree drops those layers.
+   Safe for the layout: both tracks are children of fixed-size boxes (the
+   header row, the lane area), so nothing the ResizeObservers watch changes
+   size; the scroll offset is our own transform, and the tiles' fish-eye
+   positions are inline styles that survive display:none untouched. */
+.timeline--video-open .timeline__track,
+.timeline--video-open .timeline__header-track,
+.timeline--video-open .timeline__phase-track {
+  display: none;
+}
+
+.timeline__scroll {
+  /* flex (not height: 100%) deliberately — percentage heights were not
+     reliably resolving down through this flex chain in WebKitGTK, which
+     collapsed this element (and everything in it) to 0 height. flex-grow
+     sizing is much more robustly supported. */
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  /* Column, not row: the period-label header is a fixed-height row stacked
+     above the (flexible) lane area — see .timeline__header. */
+  flex-direction: column;
+  /* hidden, not auto — the "scroll" position is our own scrollOffsetRef,
+     applied to .timeline__track via transform (see Timeline.tsx). A plain
+     overflow-x: auto element gets native kinetic/momentum scrolling from
+     WebKitGTK that keeps moving scrollLeft on its own after a fast wheel
+     gesture, with no further wheel events firing to catch it — silently
+     desyncing the cursor-anchored zoom math. Owning the offset ourselves
+     sidesteps that entirely. */
+  overflow-x: hidden;
+  overflow-y: hidden;
+  cursor: grab;
+  user-select: none;
+}
+
+.timeline__scroll:active {
+  cursor: grabbing;
+}
+
+/* Count of items that were dropped because their timestamp didn't parse
+   (see reloadItems in Timeline.tsx) — they can't be placed on a time axis
+   at all, but they must not just disappear without a word either. */
+.timeline__notice {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.6rem;
+  z-index: 40;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  background: var(--cs-scrim-strong);
+  border: 1px solid var(--cs-border-strong);
+  color: var(--cs-text);
+  pointer-events: none;
+}
+
+/* The period labels ("Woche 2-8.07.2018" etc.) get their own fixed-height,
+   clipped row above the lane area instead of sharing coordinate space with
+   it. A tile in the thin top lane can be tall enough to reach above that
+   lane's own top edge (see laneCenterPercent in Timeline.tsx) — previously
+   that edge was also where the labels lived, so a tile could paint right
+   over the label text. Now the lane area's own top edge (the border below
+   this row) is a hard clip tiles can never cross, so the labels above it
+   stay readable no matter how the lanes are sized. */
+.timeline__header {
+  flex-shrink: 0;
+  height: 1.75rem;
+  position: relative;
+  overflow: hidden;
+  /* Its own plate rather than bare photo: these are the period labels, the
+     one piece of text the user reads constantly while scrubbing. */
+  background-color: var(--cs-scrim);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--cs-border-strong);
+}
+
+/* The pinned period label. Sits on its own plate so the scrolling labels
+   pass underneath it rather than colliding with it, and above them in the
+   stacking order for the same reason. Not clickable, unlike the scrolling
+   labels (they open their period's grid): this one is a readout of where
+   you are, and a click target that moves with the scroll while looking
+   stationary would be a trap. It still takes the pointer, so a click on it
+   cannot reach a label hidden underneath. */
+.timeline__header-sticky {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--cs-text);
+  background: var(--cs-scrim-strong);
+  border-right: 1px solid var(--cs-border);
+  pointer-events: auto;
+}
+
+.timeline__header-track {
+  position: relative;
+  height: 100%;
+  will-change: transform;
+  pointer-events: none;
+}
+
+.timeline__lanes-area {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  display: flex;
+  overflow: hidden;
+}
+
+.timeline__track {
+  position: relative;
+  flex-shrink: 0;
+  min-width: 100%;
+  will-change: transform;
+  /* height comes from align-items: stretch (flex default) on the parent,
+     not a percentage height — see note above. */
+}
+
+/* Lane backgrounds/labels live in .timeline__lanes-area, NOT .timeline__track
+   — the track is what scrolls horizontally (via transform, see
+   Timeline.tsx), but the lanes themselves are a fixed vertical partition of
+   the viewport that should stay put while the user scrolls/zooms through
+   time. */
+.timeline__lanes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.timeline__lane {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid var(--cs-border);
+}
+
+/* Faint alternating tint so the lane bands are legible as bands even where
+   the backdrop photo happens to be uniform and the 1px rules alone vanish. */
+.timeline__lane:nth-child(even) {
+  background-color: rgba(var(--cs-overlay-rgb), 0.035);
+}
+
+.timeline__lane:first-child {
+  border-top: none;
+}
+
+/* The label column, fixed at the left edge of the lanes and of the phase
+   area: an opaque strip above the scrolling track, so tiles and bars pass
+   under its edge rather than under the text. Its width is set from the
+   longest label (Timeline.tsx, labelColW); the fallback only shows for the
+   first frame. Takes the pointer like anything else on the timeline — a
+   press still pans and the wheel still zooms, through bubbling. */
+.timeline__gutter {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 8rem;
+  z-index: 3;
+  box-sizing: border-box;
+  background-color: var(--cs-surface);
+  border-right: 1px solid var(--cs-border-strong);
+  box-shadow: 4px 0 12px rgba(var(--cs-shadow-rgb), calc(0.35 * var(--cs-shadow-k)));
+}
+
+.timeline__gutter-row {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid var(--cs-border);
+}
+
+.timeline__gutter-row:first-child {
+  border-top: none;
+}
+
+/* The label column at the left edge of the timeline: media lanes (pill,
+   small caps) and, above them in the phase area, Themenbereiche (see the
+   --topic variant). Same inset, height and plate for both, so they read as
+   one column; the shape and case tell the two kinds apart. 8pt grid:
+   24px tall, 8px from the edge, 8px side padding. */
+.timeline__lane-label {
+  /* inline-block, not flex: text-overflow only works on a block box. */
+  display: inline-block;
+  box-sizing: border-box;
+  height: 24px;
+  /* The column (see .timeline__gutter) is as wide as its longest label;
+     only when it hits its cap does a label ellipsize. */
+  width: calc(100% - 16px);
+  margin-left: 8px;
+  text-align: center;
+  padding: 0 8px;
+  border-radius: 999px;
+  border: 1px solid var(--cs-border);
+  background-color: var(--cs-scrim-strong);
+  box-shadow: 0 1px 4px rgba(var(--cs-shadow-rgb), calc(0.4 * var(--cs-shadow-k)));
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 22px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cs-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* A Themenbereich: a user-given name, so in its own spelling rather than
+   capitals, with a squarer tag shape and full-strength text. Sits above the
+   phase bars (it shares their band) and takes the pointer only for its
+   native tooltip — a press still reaches the timeline and pans. */
+.timeline__lane-label--topic {
+  position: relative;
+  z-index: 2;
+  /* Indented by the arrow's width (LABEL_INDENT in Timeline.tsx), for every
+     topic label, so they line up under one another. */
+  margin-left: 28px;
+  width: calc(100% - 36px);
+  border-radius: 6px;
+  background-color: var(--cs-surface-hover);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  text-align: left;
+  color: var(--cs-text);
+  pointer-events: auto;
+}
+
+/* The arrow dropdown in front of the first Themenbereich label. */
+.timeline__gutter-arrow {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  z-index: 3;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--cs-text-muted);
+  cursor: pointer;
+}
+
+.timeline__gutter-arrow:hover {
+  background-color: var(--cs-surface-hover);
+  color: var(--cs-text);
+}
+
+.context-menu__item.timeline__group-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.timeline__group-menu-item .phases-icon {
+  flex-shrink: 0;
+}
+
+/* ---------- Phase area (Lebensphasen) ---------- */
+
+/* Between the period header and the lanes. Height is set from the rows
+   (see utils/phaseLayout); beyond PHASE_MAX_VISIBLE_GROUPS rows it scrolls
+   vertically on its own, horizontally it follows the timeline through the
+   transform on .timeline__phase-track. */
+.timeline__phases {
+  flex-shrink: 0;
+  /* content-box: the height set from the rows is the rows' own height, the
+     border comes on top. Under the global border-box the border ate a
+     pixel, the content overflowed by one and the area grew a scrollbar
+     (and took the mouse wheel) with only a single Themenbereich. */
+  box-sizing: content-box;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background-color: var(--cs-scrim-soft);
+  border-bottom: 1px solid var(--cs-border-strong);
+}
+
+.timeline__phases-content {
+  position: relative;
+}
+
+.timeline__phase-row {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid var(--cs-border);
+  pointer-events: none;
+}
+
+.timeline__phase-row:first-child {
+  border-top: none;
+}
+
+.timeline__phase-row:nth-child(even) {
+  background-color: rgba(var(--cs-overlay-rgb), 0.035);
+}
+
+.timeline__phase-track {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  will-change: transform;
+}
+
+.timeline__phase-bar {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  box-sizing: border-box;
+  border-radius: 6px;
+  /* A dark hairline inside and a soft shadow under it: a light phase colour
+     still has an edge against a light patch of the backdrop photo. */
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.22), 0 1px 3px rgba(var(--cs-shadow-rgb), calc(0.35 * var(--cs-shadow-k)));
+  /* A click zooms to the phase (see zoomToPhase in Timeline). */
+  cursor: pointer;
+}
+
+/* Cut off at the axis' first or last day: square edge fading out, so the
+   bar reads as "goes on beyond here" rather than as starting/ending here. */
+.timeline__phase-bar--cut-start {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 16px);
+  mask-image: linear-gradient(to right, transparent 0, #000 16px);
+}
+
+.timeline__phase-bar--cut-end {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  -webkit-mask-image: linear-gradient(to left, transparent 0, #000 16px);
+  mask-image: linear-gradient(to left, transparent 0, #000 16px);
+}
+
+.timeline__phase-bar--cut-start.timeline__phase-bar--cut-end {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 16px, #000 calc(100% - 16px), transparent 100%);
+}
+
+/* Black or white from the bar colour (utils/contrast). Its max-width and
+   slide are written per frame while the bar's start is off screen — see
+   the title pass in applyFishEye. */
+.timeline__phase-title {
+  display: block;
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  padding: 0 8px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* "Zurück" after a zoom-to-phase: bottom-left, clear of the "+"/drop-box
+   buttons (bottom-right), the selection bar (bottom-centre) and the support
+   link underneath it. Present only while Escape would also go back. */
+.timeline__phase-return {
+  position: absolute;
+  left: 16px;
+  bottom: 2.6rem;
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--cs-border-strong);
+  background-color: var(--cs-surface);
+  box-shadow: 0 4px 16px rgba(var(--cs-shadow-rgb), calc(0.5 * var(--cs-shadow-k)));
+  color: var(--cs-text);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+/* After leaving the detail viewer: pinned just left of the tile the view
+   jumped to (left/top set inline, in viewport px), not in the corner. */
+.timeline__phase-return--beside {
+  position: fixed;
+  bottom: auto;
+  transform: translate(-100%, -50%);
+}
+
+.timeline__phase-return:hover {
+  background-color: var(--cs-surface-hover);
+}
+
+.timeline__phase-return kbd {
+  padding: 0 4px;
+  border-radius: 4px;
+  border: 1px solid var(--cs-border);
+  color: var(--cs-text-dim);
+  font-family: inherit;
+  font-size: 0.6875rem;
+  font-weight: 600;
+}
+
+/* The phase bar's context menu, in rename mode: field and button in a row. */
+.phase-menu__rename {
+  display: flex;
+  gap: 8px;
+  padding: 4px;
+}
+
+.phase-menu__rename .phases-input {
+  width: 14rem;
+}
+
+/* Colour mode: the management dialog's popup, standing on its own at the
+   menu's spot instead of hanging under a swatch. */
+.phase-menu-color {
+  position: fixed;
+  z-index: 80;
+}
+
+.phase-menu-color .phases-color-popup {
+  position: static;
+}
+
+/* Full title and dates of a phase bar on hover. Rendered into <body> and
+   placed by Timeline before it is painted, hence hidden until then. */
+.phase-popover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 88;
+  visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: max-content;
+  max-width: 320px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--cs-border-strong);
+  background: var(--cs-surface);
+  color: var(--cs-text);
+  box-shadow: 0 8px 24px rgba(var(--cs-shadow-rgb), calc(0.5 * var(--cs-shadow-k)));
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  pointer-events: none;
+}
+
+.phase-popover__group {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cs-text-muted);
+}
+
+.phase-popover__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.phase-popover__swatch {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px rgba(var(--cs-overlay-rgb), 0.4);
+}
+
+.phase-popover__range {
+  color: var(--cs-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.phase-popover__note {
+  font-size: 0.75rem;
+  color: var(--cs-text-muted);
+}
+
+.timeline__markers {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0; /* stretch via inset, not height: 100% — see .timeline__scroll note */
+  pointer-events: none;
+}
+
+.timeline__marker-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--cs-marker-line);
+}
+
+.timeline__marker-line--major {
+  background: var(--cs-marker-line-major);
+}
+
+.timeline__marker-label {
+  position: absolute;
+  top: 50%;
+  font-size: 0.74rem;
+  color: var(--cs-text-muted);
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+  text-shadow: var(--cs-text-shadow);
+}
+
+.timeline__marker-label--major {
+  color: var(--cs-text);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.timeline__marker-label--clickable {
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.timeline__marker-label--clickable:hover {
+  color: var(--cs-text);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.timeline-tile {
+  position: absolute;
+  width: 150px;
+  cursor: pointer;
+  transform-origin: center center;
+  will-change: transform;
+  transition: opacity 0.1s linear, transform 0.15s ease-out;
+}
+
+.timeline-tile--dragging {
+  transition: none;
+}
+
+/* An open pile: a fixed, centred overlay — the backdrop locks and dims the
+   timeline beneath it, blurred the same way the old hero+strip overlay was,
+   and the hero + grid float directly over it with no box of their own
+   (each already has its own frame — see .pile-hero and
+   .timeline-tile__thumb — so nothing is left unstyled without one).
+
+   The dim is not just decoration: backdrop-filter is the part WebKitGTK may
+   or may not honour, and the background alone still reads unmistakably as
+   "this is locked" if the blur silently does nothing. */
+.pile-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgba(var(--cs-shadow-rgb), calc(0.62 * var(--cs-backdrop-k)));
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Purely a layout container — centres the hero over the grid and caps how
+   much of the viewport the pair may take up (see .pile-grid-wrap for why
+   that cap is what keeps the grid from ever scrolling past the bottom
+   edge). No background/border/shadow of its own: the hero and tiles below
+   float directly over the blurred timeline, same as before the grid. */
+.pile-card {
+  position: relative;
+  width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* The enlarged preview: shows whichever grid tile below was last entered
+   (an open pile's fanFocusId, or the year-cluster's clusterHoverId — see
+   Timeline.tsx). Shared by both — see .cluster-overlay. */
+.pile-hero {
+  position: relative;
+  width: min(320px, 60vw);
+  aspect-ratio: 1 / 1;
+  flex-shrink: 0;
+  background-color: var(--cs-bg);
+  border: 2px solid var(--cs-accent);
+  border-radius: var(--cs-radius);
+  box-shadow: 0 0 0 1px var(--cs-accent-edge), 0 14px 40px rgba(var(--cs-shadow-rgb), calc(0.75 * var(--cs-shadow-k)));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.pile-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pile-hero__label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.84);
+  color: var(--cs-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+
+/* Holds the grid and its bottom fade in one positioning context — see
+   .pile-grid-fade. */
+.pile-grid-area {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+}
+
+/* The only scrolling surface: flex:1 + min-height:0 inside a flex column
+   capped by .pile-card's max-height is what keeps a tall pile's grid from
+   ever pushing the card (and so itself) below the viewport — it grows to
+   fill the space left after the hero, and scrolls instead of overflowing it. */
+.pile-grid-wrap {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+}
+
+/* Up to 20 80px-wide tiles per row, then wraps — max-width is exactly 20
+   tiles' worth so a very wide window can't stretch the row past that, while
+   a narrower one wraps earlier on its own. Shared by the pile and the
+   year-cluster grid — see .cluster-overlay. */
+.pile-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  align-content: flex-start;
+  max-width: calc(20 * (80px + 12px) - 12px);
+}
+
+/* Reuses .timeline-tile__thumb/.timeline-tile__label (nested inside, see
+   renderClusterThumb in Timeline.tsx) for the thumb box and name caption. */
+.pile-tile {
+  position: relative;
+  width: 80px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.pile-tile--focus .timeline-tile__thumb {
+  border-color: var(--cs-accent);
+  box-shadow: 0 0 0 4px var(--cs-accent), 0 0 0 5px var(--cs-accent-edge);
+}
+
+/* The only hint that the grid has more below — a plain scrollbar is easy to
+   miss, and the rest of the pile overlay has no chrome at all. Fades out on
+   its own once scrolled to the bottom (see checkPileGridOverflow). */
+.pile-grid-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 48px;
+  /* Fades into the blurred backdrop (.pile-overlay), not a card surface —
+     there is no card behind the grid any more. */
+  background: linear-gradient(to bottom, transparent, rgba(var(--cs-shadow-rgb), calc(0.62 * var(--cs-backdrop-k))));
+  pointer-events: none;
+}
+
+/* Set on the track for the duration of a wheel/pan gesture (see
+   markInteracting in Timeline.tsx). Marker lines are placed with `left` and
+   move the instant the track is rewidened, while tiles ease into their new
+   transform over 150ms — so mid-gesture the tile layer visibly trails its
+   own gridlines, and every mounted tile runs a transition on every tick.
+   Hover and fan-out keep their easing; only the gesture snaps. */
+.timeline__track--instant .timeline-tile {
+  transition: none;
+}
+
+.timeline-tile__thumb {
+  aspect-ratio: 1 / 1;
+  background-color: var(--cs-surface);
+  border: 1px solid rgba(var(--cs-overlay-rgb), 0.62);
+  border-radius: var(--cs-radius);
+  /* A dark halo under the light border. Against the bright patches of the
+     backdrop photo the border alone disappeared and tiles bled into the
+     background; the shadow gives every tile an edge on any backdrop. */
+  box-shadow: 0 2px 10px rgba(var(--cs-shadow-rgb), calc(0.6 * var(--cs-shadow-k)));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Tiles on the timeline lose height (never width) when the phase area
+   takes some of the lanes' — see the tile height factor in applyFishEye.
+   1 without phases, so the tile stays square; the image crops via
+   object-fit: cover. Scoped to .timeline-tile, so pile and cluster grids
+   keep their square thumbnails. */
+.timeline-tile .timeline-tile__thumb {
+  aspect-ratio: 1 / var(--lane-tile-hf, 1);
+}
+
+.timeline-tile__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.timeline-tile__icon {
+  font-size: 2.5rem;
+}
+
+.timeline-tile__icon--large {
+  font-size: 5rem;
+}
+
+/* Stand-in for files without a category: an SVG that fills the tile box
+   (grid tile, cluster/fan preview), so it stays legible at any tile scale.
+   The detail view gets a big square instead, above the "open" button. */
+.wildcard-icon {
+  width: 100%;
+  height: 100%;
+  padding: 12%;
+  box-sizing: border-box;
+  color: var(--cs-text-muted);
+}
+
+.wildcard-icon.wildcard-icon--detail {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+/* Square box around the detail symbol; it is the positioning context for the
+   date chip, which then overlays the symbol's bottom edge above the button. */
+.viewer-card__symbol-frame {
+  position: relative;
+  width: min(55vh, 60vw);
+  aspect-ratio: 1 / 1;
+}
+
+/* E-mail tile at rest: the envelope should fill the tile box the same way
+   the scroll image does for documents, not sit as a small centered glyph
+   with empty space around it (same compound-selector specificity need as
+   the wildcard rule above). */
+.timeline-tile__icon.timeline-tile__icon--email {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4.5rem;
+}
+
+/* How many files a stack holds, on its front tile. Anchored just outside
+   the top-right corner so it never sits on the part of a thumbnail the eye
+   goes to, and ringed in the page background so it stays readable over a
+   bright photo as well as a dark one — the one thing a count on top of
+   arbitrary image content has to survive. It rides inside the tile, so the
+   fish-eye's scale applies to it like everything else. */
+.timeline-tile__count {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 0.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: var(--cs-accent);
+  color: var(--cs-accent-contrast);
+  box-shadow: 0 0 0 2px var(--cs-bg);
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.timeline-tile__label {
+  position: absolute;
+  left: 0.4rem;
+  right: 0.4rem;
+  bottom: 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-align: center;
+  padding: 0.18rem 0.3rem;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.8);
+  color: var(--cs-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+
+/* The hovered tile is drawn at twice its size (HOVER_SCALE), its caption
+   with it — at the normal size that read as oversized ("post@ex…" in large
+   type). Halved here, so after the magnification it is a normal caption
+   that fits more of the address. */
+.timeline-tile__label--hover {
+  left: 0.25rem;
+  right: 0.25rem;
+  bottom: 0.25rem;
+  font-size: 0.45rem;
+  padding: 0.12rem 0.2rem;
+  border-radius: 4px;
+}
+
+/* An e-mail caption (see tileLabelContent in Timeline.tsx) is two stacked
+   lines — sender, then date or recipients — rather than the plain text
+   node every other file type puts straight in .timeline-tile__label/
+   .pile-hero__label. The parent's own white-space/overflow/text-overflow
+   only truncate a direct text node, not these block children, so each line
+   needs the same handling applied to itself. */
+.timeline-tile__label > div,
+.pile-hero__label > div {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+

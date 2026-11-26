@@ -1,0 +1,461 @@
+/* ---------- Audio player ---------- */
+
+.audio-player {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  background-color: var(--cs-surface);
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius);
+}
+
+.audio-player__error {
+  font-size: 0.8rem;
+  color: var(--cs-danger);
+}
+
+.audio-player__note {
+  font-size: 0.8rem;
+  color: var(--cs-text-muted);
+}
+
+.audio-player__row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.audio-player__row--secondary {
+  flex-wrap: wrap;
+}
+
+.audio-player__play {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--cs-accent);
+  color: var(--cs-accent-contrast);
+  box-shadow: inset 0 0 0 1px var(--cs-accent-edge);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s ease, background-color 0.15s ease;
+}
+
+.audio-player__play:hover {
+  transform: scale(1.06);
+}
+
+.audio-player__play:active {
+  transform: scale(0.96);
+}
+
+.audio-player__time {
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.82rem;
+  color: var(--cs-text);
+  min-width: 2.6rem;
+  text-align: center;
+}
+
+.audio-player__seek {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+
+.audio-player__seek-track {
+  position: relative;
+  width: 100%;
+  height: 5px;
+  border-radius: 999px;
+  background-color: rgba(var(--cs-overlay-rgb), 0.22);
+  overflow: hidden;
+}
+
+.audio-player__seek-buffered {
+  position: absolute;
+  inset: 0 auto 0 0;
+  height: 100%;
+  background-color: rgba(var(--cs-overlay-rgb), 0.45);
+}
+
+.audio-player__seek-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  height: 100%;
+  background-color: var(--cs-accent-fg);
+}
+
+.audio-player__seek-thumb {
+  position: absolute;
+  top: 50%;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background-color: var(--cs-accent-fg);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cs-accent) 35%, transparent), 0 1px 4px rgba(var(--cs-shadow-rgb), calc(0.8 * var(--cs-shadow-k)));
+  pointer-events: none;
+}
+
+.audio-player__seek-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.audio-player__skip {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: var(--cs-text-muted);
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+  padding: 0.25rem 0.4rem;
+  border-radius: 6px;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.audio-player__skip:hover {
+  color: var(--cs-text);
+  background-color: var(--cs-surface-hover);
+}
+
+.audio-player__speed {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.audio-player__speed-btn {
+  background: none;
+  border: 1px solid var(--cs-border);
+  color: var(--cs-text-muted);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  min-width: 3rem;
+}
+
+.audio-player__speed-btn:hover {
+  color: var(--cs-text);
+  border-color: var(--cs-border-strong);
+}
+
+.audio-player__speed-menu {
+  position: absolute;
+  bottom: calc(100% + 0.35rem);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--cs-surface-hover);
+  border: 1px solid var(--cs-border-strong);
+  border-radius: 8px;
+  box-shadow: 0 10px 28px rgba(var(--cs-shadow-rgb), calc(0.7 * var(--cs-shadow-k)));
+  padding: 0.25rem;
+  z-index: 2;
+}
+
+.audio-player__speed-option {
+  background: none;
+  border: none;
+  color: var(--cs-text-muted);
+  font-size: 0.82rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 5px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.audio-player__speed-option:hover {
+  background-color: var(--cs-surface);
+  color: var(--cs-text);
+}
+
+.audio-player__speed-option--active {
+  color: var(--cs-accent-fg);
+  font-weight: 600;
+}
+
+.audio-player__spacer {
+  flex: 1;
+}
+
+.audio-player__volume {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.audio-player__volume-btn {
+  background: none;
+  border: none;
+  font-size: 0.95rem;
+  padding: 0.2rem;
+}
+
+.audio-player__volume-input {
+  width: 70px;
+  height: 4px;
+  accent-color: var(--cs-accent-fg);
+}
+
+.audio-player input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
+
+.audio-player input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background-color: var(--cs-accent-fg);
+  cursor: pointer;
+}
+
+.audio-player__volume-input::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background-color: rgba(var(--cs-overlay-rgb), 0.28);
+}
+
+/* ---------- Video player ---------- */
+
+.video-player {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  background-color: var(--cs-bg);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.video-player--fullscreen {
+  border-radius: 0;
+  justify-content: center;
+  background-color: #000;
+}
+
+/* Wraps just the picture (not the always-visible control bar below it),
+   so a chip passed in via VideoPlayer's `frameOverlay` prop — the viewer's
+   date chip — can anchor to the bottom of the frame itself, the same way
+   .viewer-card__timestamp anchors to the bottom of an image. */
+.video-player__frame-wrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.video-player__frame {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-color: #000;
+  cursor: pointer;
+}
+
+.video-player__controls {
+  flex-shrink: 0;
+  padding: 0.75rem 1rem;
+  background-color: var(--cs-surface);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.video-player--fullscreen .video-player__controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(12, 12, 16, 0.92);
+}
+
+.video-player__fullscreen {
+  font-size: 1rem;
+}
+
+.viewer-card__hint {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--cs-text-dim);
+  text-align: center;
+}
+
+/* The name field and its confirm button. The button is only mounted while
+   the field is being edited, so the row has to tolerate it appearing and
+   disappearing without the input jumping — hence the input flexes and the
+   button keeps its intrinsic width. */
+.viewer-card__name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.viewer-card__name-input {
+  margin-bottom: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+.viewer-card__name-confirm {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* Documents' inline date field — same editing affordance as the image
+   overlay chip (.viewer-card__timestamp) but statically placed in the name
+   row instead of floating over media the document doesn't have. */
+.viewer-card__name-date {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.78rem;
+  color: var(--cs-text);
+  background: rgba(var(--cs-overlay-rgb), 0.08);
+  border: 1px solid var(--cs-border);
+  border-radius: 999px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.viewer-card__name-date--editing {
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: default;
+}
+
+.viewer-card__name-error {
+  margin: 0.35rem 0 0;
+  font-size: 0.75rem;
+  color: var(--cs-danger);
+}
+
+.viewer-card__meta {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.3rem 1.5rem;
+  font-size: 0.88rem;
+  margin: 0;
+}
+
+.viewer-card__meta dt {
+  display: inline;
+  color: var(--cs-text-muted);
+}
+
+.viewer-card__meta dd {
+  display: inline;
+  margin: 0 0 0 0.4rem;
+}
+
+/* The note field under the detail view. The pencil sits beside the box
+   rather than inside it so the growing textarea doesn't have to reserve
+   padding for it, and the box itself fills the rest of the row — which is
+   the space the date field used to take. */
+.viewer-card__note-row {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+/* Only shown once this exact note text turns up on another file too (see
+   `noteClusterIds` in Timeline) — wraps onto its own line, indented past
+   the pencil icon, so it reads as "about the note above" rather than as
+   another field in the row. */
+.viewer-card__note-cluster {
+  flex-basis: 100%;
+  margin-left: calc(1rem + 0.6rem);
+  font-size: 0.85rem;
+  text-align: left;
+}
+
+.viewer-card__note-icon {
+  flex-shrink: 0;
+  font-size: 1rem;
+  line-height: 1;
+  padding-top: 0.75rem;
+  opacity: 0.75;
+}
+
+.viewer-card__note-input {
+  margin-bottom: 0;
+  flex: 1;
+  min-width: 0;
+  min-height: 4.5rem;
+  resize: vertical;
+  font-family: inherit;
+  line-height: 1.45;
+}
+
+/* Segmented date/time field (SegmentedDateTimeInput) — the wrapper reuses
+   `.text-input` for the border/background/focus ring, these two just lay
+   out the day/month/year(/hour/minute/AM-PM) blocks and their separators
+   inside it as one continuous-looking field. */
+.dt-input {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  width: auto;
+  cursor: text;
+}
+
+.dt-input__field {
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  padding: 0;
+  min-width: 1ch;
+}
+
+.dt-input__field:focus {
+  outline: none;
+  background: var(--cs-accent);
+  color: var(--cs-bg);
+  border-radius: 3px;
+}
+
+.dt-input--disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.dt-input__sep {
+  color: var(--cs-text-muted);
+  padding: 0 0.1em;
+  user-select: none;
+}
+
+.viewer-card__remove {
+  color: var(--cs-danger);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+

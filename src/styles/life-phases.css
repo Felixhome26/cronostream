@@ -1,0 +1,328 @@
+/* ---------- Lebensphasen-Verwaltung (LifePhasesDialog) ---------- */
+.phases-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: rgba(var(--cs-shadow-rgb), calc(0.62 * var(--cs-backdrop-k)));
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+.phases-modal__panel {
+  display: flex;
+  flex-direction: column;
+  width: min(48rem, 100%);
+  max-height: 100%;
+  background-color: var(--cs-surface);
+  border: 1px solid var(--cs-border-strong);
+  border-radius: var(--cs-radius);
+  box-shadow: 0 18px 50px rgba(var(--cs-shadow-rgb), calc(0.8 * var(--cs-shadow-k)));
+}
+.phases-modal__header {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--cs-border);
+}
+.phases-modal__title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.phases-modal__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+.phases-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+.phases-empty__title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.phases-empty__hint {
+  margin: 0 0 1rem;
+  max-width: 28rem;
+  color: var(--cs-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.phases-group {
+  position: relative;
+  margin: 0 0 1.5rem;
+}
+.phases-group--dragging {
+  opacity: 0.45;
+}
+.phases-group--drop-before::before,
+.phases-group--drop-after::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-radius: 2px;
+  background-color: var(--cs-accent-fg);
+}
+.phases-group--drop-before::before {
+  top: -0.8rem;
+}
+.phases-group--drop-after::after {
+  bottom: -0.8rem;
+}
+.phases-sort {
+  display: inline-flex;
+  margin: 0 0 1rem;
+  border: 1px solid var(--cs-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.phases-sort__btn {
+  height: 2rem;
+  padding: 0 0.75rem;
+  border: 0;
+  background: transparent;
+  color: var(--cs-text-muted);
+  cursor: pointer;
+}
+.phases-sort__btn:hover,
+.phases-sort__btn:focus-visible {
+  color: var(--cs-text);
+  background-color: var(--cs-surface-hover);
+  outline: none;
+}
+.phases-sort__btn--active {
+  color: var(--cs-text);
+  background-color: var(--cs-surface-hover);
+  font-weight: 600;
+}
+.phases-group__count {
+  flex: none;
+  color: var(--cs-text-muted);
+  font-size: 0.85em;
+}
+.phases-group__header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.5rem;
+}
+.phases-group__name {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-weight: 600;
+}
+
+.phases-icon {
+  display: block;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.phases-iconbtn {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--cs-text-muted);
+  cursor: pointer;
+}
+.phases-iconbtn:hover,
+.phases-iconbtn:focus-visible {
+  color: var(--cs-text);
+  background-color: var(--cs-surface-hover);
+  border-color: var(--cs-border);
+  outline: none;
+}
+.phases-iconbtn--handle {
+  cursor: grab;
+  touch-action: none;
+}
+.phases-iconbtn--handle:active {
+  cursor: grabbing;
+}
+
+.phases-input {
+  height: 2.5rem;
+  padding: 0 0.75rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: var(--cs-text);
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+.phases-input:hover {
+  border-color: var(--cs-border);
+}
+.phases-input:focus {
+  outline: none;
+  border-color: var(--cs-focus-ring);
+  background-color: var(--cs-bg);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--cs-focus-ring) 30%, transparent);
+}
+.phases-input--invalid {
+  border-color: var(--cs-danger);
+}
+
+.phases-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.5rem 0.75rem;
+}
+.phases-row + .phases-row,
+.phases-row + .phases-add {
+  border-top: 1px solid var(--cs-border);
+}
+.phases-row--empty {
+  color: var(--cs-text-dim);
+  font-size: 0.9rem;
+}
+.phases-row__main {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.phases-row__title {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.phases-row__dates {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding-left: 6.75rem;
+}
+.phases-row__dash {
+  color: var(--cs-text-dim);
+}
+.phases-row__ongoing {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 0.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.phases-row .dt-input.text-input,
+.phases-date--static {
+  width: auto;
+  margin: 0;
+  padding: 0.4em 0.7em;
+  font-size: 0.92rem;
+}
+.phases-date--static {
+  display: inline-block;
+  border-radius: 10px;
+  border: 1px dashed var(--cs-border);
+  color: var(--cs-text-muted);
+}
+
+.phases-add {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  background: transparent;
+  border: 0;
+  color: var(--cs-text-muted);
+  font-size: 0.9rem;
+  text-align: left;
+  cursor: pointer;
+}
+.phases-add:hover {
+  color: var(--cs-text);
+  background-color: var(--cs-surface-hover);
+}
+
+.phases-swatch {
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0.5rem;
+  border-radius: 50%;
+  border: 2px solid var(--cs-border-strong);
+  cursor: pointer;
+}
+.phases-swatch--large {
+  width: 2rem;
+  height: 2rem;
+  margin: 0;
+}
+.phases-swatch--selected {
+  border-color: var(--cs-text);
+  box-shadow: 0 0 0 2px var(--cs-accent), 0 0 0 3px var(--cs-accent-edge);
+}
+.phases-color {
+  position: relative;
+  flex: none;
+}
+.phases-color-popup {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 5;
+  width: 15rem;
+  padding: 0.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--cs-border-strong);
+  background-color: var(--cs-surface);
+  box-shadow: 0 10px 30px rgba(var(--cs-shadow-rgb), calc(0.6 * var(--cs-shadow-k)));
+}
+.phases-color-popup__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-items: center;
+  gap: 0.5rem;
+}
+.phases-color-popup__hex {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+.phases-color-popup__hex .phases-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border-color: var(--cs-border);
+}
+
+.phases-conflict {
+  margin: 0.25rem 0 0.25rem 0.25rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--cs-danger);
+  color: var(--cs-danger);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+.phases-conflict ul {
+  margin: 0.25rem 0 0;
+  padding-left: 1.25rem;
+}
+
+
+/* Below a new phase's still empty date fields: when it gets saved. */
+.phases-row__draft-hint {
+  margin-top: 0.25rem;
+  font-size: 0.8rem;
+  color: var(--cs-text-dim);
+}

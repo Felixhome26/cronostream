@@ -1,0 +1,530 @@
+/* ---------- Context menu (right-click on a timeline tile) ---------- */
+
+.context-menu {
+  position: fixed;
+  background-color: var(--cs-surface);
+  border: 1px solid var(--cs-border-strong);
+  border-radius: 10px;
+  box-shadow: 0 10px 32px rgba(var(--cs-shadow-rgb), calc(0.75 * var(--cs-shadow-k)));
+  padding: 0.3rem;
+  z-index: 80;
+}
+
+.context-menu__item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: var(--cs-text);
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.context-menu__item:hover {
+  background-color: var(--cs-surface-hover);
+}
+
+.context-menu__label {
+  padding: 0.4rem 0.9rem;
+  font-size: 0.8rem;
+  color: var(--cs-text-dim);
+}
+
+.context-menu__item--danger {
+  color: var(--cs-danger);
+}
+
+.context-menu__divider {
+  height: 1px;
+  margin: 0.3rem 0.4rem;
+  background-color: var(--cs-border-strong);
+}
+
+/* Floating "Ändern"-button for a Ctrl-click tile selection — bottom-centre,
+   clear of the fixed "+"/drop-box buttons (bottom-right) and the search
+   results panel (top-right). Same role as the context-menu's own entry for
+   the same action (see Timeline's sendSelectionToFileOps); this is just the
+   version that doesn't need a right-click first. */
+.timeline-selection-bar {
+  position: fixed;
+  left: 50%;
+  bottom: 1.8rem;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  background-color: var(--cs-surface);
+  border: 1px solid var(--cs-border-strong);
+  border-radius: 999px;
+  padding: 0.5rem 0.6rem 0.5rem 1.1rem;
+  box-shadow: 0 10px 32px rgba(var(--cs-shadow-rgb), calc(0.75 * var(--cs-shadow-k)));
+  /* Above .pile-overlay (60) and .cluster-overlay (65) so the count and the
+     hand-off button stay reachable while tiles are being selected inside an
+     open grid, but below .viewer-overlay (70), which has no selection of
+     its own and should cover it. */
+  z-index: 68;
+}
+
+.timeline-selection-bar__count {
+  font-size: 0.9rem;
+  color: var(--cs-text-dim);
+  white-space: nowrap;
+}
+
+.toast-stack {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 60;
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  background-color: var(--cs-surface-hover);
+  border: 1px solid var(--cs-border-strong);
+  border-radius: var(--cs-radius);
+  padding: 0.7rem 1.2rem;
+  font-size: 0.92rem;
+  box-shadow: 0 10px 32px rgba(var(--cs-shadow-rgb), calc(0.7 * var(--cs-shadow-k)));
+  pointer-events: auto;
+}
+
+.toast__close {
+  background: none;
+  border: none;
+  color: var(--cs-text-muted);
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 0 0.1rem;
+  cursor: pointer;
+}
+
+.toast__close:hover {
+  color: var(--cs-text);
+}
+
+.toast__action {
+  background: none;
+  border: none;
+  color: var(--cs-accent-fg);
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.toast__action:hover {
+  color: var(--cs-accent-hover);
+}
+
+/* ---------- Global progress indicator (see ProgressContext.tsx) ---------- */
+
+.progress-indicator-stack {
+  position: fixed;
+  top: calc(var(--cs-topbar-height, 3.5rem) + 0.8rem);
+  right: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 55;
+  pointer-events: none;
+}
+
+.progress-indicator {
+  width: 16rem;
+  background-color: var(--cs-surface-hover);
+  border: 1px solid var(--cs-border-strong);
+  border-radius: var(--cs-radius);
+  padding: 0.6rem 0.9rem;
+  box-shadow: 0 10px 32px rgba(var(--cs-shadow-rgb), calc(0.7 * var(--cs-shadow-k)));
+  pointer-events: auto;
+}
+
+.progress-indicator__label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.progress-indicator .progress-bar {
+  margin-bottom: 0.3rem;
+}
+
+.progress-indicator__status {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--cs-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- Project-opening overlay (see App.tsx) ---------- */
+
+.project-opening {
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.project-opening__spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid var(--cs-border);
+  border-top-color: var(--cs-accent-fg);
+  border-radius: 50%;
+  animation: record-spin 0.8s linear infinite;
+}
+
+/* Global "still working" pill (see busy.tsx). Bottom right, clear of the
+   centered toast stack, and above every modal layer, since most slow
+   actions are started from inside one. Not interactive. */
+.busy-indicator {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 95;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--cs-surface-hover);
+  border: 1px solid var(--cs-border-strong);
+  border-radius: 999px;
+  color: var(--cs-text-muted);
+  font-size: 0.85rem;
+  pointer-events: none;
+}
+
+.busy-indicator__spinner {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid var(--cs-border);
+  border-top-color: var(--cs-accent-fg);
+  border-radius: 50%;
+  animation: record-spin 0.8s linear infinite;
+  will-change: transform;
+}
+
+.project-opening__label {
+  color: var(--cs-text-muted);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* ---------- Dragging files onto the main window (see PendingDrops.tsx) --- */
+
+.timeline-drop-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(var(--cs-shadow-rgb), calc(0.35 * var(--cs-backdrop-k)));
+  border: 2px dashed var(--cs-accent-fg);
+  pointer-events: none;
+}
+
+.timeline-drop-overlay__hint {
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.5rem;
+  background-color: var(--cs-bg);
+  border: 1px solid var(--cs-accent-fg);
+  color: var(--cs-text);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* ---------- Welcome dialog ---------- */
+
+.welcome {
+  position: relative;
+  border-radius: 16px;
+}
+
+.welcome__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 1.25rem;
+  text-align: center;
+}
+
+.welcome__logo {
+  width: 48px;
+  height: 48px;
+}
+
+.welcome__header .modal-card__title {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.welcome__intro {
+  margin: 0;
+  color: var(--cs-text-muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.welcome__close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+}
+
+.welcome__cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.welcome__card {
+  display: flex;
+  gap: 0.85rem;
+  align-items: flex-start;
+  padding: 0.8rem 1rem;
+  background: var(--cs-surface-hover);
+  border: 1px solid var(--cs-border);
+  border-radius: 12px;
+}
+
+.welcome__card-icon {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  margin-top: 0.1rem;
+  fill: none;
+  stroke: var(--cs-accent-fg);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.welcome__card-title {
+  margin: 0 0 0.15rem;
+  font-size: 0.98rem;
+  font-weight: 600;
+}
+
+.welcome__card-text {
+  margin: 0;
+  color: var(--cs-text-muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.welcome__help {
+  margin: 0 0 1.25rem;
+  color: var(--cs-text-dim);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.welcome__setup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0 0 1.25rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius);
+}
+
+.welcome__setup legend {
+  padding: 0 0.25rem;
+  font-weight: 600;
+}
+
+/* Two buttons as wide as the labels need, not stretched across the card. */
+.welcome__theme .segmented {
+  align-self: flex-start;
+  min-width: 16rem;
+}
+
+.welcome__setup-hint {
+  margin: 0;
+  color: var(--cs-text-dim);
+  font-size: 0.82rem;
+}
+
+.welcome__check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.welcome__actions {
+  align-items: center;
+}
+
+/* Pushes the primary button to the far right, like every other dialog's. */
+.welcome__dont-show {
+  margin-right: auto;
+  color: var(--cs-text-muted);
+}
+
+
+/* Search history dropdown (SearchHistory.tsx), shared by the timeline's
+   search bar and the disk search. The ▾ sits inside the field's right edge
+   like a combobox; the panel hangs under the field, 8 rows high, and
+   scrolls on its own (mouse wheel, scrollbar, or following ↑/↓). */
+.search-history {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+}
+
+.search-history > .text-input {
+  margin: 0;
+  padding-right: 1.9rem;
+}
+
+.search-history__toggle {
+  position: absolute;
+  right: 0.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--cs-text-muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.search-history__toggle:hover:not(:disabled) {
+  background-color: var(--cs-surface-hover);
+  color: var(--cs-text);
+}
+
+.search-history__toggle:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.search-history__panel {
+  --search-history-row: 2.1rem;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 100%;
+  width: 24rem;
+  max-width: 80vw;
+  z-index: 120;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--cs-surface);
+  border: 1px solid var(--cs-border-strong);
+  border-radius: 10px;
+  box-shadow: 0 10px 32px rgba(var(--cs-shadow-rgb), calc(0.75 * var(--cs-shadow-k)));
+  padding: 0.3rem;
+}
+
+.search-history__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: calc(var(--search-history-rows, 8) * var(--search-history-row));
+  overflow-y: auto;
+  /* The end of the list must not hand the wheel on to the timeline or page. */
+  overscroll-behavior: contain;
+}
+
+.search-history__row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  height: var(--search-history-row);
+  padding: 0 0.3rem 0 0.7rem;
+  border-radius: 6px;
+  color: var(--cs-text);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.search-history__row--active {
+  background-color: var(--cs-surface-hover);
+}
+
+.search-history__text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.search-history__empty-text {
+  color: var(--cs-text-dim);
+}
+
+.search-history__detail {
+  margin-left: 0.6rem;
+  font-size: 0.75rem;
+  color: var(--cs-text-dim);
+}
+
+.search-history__remove {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--cs-text-dim);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.search-history__remove:hover {
+  background-color: var(--cs-border-strong);
+  color: var(--cs-text);
+}
+
+.search-history__clear {
+  margin-top: 0.25rem;
+  padding: 0.4rem 0.7rem;
+  border: none;
+  border-top: 1px solid var(--cs-border-strong);
+  border-radius: 0 0 6px 6px;
+  background: transparent;
+  color: var(--cs-text-muted);
+  font-size: 0.78rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.search-history__clear:hover {
+  color: var(--cs-danger);
+}

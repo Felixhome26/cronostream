@@ -1,0 +1,1661 @@
+/* ---------- File browser ---------- */
+
+/* Row, not column: the workflow-phase rail runs down the left edge and the
+   whole workspace (view header + body) sits beside it. */
+.file-browser {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  min-width: 0;
+}
+
+/* Vertical phase navigation. A full-screen overlay has the width for it,
+   and seven equal tabs crammed into one horizontal row gave no hint that
+   they belong to four quite different jobs. Icons always carry their label
+   — "Prüfen" and "Verwalten" are not guessable from a glyph. */
+.file-browser__rail {
+  width: 11rem;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.75rem 0.5rem;
+  background-color: rgba(var(--cs-overlay-rgb), 0.035);
+  border-right: 1px solid var(--cs-border-strong);
+  transition: width 0.15s ease;
+}
+
+/* Icon-only width: just wide enough for the toggle and the icon column,
+   so the active category is still visible without costing the label's
+   worth of horizontal space. */
+.file-browser__rail--collapsed {
+  width: 3.25rem;
+}
+
+.file-browser__rail-toggle {
+  align-self: flex-end;
+  width: 1.8rem;
+  height: 1.8rem;
+  margin-bottom: 0.3rem;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--cs-text-muted);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.file-browser__rail-toggle:hover {
+  color: var(--cs-text);
+  background-color: rgba(var(--cs-overlay-rgb), 0.07);
+}
+
+.file-browser__rail--collapsed .file-browser__rail-toggle {
+  align-self: center;
+}
+
+.file-browser__rail-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: none;
+  color: var(--cs-text-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.file-browser__rail--collapsed .file-browser__rail-item {
+  justify-content: center;
+  padding: 0.6rem 0;
+}
+
+.file-browser__rail-item:hover {
+  color: var(--cs-text);
+  background-color: rgba(var(--cs-overlay-rgb), 0.07);
+}
+
+/* Two signals for the selected phase, not one: fill plus accent text and
+   border. A single cue is easy to miss at a glance across a tall rail. */
+.file-browser__rail-item--active {
+  background-color: var(--cs-surface);
+  border-color: var(--cs-border-strong);
+  color: var(--cs-accent-fg);
+}
+
+.file-browser__rail-icon {
+  width: 1.4rem;
+  flex-shrink: 0;
+  text-align: center;
+  font-size: 1.05rem;
+}
+
+/* Echoes .icon-btn--add / the FAB: a filled accent circle, so "Hinzufügen"
+   reads as the same "+" action everywhere it appears, not a plain glyph
+   here and a button-styled one elsewhere. */
+.file-browser__rail-icon--add {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--cs-accent);
+  color: var(--cs-accent-contrast);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.file-browser__rail-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-browser__workspace {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+}
+
+/* One fixed-height row per view, whatever the phase: the sub-tabs (or the
+   view's own name, where there is nothing to switch between) on the left,
+   the confirm action on the right. Replaces the full-width strip that used
+   to hold nothing but the "Fertig" button. */
+.file-browser__view-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 3.5rem;
+  padding: 0 1.25rem;
+  background-color: var(--cs-surface);
+  border-bottom: 1px solid var(--cs-border-strong);
+}
+
+.file-browser__view-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--cs-text);
+}
+
+/* Holds the tabs (or the lone view title) plus its hint, so the pair grows
+   together and `.file-browser__view-header`'s space-between only ever has
+   to place this one block against the "Fertig" button on the right. */
+.file-browser__view-header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
+  flex: 1;
+}
+
+/* Sort order for the folder listing (grid + single-image view), between
+   the tab row and its hint — the pane toolbars below have no room left. */
+.file-browser__sort {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.file-browser__sort-select {
+  border-radius: 8px;
+  border: 1px solid var(--cs-border);
+  background-color: var(--cs-bg);
+  color: var(--cs-text);
+  padding: 0.3rem 0.5rem;
+  font-size: 0.85rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* One short sentence on what the active reiter is for, right next to the
+   tab row (or the title) it belongs to — so a tab's purpose never has to
+   be guessed from its name alone. Truncates rather than wrapping: the
+   header is a fixed-height row and a second line would shift everything
+   below it on every tab switch. */
+.file-browser__tab-hint {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--cs-text-muted);
+  font-size: 0.85rem;
+}
+
+/* Pane-edge toolbars. Every view that has one gets the same height,
+   padding and gap, so switching between them doesn't shift the content
+   below by a few pixels each time — the row reads as one persistent piece
+   of furniture rather than something each view draws its own way.
+   Deliberately shorter than .file-browser__view-header (3.5rem): this is
+   the view's own tools, one level below the phase it belongs to. */
+.file-browser__toolbar,
+.single-view__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 3rem;
+  padding: 0.5rem 1.25rem;
+  background-color: var(--cs-surface);
+}
+
+.file-browser__toolbar {
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--cs-border-strong);
+}
+
+.file-browser__path {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--cs-text-muted);
+  font-size: 0.88rem;
+}
+
+.file-browser__subfolders-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-size: 0.88rem;
+  color: var(--cs-text-muted);
+}
+
+.file-browser__subfolders-error {
+  flex-shrink: 0;
+  color: var(--cs-danger);
+  font-size: 0.85rem;
+}
+
+.file-browser__body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  min-width: 0;
+}
+
+.file-browser__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  /* Without this the fixed-width preview panel pushes the whole column (and
+     the toolbar buttons) past the viewport when it is dragged wide. */
+  min-width: 0;
+  overflow: hidden;
+}
+
+.file-browser__content {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  min-width: 0;
+}
+
+/* Secondary navigation only — alternative ways to do the one job the rail
+   already picked. Deliberately plainer than the rail: text only, no card
+   chrome, so it never competes with the phase navigation beside it. */
+.file-browser__tabs {
+  display: flex;
+  gap: 0.25rem;
+  align-self: stretch;
+}
+
+.file-browser__tab {
+  background: none;
+  border: none;
+  /* Reserved on every tab, transparent until active, so switching tabs
+     doesn't shift the row by the height of the indicator. */
+  border-bottom: 2px solid transparent;
+  color: var(--cs-text-muted);
+  cursor: pointer;
+  padding: 0 0.9rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.file-browser__tab:hover {
+  color: var(--cs-text);
+}
+
+/* Underline *and* colour — one cue alone reads as ambiguous when several
+   tabs sit side by side. */
+.file-browser__tab--active {
+  border-bottom-color: var(--cs-accent-fg);
+  color: var(--cs-accent-fg);
+}
+
+/* ---------- Single image view ---------- */
+
+.single-view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  position: relative;
+}
+
+.single-view__empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cs-text-muted);
+  padding: 2rem;
+  text-align: center;
+}
+
+.single-view__stage {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  overflow: hidden;
+}
+
+.single-view__image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: var(--cs-radius);
+}
+
+.single-view__image--loading {
+  filter: blur(1.5px);
+  opacity: 0.9;
+}
+
+.single-view__placeholder {
+  color: var(--cs-text-muted);
+  font-size: 2rem;
+}
+
+/* Mirrors the grid tile's "already in the stream" badge, placed along
+   the bottom of the stage so it never collides with the marked-circle in the
+   top right corner. */
+.single-view__added {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.82);
+  color: var(--cs-accent-fg);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.single-view__marked {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background: var(--cs-accent);
+  color: var(--cs-accent-contrast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+/* Shares the pane-toolbar rule above; only the edge it attaches to
+   differs (this one sits below its image, not above it). */
+.single-view__bar {
+  border-top: 1px solid var(--cs-border-strong);
+}
+
+.single-view__rotate {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.single-view__caption {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.single-view__filename {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.single-view__counter {
+  color: var(--cs-text-muted);
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+.single-view__count {
+  color: var(--cs-text-muted);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.single-view__help {
+  text-align: center;
+  color: var(--cs-text-dim);
+  font-size: 0.78rem;
+  padding-bottom: 0.6rem;
+}
+
+/* ---------- Manifest import tab ---------- */
+
+.manifest-import {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.manifest-import__panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  max-width: 480px;
+}
+
+.manifest-import__panel h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.manifest-import__instructions {
+  margin: 0;
+  color: var(--cs-text-muted);
+  font-size: 0.88rem;
+}
+
+.manifest-import__summary {
+  font-size: 0.85rem;
+  color: var(--cs-text);
+}
+
+.manifest-import__count {
+  color: var(--cs-text-muted);
+  font-size: 0.88rem;
+}
+
+/* ---------- AI metadata tab ---------- */
+
+.ai-metadata {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.ai-metadata__panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  max-width: 1100px;
+  width: 100%;
+}
+
+.ai-metadata__panel h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.ai-metadata__step-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.ai-metadata__missing-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--cs-border);
+  border-radius: 6px;
+  background: rgba(var(--cs-overlay-rgb), 0.04);
+}
+
+.ai-metadata__missing-hint p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.ai-metadata__extra {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.ai-metadata__extra-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.ai-metadata__extra-input {
+  width: 100%;
+  background: rgba(var(--cs-overlay-rgb), 0.04);
+  border: 1px solid var(--cs-border);
+  border-radius: 6px;
+  color: var(--cs-text);
+  font-family: inherit;
+  font-size: 0.85rem;
+  padding: 0.6rem;
+  resize: vertical;
+}
+
+.ai-metadata__name-filter {
+  background: rgba(var(--cs-overlay-rgb), 0.04);
+  border: 1px solid var(--cs-border);
+  border-radius: 6px;
+  color: var(--cs-text);
+  font-family: inherit;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.6rem;
+  min-width: 220px;
+}
+
+.ai-metadata__instructions {
+  margin: 0;
+  color: var(--cs-text-muted);
+  font-size: 0.88rem;
+}
+
+.ai-metadata__panel--import {
+  max-width: 1100px;
+}
+
+.ai-metadata__hide-unchanged {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--cs-text-muted);
+  cursor: pointer;
+}
+
+.ai-metadata__review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-height: 420px;
+  overflow: auto;
+  width: 100%;
+  border: 1px solid var(--cs-border);
+  border-radius: 6px;
+  padding: 0.5rem;
+}
+
+.ai-metadata__review-row--header {
+  position: sticky;
+  top: -0.5rem;
+  background: var(--cs-bg);
+  border-bottom: 1px solid var(--cs-border-strong);
+  color: var(--cs-text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  z-index: 1;
+}
+
+/* Fixed (not auto/fr-on-content) column widths on purpose: each row is its
+   own independent grid (siblings in a flex column, not one shared grid), so
+   any content-dependent track (auto/fr sized off that row's own children)
+   computes a different width per row — including the header row, whose
+   cells have completely different content than the data rows. Plain px
+   widths make every row's grid resolve identically regardless of its own
+   content, which is what keeps the header aligned with the data below it. */
+.ai-metadata__review-row {
+  display: grid;
+  grid-template-columns: 20px 220px 110px 16px 130px 100px 1fr;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.4rem;
+  border-radius: 4px;
+  min-width: 760px;
+}
+
+.ai-metadata__review-row--invalid {
+  opacity: 0.75;
+}
+
+.ai-metadata__review-row--unchanged {
+  background: var(--cs-tint-unchanged);
+}
+
+.ai-metadata__review-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ai-metadata__review-current {
+  color: var(--cs-text-muted);
+  white-space: nowrap;
+}
+
+.ai-metadata__review-arrow {
+  color: var(--cs-text-muted);
+}
+
+.ai-metadata__review-error {
+  color: var(--cs-danger);
+  font-size: 0.8rem;
+}
+
+.ai-metadata__review-confidence {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  justify-self: start;
+}
+
+.ai-metadata__review-confidence--high {
+  color: var(--cs-conf-high);
+}
+
+.ai-metadata__review-confidence--medium {
+  color: var(--cs-conf-medium);
+}
+
+.ai-metadata__review-confidence--low {
+  color: var(--cs-conf-low);
+}
+
+.ai-metadata__review-reason {
+  color: var(--cs-text-muted);
+  font-size: 0.8rem;
+  overflow-wrap: break-word;
+}
+
+.ai-metadata__review-reason--clickable {
+  cursor: pointer;
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+}
+
+.ai-metadata__review-reason--clickable:hover {
+  color: var(--cs-text);
+}
+
+.ai-suggestion-detail {
+  background-color: var(--cs-surface);
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius);
+  width: min(560px, 100%);
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.ai-suggestion-detail__list {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem 1rem;
+  padding: 1rem 1.25rem 1.25rem;
+  margin: 0;
+}
+
+.ai-suggestion-detail__list dt {
+  color: var(--cs-text-muted);
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.ai-suggestion-detail__list dd {
+  margin: 0;
+  font-size: 0.9rem;
+  overflow-wrap: break-word;
+}
+
+/* ---------- Final review modal ---------- */
+
+.review-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(var(--cs-shadow-rgb), calc(0.75 * var(--cs-backdrop-k)));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 2rem;
+}
+
+.review-modal {
+  background-color: var(--cs-surface);
+  border: 1px solid var(--cs-border-strong);
+  box-shadow: 0 18px 48px rgba(var(--cs-shadow-rgb), calc(0.7 * var(--cs-shadow-k)));
+  border-radius: var(--cs-radius);
+  width: min(760px, 100%);
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.review-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem 0;
+}
+
+.review-modal__header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.review-modal__intro {
+  margin: 0.5rem 1.25rem 0;
+  color: var(--cs-text-muted);
+  font-size: 0.88rem;
+}
+
+.review-modal__list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.review-modal__empty {
+  color: var(--cs-text-muted);
+  text-align: center;
+  padding: 1.5rem 0;
+}
+
+.review-row {
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius);
+  padding: 0.75rem;
+}
+
+.review-row__name {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  word-break: break-word;
+  font-size: 0.9rem;
+}
+
+.review-row__choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.review-choice {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  padding: 0.25rem 0.4rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.review-choice:hover {
+  background-color: var(--cs-surface-hover);
+}
+
+.review-choice--active {
+  color: var(--cs-accent-fg);
+  background-color: color-mix(in srgb, var(--cs-accent) 10%, transparent);
+  font-weight: 600;
+}
+
+.review-choice__label {
+  width: 7rem;
+  flex-shrink: 0;
+  color: var(--cs-text-muted);
+}
+
+.review-choice--active .review-choice__label {
+  color: var(--cs-accent-fg);
+}
+
+.review-choice__value {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.review-choice__manual {
+  background-color: var(--cs-bg);
+  border: 1px solid var(--cs-border);
+  border-radius: 8px;
+  color: var(--cs-text);
+  padding: 0.2rem 0.4rem;
+  font-size: 0.8rem;
+}
+
+.review-row__warning {
+  margin-top: 0.4rem;
+  font-size: 0.78rem;
+  color: var(--cs-danger);
+}
+
+.review-modal__skipped {
+  padding: 0 1.25rem;
+  font-size: 0.82rem;
+  color: var(--cs-danger);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.ai-metadata__applied-modal {
+  width: min(420px, 100%);
+}
+
+.ai-metadata__applied-modal--list {
+  width: min(680px, 100%);
+}
+
+.ai-metadata__change-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  max-height: 420px;
+  overflow: auto;
+  margin: 0.5rem 1.25rem 1rem;
+  border: 1px solid var(--cs-border);
+  border-radius: 6px;
+  padding: 0.5rem;
+}
+
+.ai-metadata__change-row {
+  display: grid;
+  grid-template-columns: 1fr 170px 16px 170px;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  padding: 0.3rem 0.4rem;
+  border-radius: 4px;
+}
+
+.ai-metadata__change-row--header {
+  position: sticky;
+  top: -0.5rem;
+  background: var(--cs-bg);
+  border-bottom: 1px solid var(--cs-border-strong);
+  color: var(--cs-text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  z-index: 1;
+}
+
+.ai-metadata__change-row--unchanged {
+  background: var(--cs-tint-unchanged);
+}
+
+.ai-metadata__change-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.review-modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-top: 1px solid var(--cs-border-strong);
+}
+
+.review-modal__hint {
+  color: var(--cs-text-muted);
+  font-size: 0.82rem;
+}
+
+.file-browser__sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(var(--cs-overlay-rgb), 0.035);
+  border-right: 1px solid var(--cs-border-strong);
+  overflow: hidden;
+}
+
+.path-input {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--cs-border);
+}
+
+.path-input__row {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.path-input__field {
+  flex: 1;
+  min-width: 0;
+  background-color: var(--cs-bg);
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius);
+  color: var(--cs-text);
+  padding: 0.35rem 0.6rem;
+  font-size: 0.82rem;
+}
+
+.path-input__field::placeholder {
+  color: var(--cs-text-dim);
+}
+
+.path-input__field:focus {
+  outline: none;
+  border-color: var(--cs-focus-ring);
+}
+
+.path-input__error {
+  margin-top: 0.4rem;
+  font-size: 0.75rem;
+  color: var(--cs-danger);
+}
+
+.folder-tree {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem 0;
+  font-size: 0.88rem;
+}
+
+.folder-tree__row {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.2rem 0.75rem;
+  border-radius: 6px;
+  cursor: default;
+}
+
+.folder-tree__row:hover {
+  background-color: var(--cs-surface-hover);
+}
+
+.folder-tree__row--active {
+  background-color: var(--cs-surface-hover);
+  box-shadow: inset 2px 0 0 var(--cs-accent-fg);
+  color: var(--cs-accent-fg);
+  font-weight: 600;
+}
+
+.folder-tree__toggle {
+  background: none;
+  border: none;
+  color: var(--cs-text);
+  cursor: pointer;
+  padding: 0;
+  width: 1.1rem;
+  flex-shrink: 0;
+  font-size: 0.75rem;
+}
+
+.folder-tree__label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.folder-tree__empty {
+  color: var(--cs-text-dim);
+  font-size: 0.78rem;
+  padding: 0.1rem 0;
+}
+
+.folder-tree__section + .folder-tree__section {
+  margin-top: 0.75rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--cs-border);
+}
+
+.folder-tree__heading {
+  padding: 0.1rem 0.75rem 0.35rem;
+  color: var(--cs-text-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.folder-tree__icon {
+  margin-right: 0.4rem;
+}
+
+/* --- Jahres-Navigation ("Datei-Operationen" / "Papierkorb") -------------
+   Mirrors the folder tree's row/section/heading rhythm on purpose: it sits
+   in the same sidebar slot and does the same job, so matching it is what
+   keeps the two tabs feeling like the file manager rather than a separate
+   screen. */
+.year-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem 0;
+  font-size: 0.88rem;
+}
+
+.year-nav__section + .year-nav__section {
+  margin-top: 0.75rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--cs-border);
+}
+
+.year-nav__heading {
+  padding: 0.1rem 0.75rem 0.35rem;
+  color: var(--cs-text-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.year-nav__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.25rem 0.75rem;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: var(--cs-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.year-nav__row:hover:not(:disabled) {
+  background-color: var(--cs-surface-hover);
+}
+
+.year-nav__row--active {
+  background-color: var(--cs-surface-hover);
+  box-shadow: inset 2px 0 0 var(--cs-accent-fg);
+  color: var(--cs-accent-fg);
+  font-weight: 600;
+}
+
+/* Dimmed rather than hidden while a free date range is active: the rail
+   still shows what the project holds, it just isn't what's selecting right
+   now. Hiding it would make the sidebar jump between two layouts. */
+.year-nav__row:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
+.year-nav__count {
+  color: var(--cs-text-muted);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+.year-nav__empty {
+  color: var(--cs-text-dim);
+  font-size: 0.78rem;
+  padding: 0.1rem 0.75rem;
+}
+
+.year-nav__range-toggle {
+  display: block;
+  padding: 0.1rem 0.75rem 0.4rem;
+}
+
+.year-nav__range-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.15rem 0.75rem;
+  color: var(--cs-text-muted);
+  font-size: 0.8rem;
+}
+
+.year-nav__range-field input {
+  /* The sidebar is 220px; letting the native date control size itself
+     pushes the label off the edge. */
+  min-width: 0;
+  flex: 1;
+  max-width: 8.5rem;
+}
+
+/* --- Dateityp-Filter (beide Dateimanager) ------------------------------
+   A multi-select chip set, like the timeline's lane filters: all four on
+   means no filtering, so turning one off hides that type and turning three
+   off leaves only one showing. Both directions the one control.
+
+   Rendered as a single segmented control — one rounded, bordered strip
+   with each chip a divided segment — instead of loose individual pills,
+   so four filters plus the other toolbar controls read as one row instead
+   of a scatter of same-weight buttons. */
+.file-browser__kind-filter {
+  display: flex;
+  align-items: stretch;
+  flex-shrink: 0;
+  border: 1px solid var(--cs-border-strong);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.file-browser__kind-chip {
+  padding: 0.3em 0.75em;
+  border: none;
+  border-right: 1px solid var(--cs-border-strong);
+  border-radius: 0;
+  background: transparent;
+  color: var(--cs-text-dim);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  /* Struck through when off, so "this type is hidden" survives being read
+     at a glance — colour alone would not. */
+  text-decoration: line-through;
+}
+
+.file-browser__kind-chip:last-child {
+  border-right: none;
+}
+
+.file-browser__kind-chip:hover {
+  background-color: var(--cs-surface-hover);
+}
+
+.file-browser__kind-chip--on {
+  background: color-mix(in srgb, var(--cs-accent) 18%, transparent);
+  color: var(--cs-text);
+  text-decoration: none;
+}
+
+/* --- Auswahl-Zusammenfassung (Datei-Operationen / Papierkorb) ----------
+   Replaces the former pair of "alle sichtbaren markieren" / "Markierung
+   aufheben" text links with the ordinary select-all checkbox pattern:
+   unchecked → all visible get marked, checked → marks are cleared,
+   indeterminate for a partial selection. */
+.file-browser__selection-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  color: var(--cs-text-dim);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.file-browser__selection-summary input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--cs-accent-fg);
+  cursor: pointer;
+}
+
+/* Filterleiste über der Auswahl-Zeile (Datei-Operationen / Papierkorb) */
+.file-browser__filterbar {
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.file-browser__range-switch,
+.file-browser__range-field {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+  color: var(--cs-text-muted);
+  font-size: 0.8rem;
+}
+
+.file-browser__range-field input {
+  min-width: 0;
+  width: 8.5rem;
+}
+
+/* Von/Bis in der Filterleiste: dieselbe Pillenform wie Text- und Typ-Filter */
+.file-browser__range-field .file-browser__range-input {
+  border: 1px solid var(--cs-border-strong);
+  border-radius: 999px;
+  background-color: transparent;
+  padding: 0.3em 0.9em;
+  margin-bottom: 0; /* .text-input's bottom margin pushed the field off-centre */
+  font-size: 0.8rem;
+  color: var(--cs-text);
+}
+
+.file-browser__range-field .file-browser__range-input:focus-within {
+  border-color: var(--cs-focus-ring);
+}
+
+/* "Text"-Filter (Datei-Operationen / Papierkorb): matches the segmented
+   kind-filter's height and roundedness so the two sit as one visual family
+   in the toolbar, rather than looking like two different controls bolted
+   together. */
+.file-browser__text-filter {
+  flex-shrink: 0;
+  width: 11rem;
+  border: 1px solid var(--cs-border-strong);
+  border-radius: 999px;
+  background-color: transparent;
+  color: var(--cs-text);
+  padding: 0.3em 0.9em;
+  font: inherit;
+  font-size: 0.8rem;
+}
+
+.file-browser__text-filter::placeholder {
+  color: var(--cs-text-dim);
+}
+
+.file-browser__text-filter:focus {
+  outline: none;
+  border-color: var(--cs-focus-ring);
+}
+
+/* --- Aktions-Dropdown (Datei-Operationen / Papierkorb) -----------------
+   Bundles the batch actions (Kopieren/Verschieben/Entfernen, or
+   Wiederherstellen/Löschen) behind one "Aktionen (n) ▾" button instead of
+   several same-level toolbar buttons, so the selection count growing a
+   label never forces the toolbar onto a second line. */
+.toolbar-dropdown {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.toolbar-dropdown__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+}
+
+.toolbar-dropdown__caret {
+  font-size: 0.7em;
+}
+
+.toolbar-dropdown__menu {
+  position: absolute;
+  top: calc(100% + 0.3rem);
+  left: 0;
+  min-width: 100%;
+  background-color: var(--cs-surface);
+  border: 1px solid var(--cs-border-strong);
+  border-radius: 10px;
+  box-shadow: 0 10px 32px rgba(var(--cs-shadow-rgb), calc(0.75 * var(--cs-shadow-k)));
+  padding: 0.3rem;
+  z-index: 30;
+}
+
+.toolbar-dropdown__item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: var(--cs-text);
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.toolbar-dropdown__item:hover {
+  background-color: var(--cs-surface-hover);
+}
+
+.toolbar-dropdown__item:disabled {
+  color: var(--cs-text-dim);
+  cursor: default;
+}
+
+.toolbar-dropdown__item--danger {
+  color: var(--cs-danger);
+}
+
+/* grid-template-columns is written inline from React: the tile floor
+   shrinks as the preview panel grows, and below that floor `auto-fill`
+   drops a column instead of shrinking further. */
+.file-browser__grid {
+  flex: 1 1 0;
+  min-width: 0;
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem;
+  overflow-y: auto;
+  align-content: start;
+}
+
+.file-browser__empty {
+  grid-column: 1 / -1;
+  color: var(--cs-text-muted);
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.file-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.file-tile__thumb {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background-color: var(--cs-surface);
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: border-color 0.15s ease, transform 0.1s ease;
+}
+
+.file-tile:hover .file-tile__thumb {
+  border-color: var(--cs-border-strong);
+}
+
+.file-tile--active .file-tile__thumb {
+  border-color: var(--cs-active-ring);
+  box-shadow: 0 0 0 5px var(--cs-active-ring);
+}
+
+/* Comes after --active in source order on purpose: a tile that is both
+   active (in preview) and selected (marked) shows as selected — the gold
+   ring, not the white one. Same specificity, so the later rule wins. */
+.file-tile--selected .file-tile__thumb {
+  border-color: var(--cs-accent);
+  box-shadow: 0 0 0 5px var(--cs-accent), 0 0 0 6px var(--cs-accent-edge);
+}
+
+.file-tile--selected .file-tile__name {
+  color: var(--cs-accent-fg);
+  font-weight: 600;
+}
+
+/* Marked tiles in Datei-Operationen/Papierkorb (remove mode): the same
+   role as --selected above, just vivid red instead of gold — marking a
+   file here is a step toward removing/moving it, not adding it. */
+.file-tile--selected-remove .file-tile__thumb {
+  border-color: var(--cs-vivid-red);
+  box-shadow: 0 0 0 5px var(--cs-vivid-red);
+}
+
+.file-tile--selected-remove .file-tile__name {
+  color: var(--cs-vivid-red);
+  font-weight: 600;
+}
+
+.file-tile--folder-marked .file-tile__thumb {
+  border-color: var(--cs-accent);
+  box-shadow: 0 0 0 2px var(--cs-accent), 0 0 0 3px var(--cs-accent-edge);
+}
+
+.folder-overlay {
+  position: fixed;
+  z-index: 40;
+  padding: 0.9rem 1rem;
+  background-color: var(--cs-surface);
+  border: 1px solid var(--cs-border-strong);
+  border-radius: var(--cs-radius);
+  box-shadow: 0 12px 32px rgba(var(--cs-shadow-rgb), calc(0.6 * var(--cs-shadow-k)));
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.folder-overlay__name {
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.folder-overlay__text {
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+.folder-overlay__hint {
+  font-size: 0.8rem;
+  color: var(--cs-text-dim);
+}
+
+.folder-overlay__actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.folder-overlay__actions .btn {
+  flex: 1;
+}
+
+.file-tile--dir .file-tile__thumb {
+  background-color: transparent;
+}
+
+.file-tile__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.file-tile__icon {
+  font-size: 2.2rem;
+}
+
+.file-tile__icon--large {
+  font-size: 4rem;
+}
+
+.file-tile__check {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.35rem;
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 50%;
+  background: var(--cs-accent);
+  color: var(--cs-accent-contrast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* The mark badge of the "Datei-Operationen"/"Papierkorb" grid. Same corner,
+   size and shape as the accent ✓ above — deliberately the familiar pattern
+   in a different colour, so it reads instantly as "marked" while never
+   being mistaken for "marked for adding". */
+.file-tile__check--remove {
+  background: var(--cs-danger);
+  /* The same dark-on-red pairing `.btn--danger:hover` uses — white on this
+     particular red is too low-contrast to read at 1.3rem. */
+  color: var(--cs-danger-contrast);
+  /* The glyph is a bare minus sign, which sits visually high in a circle
+     this small; nudging the line box down centres it the way the ✓ sits. */
+  line-height: 1;
+  font-size: 1rem;
+  padding-bottom: 0.08rem;
+}
+
+/* The timeline-handoff variant of the same red badge (see FileTileGrid's
+   `editIntent`): a wrench emoji renders at its own natural size and is
+   already vertically centred, so the minus sign's nudge above would push it
+   off-centre instead. */
+.file-tile__check--edit {
+  font-size: 0.75rem;
+  padding-bottom: 0;
+}
+
+.file-tile__badge {
+  position: absolute;
+  bottom: 0.35rem;
+  left: 0.35rem;
+  right: 0.35rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 0.15rem 0.3rem;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.82);
+  color: var(--cs-accent-fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-preview-panel__stamp {
+  margin: -0.5rem 0 0.75rem;
+}
+
+.file-preview-panel__stamp:empty {
+  display: none;
+}
+
+.file-tile__stamp {
+  font-size: 0.8rem;
+  color: var(--cs-text-muted, var(--cs-text));
+  opacity: 0.75;
+  cursor: help;
+}
+
+.file-tile__stamp-help {
+  display: inline-block;
+  margin-left: 0.2rem;
+  width: 0.95rem;
+  line-height: 0.95rem;
+  text-align: center;
+  font-size: 0.65rem;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+}
+
+.file-tile__name {
+  font-size: 0.82rem;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--cs-text);
+}
+
+/* Width is set inline from React (the divider is draggable) — this only
+   keeps it from being squeezed by the grid beside it. */
+.file-preview-panel {
+  flex-shrink: 0;
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: calc(100% - 260px);
+  overflow-x: hidden;
+  background-color: rgba(var(--cs-overlay-rgb), 0.035);
+  border-left: 1px solid var(--cs-border-strong);
+  padding: 1.25rem;
+  overflow-y: auto;
+}
+
+.file-preview-panel__audio {
+  margin-bottom: 1rem;
+}
+
+.file-preview-panel__video {
+  aspect-ratio: 16 / 9;
+  margin-bottom: 1rem;
+  border: 1px solid var(--cs-border);
+}
+
+.file-preview-panel__image {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background-color: var(--cs-surface);
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.file-preview-panel__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Plain text in place of the picture a mail or a text-only document
+   (.txt/.docx/.odt/.rtf) doesn't have. Takes the image block's slot and
+   box, but scrolls its text instead of fitting an image, and is not
+   square — a wall of text in a 1:1 box wastes the panel's height on a
+   narrow column. */
+.file-preview-panel__text {
+  max-height: 22rem;
+  overflow-y: auto;
+  background-color: var(--cs-surface);
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius);
+  padding: 0.6rem 0.7rem;
+  margin-bottom: 1rem;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--cs-text-muted);
+  /* The body's own line breaks are most of what makes a quoted reply or a
+     signature readable at a glance. */
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  /* Readable means selectable/copyable too, not just visible. */
+  user-select: text;
+}
+
+.file-preview-panel__zoom {
+  position: absolute;
+  left: 0.4rem;
+  bottom: 0.4rem;
+  z-index: 2;
+}
+
+.file-preview-panel__rotate {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.file-preview-panel__name {
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  word-break: break-word;
+}
+
+.file-preview-panel__meta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.3rem 0.75rem;
+  font-size: 0.88rem;
+}
+
+.file-preview-panel__meta dt {
+  color: var(--cs-text-muted);
+}
+
+.file-preview-panel__meta dd {
+  margin: 0;
+  /* A long mail address has no break opportunity of its own. */
+  overflow-wrap: anywhere;
+}
+
+.file-preview-panel__hint {
+  margin-top: 1rem;
+  font-size: 0.82rem;
+  color: var(--cs-text-dim);
+}
+

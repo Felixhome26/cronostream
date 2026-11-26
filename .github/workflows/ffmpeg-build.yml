@@ -1,0 +1,59 @@
+# Builds CronoStream's LGPL ffmpeg for Windows (see
+# tools/ffmpeg-build/) and publishes it as a release of this repository.
+# `scripts/fetch-ffmpeg.mjs` downloads it from the public repository, so a
+# release built in the development repository has to be copied there
+# afterwards (publish script, option --ffmpeg-release).
+#
+# Run: push a tag like `ffmpeg-n8.1.3-1` (the tag `fetch-ffmpeg.mjs` asks
+# for), or start it manually (then the zips are only kept as workflow
+# artifacts). Costs Actions minutes on a private repository, so it is only
+# run when ffmpeg is updated. The macOS jobs were removed on purpose (no
+# macOS release planned, macOS minutes cost several times as much);
+# tools/ffmpeg-build/build-macos.sh is still there to bring them back.
+name: Build LGPL ffmpeg
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ["ffmpeg-*"]
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    working-directory: tools/ffmpeg-build
+
+jobs:
+  windows:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y mingw-w64 nasm cmake pkg-config zip
+      - run: ./build-windows.sh
+      # The complete corresponding source (LGPL 2.1 section 6): the exact
+      # upstream sources plus the scripts that turned them into the binaries.
+      - run: ./package-sources.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ffmpeg-windows-x86_64
+          path: tools/ffmpeg-build/dist/*.zip
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: [windows]
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/*.zip \
+            --repo "$GITHUB_REPOSITORY" --title "$GITHUB_REF_NAME" \
+            --notes "LGPL 2.1+ ffmpeg for CronoStream's installers (libvpx, Opus; system H.264/AAC encoders). Licenses inside each zip; complete sources in ffmpeg-sources.zip."

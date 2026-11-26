@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSCameraUsageDescription</key>
+	<string>CronoStream braucht Zugriff auf die Kamera, um Videos aufzunehmen, die du direkt im Zeitstrahl ablegen kannst.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>CronoStream braucht Zugriff auf das Mikrofon, um Audio- und Videoaufnahmen mit Ton zu erstellen, die du direkt im Zeitstrahl ablegen kannst.</string>
+</dict>
+</plist>

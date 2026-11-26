@@ -1,0 +1,165 @@
+/* ---------- Modal (lock / not-a-project prompts) ---------- */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(var(--cs-shadow-rgb), calc(0.74 * var(--cs-backdrop-k)));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.modal-card {
+  width: min(420px, 90vw);
+  /* Caps the card to the viewport and scrolls its own content instead of
+     overflowing past the window — a short/narrow window otherwise clips
+     the bottom of a growing dialog (e.g. Settings) with no way to reach
+     it. */
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto;
+  background-color: var(--cs-surface);
+  border: 1px solid var(--cs-border-strong);
+  border-radius: var(--cs-radius);
+  box-shadow: 0 18px 48px rgba(var(--cs-shadow-rgb), calc(0.7 * var(--cs-shadow-k)));
+  padding: 1.6rem;
+}
+
+.modal-card--wide {
+  width: min(560px, 90vw);
+}
+
+.modal-card__title {
+  margin: 0 0 0.6rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.modal-card__body {
+  margin: 0 0 1.4rem;
+  color: var(--cs-text-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.modal-card__hint {
+  margin: -0.8rem 0 1.4rem;
+  color: var(--cs-text-dim);
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.modal-card__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  /* Stays reachable at the bottom of the viewport while the card's own
+     content scrolls underneath it, instead of scrolling away with a long
+     dialog (e.g. Settings) and leaving no visible way to close it. */
+  position: sticky;
+  bottom: -1.6rem;
+  margin: 0 -1.6rem -1.6rem;
+  padding: 0.8rem 1.6rem;
+  background-color: var(--cs-surface);
+  border-top: 1px solid var(--cs-border);
+}
+
+/* ---------- Datum-ändern-Dialog (Datei-Operationen/Papierkorb) ---------- */
+
+.change-date__bulk {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--cs-border);
+}
+
+.change-date__offset {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--cs-text-dim);
+  white-space: nowrap;
+}
+
+.change-date__offset-input {
+  width: 3.2rem;
+}
+
+.change-date__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-height: 50vh;
+  overflow-y: auto;
+  margin-bottom: 1.2rem;
+}
+
+.change-date__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.6rem 0.7rem;
+  background-color: var(--cs-bg);
+  border: 1px solid var(--cs-border);
+  border-radius: 10px;
+}
+
+.change-date__thumb {
+  flex-shrink: 0;
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 6px;
+  background-color: var(--cs-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.change-date__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.change-date__info {
+  flex: 1 1 10rem;
+  min-width: 0;
+}
+
+.change-date__name {
+  color: var(--cs-text);
+  font-size: 0.88rem;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.change-date__current {
+  color: var(--cs-text-dim);
+  font-size: 0.78rem;
+}
+
+.change-date__input {
+  flex-shrink: 0;
+}
+
+
+/* The app-wide confirm dialog is opened from inside full-screen overlays
+   (file browser 55, viewer 70), so it must sit above them — at 50 it was
+   rendered invisibly behind the file browser. Below the busy pill (95). */
+.modal-overlay.confirm-dialog {
+  z-index: 90;
+}
+
+/* Dialogs opened from inside the settings (z-index 55), e.g. uninstalling:
+   at the plain 50 they opened invisibly behind the settings. */
+.modal-overlay.modal-overlay--above-settings {
+  z-index: 90;
+}

@@ -1,0 +1,18 @@
+/* The app's stylesheet, split by area into src/styles/. The order below is
+   the order the rules always had in one file — later rules win over earlier
+   ones of the same specificity, so it must not change. */
+@import "./styles/base.css"; /* Design tokens, themes, base elements and shared controls. */
+@import "./styles/start-screen.css"; /* Start screen and the copy progress dialog. */
+@import "./styles/dialogs.css"; /* Modals and the change-date dialog. */
+@import "./styles/settings.css"; /* Settings tab: categories, preference rows, scope picker, toggles. */
+@import "./styles/project-shell.css"; /* Project shell: header and workflow rail. */
+@import "./styles/file-browser.css"; /* File browser and its tabs (overview, single image, AI dating, file operations). */
+@import "./styles/timeline.css"; /* Timeline: lanes, tiles, period header and the phase area. */
+@import "./styles/overlays.css"; /* Floating add button, toolbox overlay, detail viewer, cluster cards. */
+@import "./styles/media-players.css"; /* Audio and video players. */
+@import "./styles/menus-and-progress.css"; /* Context menus, progress indicators, drag-in veil, welcome dialog. */
+@import "./styles/dropzone.css"; /* The drop box window and the pending-drops panel. */
+@import "./styles/manage-tabs.css"; /* Print export, search, protocol, backup, duplicates, disk search, delete dialogs, collection. */
+@import "./styles/help-and-dates.css"; /* Help center and the date input. */
+@import "./styles/life-phases.css"; /* Life phases dialog. */
+@import "./styles/start-extras.css"; /* Support link and the start screen toolbar. */

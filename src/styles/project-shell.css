@@ -1,0 +1,213 @@
+/* ---------- Project shell (placeholder for the timeline) ---------- */
+
+.project-shell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  /* Image and veil come from the theme (see the value sets at the top).
+     The veil is not decoration: in dark, the photo's bright nebula patches
+     sit exactly where the top bar and the upper timeline lanes are, and UI
+     text was landing straight on them. Pressing the image to a predictable
+     floor is what lets every layer above keep a known contrast ratio while
+     the image still reads through. */
+  background-image: var(--cs-shell-veil), var(--cs-shell-image);
+  background-size: cover, cover;
+  background-position: center, center;
+  background-attachment: fixed, fixed;
+}
+
+/* Leading/trailing zones, each taking equal flex space so the centred
+   status line stays centred regardless of how many icons sit in either
+   zone. The status line itself is positioned absolutely (see
+   .project-shell__stats) so it never competes with the zones for flex space. */
+.project-shell__topbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem;
+  background-color: var(--cs-scrim);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--cs-border-strong);
+}
+
+.project-shell__topbar-leading,
+.project-shell__topbar-trailing {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.project-shell__topbar-trailing {
+  justify-content: flex-end;
+}
+
+/* Visually separates logical groups within a zone (e.g. workflow-entry
+   icons vs. app-control icons in the trailing zone) via whitespace alone —
+   deliberately no divider line, per the header redesign research. */
+.project-shell__topbar-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.project-shell__topbar-group + .project-shell__topbar-group {
+  margin-left: 0.75rem;
+}
+
+/* Project name: sits left, next to the back button, and shrinks with an
+   ellipsis before it can crowd the centred status line. */
+.project-shell__title {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: min(30vw, 24rem);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-shadow: var(--cs-text-shadow);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Quiet readout of what's in the project, centred independent of the
+   leading/trailing zones' widths so it stays put as the name or the icon
+   groups change size. Never intercepts clicks, in case a narrow window
+   makes it overlap the icons. */
+.project-shell__stats {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  max-width: min(30vw, 28rem);
+  font-size: 0.75rem;
+  color: var(--cs-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+
+/* Set by useStatsLineFit (ProjectShell.tsx) wherever the line would run
+   into the name or the icons. */
+.project-shell__stats--hidden {
+  visibility: hidden;
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 8px;
+  background-color: rgba(var(--cs-overlay-rgb), 0.11);
+  border: 1px solid rgba(var(--cs-overlay-rgb), 0.5);
+  color: var(--cs-text);
+  font-size: 1.1rem;
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.icon-btn:hover,
+.icon-btn:focus-visible {
+  color: var(--cs-text);
+  border-color: var(--cs-border-strong);
+  background-color: var(--cs-surface-hover);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--cs-accent) 28%, transparent);
+  transform: translateY(-1px);
+}
+
+/* Icon glyphs: a touch brighter on the dark bar, and one calm gesture each on
+   hover. Only the glyph moves, never the button frame. */
+.icon-btn__glyph,
+.icon-btn__img {
+  display: inline-block;
+  filter: brightness(1.15) saturate(1.1) drop-shadow(0 0 3px rgba(255, 255, 255, 0.25));
+  transition: transform 0.25s ease;
+}
+.icon-btn:hover [data-anim="turn"] { transform: rotate(90deg); }
+.icon-btn:hover [data-anim="drop"] { transform: translateY(2px); }
+.icon-btn:hover [data-anim="spark"] { transform: scale(1.12) rotate(8deg); }
+.icon-btn:hover [data-anim="tilt"] { transform: rotate(-10deg); }
+.icon-btn:hover [data-anim="zoom"] { transform: scale(1.12); }
+.icon-btn:hover [data-anim="pop"] { transform: scale(1.1); }
+.icon-btn:hover [data-anim="cog"] { transform: rotate(45deg); }
+.icon-btn:hover [data-anim="back"] { transform: translateX(-2px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .icon-btn,
+  .icon-btn__glyph,
+  .icon-btn__img,
+  .support-link .support-link__icon path {
+    transition: none;
+    animation: none !important;
+  }
+  .icon-btn:hover,
+  .icon-btn:hover [data-anim] {
+    transform: none;
+  }
+}
+
+/* The header's "+" echoes the FAB's own look (round, filled accent) rather
+   than the plain outlined icon-btn style every other header icon uses —
+   it's a duplicate of the FAB's action, so it reads as the same button
+   rather than a new, different one. */
+.icon-btn--add {
+  border-radius: 50%;
+  background-color: var(--cs-accent);
+  border-color: var(--cs-accent-edge);
+  color: var(--cs-accent-contrast);
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+/* The mic emoji is near-black by design — on this app's dark theme that
+   leaves it with little contrast on its own (the clapper board emoji for
+   video is colorful enough already). A tinted background (not a CSS color
+   filter, which can't recolor an emoji glyph) gives both record buttons
+   contrast independent of however the emoji itself renders, and doubles as
+   the universal red-means-record cue. */
+.icon-btn--record {
+  background-color: rgba(220, 38, 38, 0.18);
+  border-color: rgba(220, 38, 38, 0.45);
+}
+
+.icon-btn--record:hover {
+  background-color: rgba(220, 38, 38, 0.3);
+  border-color: rgba(220, 38, 38, 0.6);
+}
+
+.icon-btn--add:hover {
+  background-color: var(--cs-accent-hover);
+  border-color: var(--cs-accent-hover);
+  color: var(--cs-accent-contrast);
+}
+
+.fullscreen-exit-btn {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 40;
+  background-color: var(--cs-scrim-strong);
+}
+
+.project-shell__placeholder {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: var(--cs-text-muted);
+  text-align: center;
+  padding: 2rem;
+}
+
+.project-shell__placeholder h2 {
+  color: var(--cs-text);
+  margin: 0;
+}
+

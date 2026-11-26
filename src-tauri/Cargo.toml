@@ -1,0 +1,129 @@
+[package]
+name = "cronostream"
+version = "0.1.0"
+description = "CronoStream - a visual life timeline"
+authors = ["Felix Heck"]
+license = "EUPL-1.2"
+edition = "2021"
+# The maintenance tools are examples/ rather than src/bin/, because the bundler
+# ships every binary target. `cargo run --example regen_thumbnails -- <project>`
+default-run = "cronostream"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+# The `_lib` suffix may seem redundant but it is necessary
+# to make the lib name unique and wouldn't conflict with the bin name.
+# This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
+name = "cronostream_lib"
+# Only `rlib`: CronoStream targets the desktop, `staticlib` and `cdylib` are
+# what Android and iOS link, and each would be built on every release build.
+crate-type = ["rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-opener = "2"
+tauri-plugin-dialog = "2"
+tauri-plugin-clipboard-manager = "2"
+tauri-plugin-drag = "2"
+tauri-plugin-single-instance = "2"
+sys-locale = "0.3"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+rusqlite = { version = "0.32", features = ["bundled"] }
+uuid = { version = "1", features = ["v4"] }
+chrono = { version = "0.4", features = ["serde"] }
+sysinfo = "0.33"
+dirs = "5"
+image = { version = "0.25", default-features = false, features = ["jpeg", "png", "gif", "bmp", "tiff", "webp"] }
+kamadak-exif = "0.5"
+base64 = "0.22"
+fax = "0.2"
+fast_image_resize = { version = "6.1.0", features = ["image"] }
+zip = { version = "9", default-features = false, features = ["deflate"] }
+quick-xml = "0.41"
+rtf-parser = { version = "0.4", default-features = false }
+imageproc = { version = "0.27", default-features = false, features = ["text"] }
+ab_glyph = "0.2"
+tiny_http = "0.12"
+mail-parser = "0.11.9"
+msg_parser = "0.3.6"
+# Only for re-reading a .msg's raw OLE streams directly where msg_parser's
+# own ANSI-string decoding is wrong (see `email::read_ansi_mapi_string`).
+cfb = "0.14"
+ammonia = "4.2.4"
+walkdir = "2"
+blake3 = "1"
+# Password and recovery code hashes of the private mode (see privacy.rs).
+argon2 = { version = "0.5", features = ["std"] }
+# PDF previews and text (see pdf_preview.rs). Loads the PDFium library that
+# scripts/fetch-pdfium.mjs places in src-tauri/pdfium/ — its version must
+# match this crate's `pdfium_latest` API level.
+pdfium-render = "0.9.4"
+ureq = { version = "3", default-features = false, features = ["rustls"] }
+
+# Video thumbnails through the operating system's decoders (native_thumb.rs),
+# and the drop box's autostart in the Run key (desktop_integration.rs).
+# Same versions Tauri already pulls in, so nothing new is built.
+[target.'cfg(windows)'.dependencies]
+# Also the drop target for mails dragged from Outlook (win_drop.rs).
+windows = { version = "0.62", features = [
+  "Win32_Foundation",
+  "Win32_System_Registry",
+  "Win32_Media_MediaFoundation",
+  "Win32_System_Com",
+  "Win32_System_Com_StructuredStorage",
+  "Win32_System_Variant",
+  "Win32_UI_Shell",
+  "Win32_System_Ole",
+  "Win32_System_Memory",
+  "Win32_System_DataExchange",
+  "Win32_System_SystemServices",
+  "Win32_Graphics_Gdi",
+  "Win32_Globalization",
+  "Win32_UI_WindowsAndMessaging",
+] }
+# `#[implement]` (the COM drop target) refers to it by name.
+windows-core = "0.62"
+
+[target.'cfg(target_os = "macos")'.dependencies]
+objc2-av-foundation = { version = "0.3", features = ["AVAsset", "AVAssetImageGenerator", "objc2-core-media", "objc2-core-graphics", "objc2-core-foundation"] }
+objc2-core-media = { version = "0.3", features = ["CMTime"] }
+objc2-core-graphics = { version = "0.3", features = ["CGImage", "CGContext", "CGBitmapContext", "CGColorSpace"] }
+objc2-core-foundation = { version = "0.3", features = ["CFCGTypes"] }
+objc2-foundation = { version = "0.3", features = ["NSString", "NSURL", "NSError"] }
+
+[target.'cfg(not(target_os = "linux"))'.dependencies]
+# AppIndicator (what Tauri's tray uses on Linux) never reports clicks, so
+# Linux gets its own StatusNotifierItem via ksni instead (see lib.rs).
+tauri = { version = "2", features = ["tray-icon"] }
+
+[target.'cfg(target_os = "linux")'.dependencies]
+gtk = "0.18"
+base64 = "0.22"
+ksni = { version = "0.3.7", features = ["blocking"] }
+
+
+# Read the optimization guideline for more details: https://tauri.app/concept/size/#cargo-configuration
+# Nur die Abhängigkeiten, nicht dieses Crate selbst: JPEG-Dekodierung
+# (`image`/`zune-jpeg`) und die SIMD-Skalierung (`fast_image_resize`) sind
+# unoptimiert ein bis zwei Größenordnungen langsamer — im Debug-Build fällt
+# die Vektorisierung weg und jeder Pixelzugriff behält seine Bounds-Checks,
+# was eine 24-MP-Vorschau von unter einer Sekunde auf zweistellige Sekunden
+# streckt. `cronostream` selbst bleibt bei opt-level 0, damit die
+# Neuübersetzung nach einer Codeänderung so schnell bleibt wie bisher und
+# Backtraces brauchbar sind; die Abhängigkeiten werden einmalig gebaut.
+[profile.dev.package."*"]
+opt-level = 3
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = 3
+# No `panic = "abort"`: the app runs many third-party file parsers in
+# process, and one broken file must fail on its own (see `safe_io::catch_panic`)
+# rather than kill the app in the middle of a write.
+strip = true

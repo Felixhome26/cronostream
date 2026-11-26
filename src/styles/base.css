@@ -1,0 +1,304 @@
+/* Two value sets for the same --cs-* names. Dark is the default (`:root`),
+   so a page whose head script never ran still renders dark as it always
+   has. `[data-theme="dark"]` on a descendant re-declares the whole dark set
+   for that subtree: that is how the viewer controls and the labels sitting
+   on photos stay dark inside the light theme. Contrast ratios for every
+   value are worked out in docs/theme-hell-plan.md. */
+:root,
+[data-theme="dark"],
+/* Dark islands inside the light theme: the viewer's controls and the video
+   stage, the live camera picture, and every label that sits on a photo or
+   thumbnail. Photos read best against dark, and these labels sit on
+   black plates of their own. */
+.viewer-nav-arrow,
+.video-player,
+.record-modal__live,
+.record-modal__overlay-hint,
+.timeline-tile__label,
+.pile-hero__label,
+.file-tile__badge,
+.single-view__added,
+.viewer-card__timestamp,
+.peek__label,
+.pending-tile__remove,
+.diary-attachment__remove {
+  /* Not pure black: a hair of lift is what lets the surface steps below
+     read as actual elevation instead of all collapsing into "dark". */
+  --cs-bg: #0a0a0e;
+  --cs-surface: #1e1e26;
+  --cs-surface-hover: #2b2b36;
+  /* Panels that float over the project background photo. Opaque enough
+     that text never sits on the image itself, translucent enough that the
+     photo still shows through — that is the whole "dezent" effect, just
+     with a readable floor under it. */
+  --cs-scrim: rgba(10, 10, 15, 0.78);
+  --cs-scrim-strong: rgba(8, 8, 12, 0.9);
+  /* The faintest plate: marks off a band of the timeline (the phase area)
+     without hiding the photo behind it. Never carries text on its own. */
+  --cs-scrim-soft: rgba(8, 8, 12, 0.38);
+
+  /* 0.34, not the old 0.18: below roughly a third the alpha, a hairline
+     rule against these surfaces falls under the 3:1 that non-text UI needs
+     to be perceivable at all, and panel edges simply were not there. */
+  --cs-border: rgba(255, 255, 255, 0.34);
+  --cs-border-strong: rgba(255, 255, 255, 0.62);
+
+  --cs-text: #f7f7f2;
+  /* Secondary text — still clearly quieter than --cs-text, but readable
+     over the surface colours and over the background photo. */
+  --cs-text-muted: rgba(247, 247, 242, 0.88);
+  /* Tertiary: hints, counters, lane labels. The only tier allowed to be
+     genuinely faint, and never used for anything the user must read. */
+  --cs-text-dim: rgba(247, 247, 242, 0.72);
+  --cs-accent: #efb751;
+  --cs-accent-hover: #ffcd6e;
+  --cs-accent-contrast: #1a1200;
+  --cs-danger: #ff6b5e;
+  /* Vivid, more saturated than --cs-danger — used only for the marked-tile
+     ring in Datei-Operationen/Papierkorb, where it needs to read as a
+     strong "selected" colour rather than the softer destructive-action
+     coral. */
+  --cs-vivid-red: #ff2d2d;
+  /* The active-tile ring (file manager / Datei-Operationen / Papierkorb):
+     deliberately not the accent gold, which already means "marked for a
+     batch action", and no longer green, which means "success" — warm white
+     reads as a neutral "this one is in the preview" cue, distinct from
+     gold, red and the blue focus ring. */
+  --cs-active-ring: #f7f7f2;
+  /* Confirmations ("gespeichert"). The green the preview ring used to carry. */
+  --cs-success: #6fe08a;
+  /* Keyboard focus. Not the accent gold: that already marks buttons,
+     selected segments and batch marks, so focus got lost among them. */
+  --cs-focus-ring: #38bdf8;
+  --cs-radius: 14px;
+  /* Lifts text off a photographic / thumbnail backdrop without needing an
+     opaque plate behind every label. */
+  --cs-text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+
+  /* Gold used as a foreground (text, side stripes, rings on a plain
+     background). Same as the accent here; the light theme needs a much
+     darker bronze, because gold on cream is under 2:1. */
+  --cs-accent-fg: #efb751;
+  /* Hairline edge around gold fills and gold rings. Invisible on dark,
+     where gold already stands out; on cream it carries the 3:1. */
+  --cs-accent-edge: transparent;
+  /* Text on a --cs-danger fill. */
+  --cs-danger-contrast: #1b0502;
+  /* Warnings. Never gold or ochre: gold means "marked for a batch action". */
+  --cs-warning: #e5484d;
+  /* Colour (as an "r, g, b" triplet) of every faint lightening and of every
+     shadow, used as rgba(var(--cs-overlay-rgb), 0.04) so each place keeps
+     its own alpha. The factors scale shadow and backdrop alphas per theme. */
+  --cs-overlay-rgb: 255, 255, 255;
+  --cs-shadow-rgb: 0, 0, 0;
+  --cs-shadow-k: 1;
+  --cs-backdrop-k: 1;
+  /* Year lines on the timeline: plain ones are orientation only, the major
+     ones carry the 3:1+ of a real graphic. */
+  --cs-marker-line: rgba(255, 255, 255, 0.2);
+  --cs-marker-line-major: rgba(255, 255, 255, 0.45);
+  --cs-switch-knob-off: #d8d8d2;
+  /* Rows the AI review left unchanged. */
+  --cs-tint-unchanged: rgba(130, 240, 200, 0.26);
+  /* The support (coffee cup) link. */
+  --cs-support: #f1d9a8;
+  --cs-support-strong: #ffe9bd;
+  /* AI confidence: high / medium / low. */
+  --cs-conf-high: #8fe9aa;
+  --cs-conf-medium: #f2d784;
+  --cs-conf-low: #f4a977;
+  /* Project background: the photo plus the veil that gives every layer
+     above it a predictable floor (see .project-shell). */
+  --cs-shell-veil: linear-gradient(rgba(6, 6, 10, 0.72), rgba(6, 6, 10, 0.58) 40%, rgba(6, 6, 10, 0.78));
+  --cs-shell-image: url("/app_background.jpg");
+
+  color-scheme: dark;
+}
+
+/* Text colour is inherited, so an island has to restate it, or it would
+   carry the light theme's ink onto its black plate. First in the file so
+   each island's own color rule still wins. */
+[data-theme="dark"],
+.viewer-nav-arrow,
+.video-player,
+.record-modal__live,
+.record-modal__overlay-hint,
+.timeline-tile__label,
+.pile-hero__label,
+.file-tile__badge,
+.single-view__added,
+.viewer-card__timestamp,
+.peek__label,
+.pending-tile__remove,
+.diary-attachment__remove {
+  color: var(--cs-text);
+}
+
+/* Warm paper. Lines and text tiers are solid enough to hold their ratios
+   against the darkest spot of the paper texture, not just its average. */
+[data-theme="light"] {
+  --cs-bg: #f2ece0;
+  --cs-surface: #faf6ef;
+  --cs-surface-hover: #efe6d8;
+  /* Lighter than the paper, the reverse of the dark plates; the plates'
+     own border-bottom (--cs-border-strong) is what marks their edge. */
+  --cs-scrim: rgba(250, 246, 239, 0.82);
+  --cs-scrim-strong: rgba(250, 246, 239, 0.92);
+  --cs-scrim-soft: rgba(250, 246, 239, 0.45);
+
+  --cs-border: rgba(60, 45, 30, 0.55);
+  --cs-border-strong: rgba(60, 45, 30, 0.72);
+
+  --cs-text: #2a241e;
+  --cs-text-muted: #594f43;
+  --cs-text-dim: #685c4d;
+  --cs-accent: #efb751;
+  /* Darker on hover here: a lighter gold would vanish into the cream. */
+  --cs-accent-hover: #df9f38;
+  --cs-accent-contrast: #1a1200;
+  --cs-danger: #b3261e;
+  --cs-vivid-red: #c81e1e;
+  /* Ink: the light counterpart of the warm-white preview ring. */
+  --cs-active-ring: #2a241e;
+  --cs-success: #17753a;
+  --cs-focus-ring: #0277b6;
+  /* A light halo instead of a dark shadow: dark text on paper needs lifting
+     off the texture, not darkening. */
+  --cs-text-shadow: 0 0 3px rgba(250, 246, 239, 0.9);
+
+  --cs-accent-fg: #7d5400;
+  --cs-accent-edge: #7d5400;
+  --cs-danger-contrast: #ffffff;
+  /* Rust, well away from the bronze accent. */
+  --cs-warning: #a33b12;
+  --cs-overlay-rgb: 60, 45, 30;
+  --cs-shadow-rgb: 60, 45, 30;
+  --cs-shadow-k: 0.3;
+  --cs-backdrop-k: 0.55;
+  --cs-marker-line: rgba(60, 45, 30, 0.3);
+  --cs-marker-line-major: rgba(60, 45, 30, 0.6);
+  --cs-switch-knob-off: #7a6e5e;
+  --cs-tint-unchanged: rgba(30, 140, 100, 0.16);
+  --cs-support: #6e4f1f;
+  --cs-support-strong: #4f3812;
+  --cs-conf-high: #1e7a3c;
+  --cs-conf-medium: #6e6200;
+  --cs-conf-low: #9c4410;
+  /* Only a breath of veil: the paper is even, and a heavy veil would flatten
+     its texture to almost nothing. */
+  --cs-shell-veil: linear-gradient(rgba(251, 245, 231, 0.15), rgba(251, 245, 231, 0.1) 40%, rgba(251, 245, 231, 0.2));
+  --cs-shell-image: url("/app_background_light.jpg");
+
+  color-scheme: light;
+}
+
+:root {
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--cs-text);
+  background-color: var(--cs-bg);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background-color: var(--cs-bg);
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* One visible focus ring for everything. Keyboard focus was previously
+   indicated by the browser default only, which on this dark palette is
+   nearly invisible. */
+:where(button, a, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--cs-focus-ring);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--cs-accent);
+  color: var(--cs-accent-contrast);
+}
+
+/* The webview's default dark scrollbar is a barely-there grey on grey —
+   in long lists (folder tree, review tables) there was no visible cue that
+   the area scrolls at all. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--cs-overlay-rgb), 0.34) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(var(--cs-overlay-rgb), 0.28);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(var(--cs-overlay-rgb), 0.5);
+}
+
+.crash-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem;
+  text-align: center;
+  background-color: var(--cs-bg);
+  color: var(--cs-text);
+}
+
+.crash-screen__detail {
+  max-width: 600px;
+  white-space: pre-wrap;
+  color: var(--cs-text-muted);
+  font-size: 0.85rem;
+  background: var(--cs-surface);
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius);
+  padding: 1rem;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--cs-bg);
+}
+

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "CronoStream",
+  "version": "0.1.0",
+  "identifier": "com.felixheck.cronostream",
+  "build": {
+    "beforeDevCommand": "node scripts/fetch-pdfium.mjs && node scripts/fetch-ffmpeg.mjs && npm run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "node scripts/fetch-pdfium.mjs && node scripts/fetch-ffmpeg.mjs && npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "create": false,
+        "title": "CronoStream",
+        "width": 1280,
+        "height": 800,
+        "fullscreen": false,
+        "maximized": true,
+        "backgroundColor": "#0a0a0e"
+      }
+    ],
+    "security": {
+      "csp": {
+        "default-src": "'self'",
+        "script-src": "'self'",
+        "style-src": "'self' 'unsafe-inline'",
+        "img-src": "'self' data: blob: http://127.0.0.1:*",
+        "media-src": "'self' blob: mediastream: http://127.0.0.1:*",
+        "connect-src": "'self' ipc: http://ipc.localhost",
+        "font-src": "'self' data:",
+        "object-src": "'none'",
+        "base-uri": "'self'",
+        "form-action": "'none'"
+      },
+      "dangerousDisableAssetCspModification": ["style-src"]
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "license": "EUPL-1.2",
+    "copyright": "© 2026 Felix Heck",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "resources": {
+      "pdfium/": "pdfium/"
+    },
+    "linux": {
+      "appimage": {
+        "bundleMediaFramework": true
+      }
+    }
+  }
+}
