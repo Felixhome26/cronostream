@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { invoke } from "../../busy";
-import { t } from "../../i18n";
+import { t, tn } from "../../i18n";
 import { useProgress } from "../../ProgressContext";
 import { useToast } from "../../ToastContext";
 import type { DuplicateGroup } from "../../types";
@@ -54,9 +54,9 @@ export default function DuplicatesTab({ onDuplicatesFound }: Props) {
         setDuplicateResult({ text: t("browser.duplicates.none"), ids: [] });
       } else {
         const duplicateItemCount = groups.reduce((sum, group) => sum + group.item_ids.length, 0);
-        const text = t("browser.duplicates.found")
-          .replace("{count}", String(duplicateItemCount))
-          .replace("{groups}", String(groups.length));
+        const text = tn(duplicateItemCount, "browser.duplicates.found", {
+          groups: tn(groups.length, "browser.duplicates.groupCount"),
+        });
         setDuplicateResult({ text, ids: groups.flatMap((group) => group.item_ids) });
         showToast(
           text,
@@ -91,7 +91,7 @@ export default function DuplicatesTab({ onDuplicatesFound }: Props) {
         setSimilarResult({ text: t("browser.similar.none"), ids: [] });
       } else {
         const count = groups.reduce((sum, group) => sum + group.item_ids.length, 0);
-        const text = t("browser.similar.found").replace("{count}", String(count)).replace("{groups}", String(groups.length));
+        const text = tn(count, "browser.similar.found", { groups: tn(groups.length, "browser.duplicates.groupCount") });
         setSimilarResult({ text, ids: groups.flatMap((group) => group.item_ids) });
         showToast(text, {
           durationMs: 8000,

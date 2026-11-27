@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { invoke } from "../../busy";
 import { open as openDialog } from "@tauri-apps/plugin-dialog";
-import { t } from "../../i18n";
+import { t, tn } from "../../i18n";
 import type { ReplacementMatch, ReplacementScan } from "../../types";
 import { formatBytes } from "../DeleteStreamDialog";
 
@@ -107,7 +107,7 @@ export default function ReplaceFilesDialog({ onCancel, onConfirm }: Props) {
             <p className="modal-card__body">
               {scan.matches.length === 0
                 ? t("replace.noMatches")
-                : `${scan.matches.length} ${t("replace.foundOf")} ${scan.checkedItems} (${scan.folderFiles} ${t("replace.folderFiles")})`}
+                : `${tn(scan.matches.length, "replace.foundOf")} ${scan.checkedItems} (${tn(scan.folderFiles, "replace.folderFiles")})`}
             </p>
             {scan.matches.length > 0 && (
               <div className="replace-dialog__list">
@@ -153,7 +153,7 @@ export default function ReplaceFilesDialog({ onCancel, onConfirm }: Props) {
             )}
             {withoutSource > 0 && (
               <p className="replace-dialog__warn">
-                {withoutSource} {t("replace.noSourceSummary")}
+                {tn(withoutSource, "replace.noSourceSummary")}
               </p>
             )}
             <div className="modal-card__actions">
@@ -174,7 +174,7 @@ export default function ReplaceFilesDialog({ onCancel, onConfirm }: Props) {
                   )
                 }
               >
-                {`${selectedCount} ${t("replace.confirm")}`}
+                {tn(selectedCount, "replace.confirm")}
               </button>
             </div>
           </>

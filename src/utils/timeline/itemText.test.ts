@@ -39,15 +39,15 @@ describe("sizes and dates", () => {
   it("writes file sizes with one decimal below ten", () => {
     expect(formatMetaSize(null)).toBeNull();
     expect(formatMetaSize(512)).toBe("512 B");
-    expect(formatMetaSize(1536)).toBe("1.5 KB");
+    expect(formatMetaSize(1536)).toBe("1,5 KB");
     expect(formatMetaSize(20 * 1024 * 1024)).toBe("20 MB");
-    expect(formatMetaSize(5 * 1024 ** 4)).toBe("5120 GB");
+    expect(formatMetaSize(5 * 1024 ** 4)).toBe("5,0 TB");
   });
 
   it("writes attachment sizes", () => {
     expect(formatAttachmentSize(999)).toBe("999 B");
     expect(formatAttachmentSize(1536)).toBe("2 KB");
-    expect(formatAttachmentSize(3.25 * 1024 * 1024)).toBe("3.3 MB");
+    expect(formatAttachmentSize(3.25 * 1024 * 1024)).toBe("3,3 MB");
   });
 
   it("keeps missing dates missing", () => {

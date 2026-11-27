@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { invoke } from "../../busy";
-import { t } from "../../i18n";
+import { t, tn } from "../../i18n";
 import { useFileDragOut } from "../../hooks/useFileDragOut";
 import { useToast } from "../../ToastContext";
 import RevealInFolderItems from "./RevealInFolderItems";
@@ -497,7 +497,7 @@ export default function SingleImageView({
             {picks.count > 0 && (
               <>
                 <span className="single-view__count">
-                  {picks.count} {t("browser.singleView.pickedBadge")}
+                  {tn(picks.count, "browser.singleView.pickedBadge")}
                 </span>
                 <button className="btn btn--primary" onClick={() => setReviewOpen(true)}>
                   {t("browser.insertButton")}

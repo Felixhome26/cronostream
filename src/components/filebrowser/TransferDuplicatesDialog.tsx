@@ -1,4 +1,4 @@
-import { t } from "../../i18n";
+import { t, tn } from "../../i18n";
 import type { TransferDuplicate } from "../../types";
 
 interface Props {
@@ -21,7 +21,9 @@ export default function TransferDuplicatesDialog({ mode, total, targetName, dupl
       <div className="modal-card modal-card--wide replace-dialog" role="dialog" aria-modal="true">
         <h2 className="modal-card__title">{t("transfer.duplicatesTitle")}</h2>
         <p className="modal-card__body">
-          {duplicates.length} {t("transfer.duplicatesOf")} {total} {t("transfer.duplicatesIntro")} {targetName}.
+          {total === 1
+            ? tn(1, "transfer.duplicatesSummarySingle", { target: targetName })
+            : tn(duplicates.length, "transfer.duplicatesSummary", { total, target: targetName })}
         </p>
         <div className="replace-dialog__list">
           {duplicates.map((d) => (

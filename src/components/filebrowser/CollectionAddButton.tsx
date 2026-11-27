@@ -3,7 +3,7 @@ import { invoke, runBusy } from "../../busy";
 import type { AddItemsResult } from "../../types";
 import type { PathCollection } from "../../hooks/useCollection";
 import type { PickedList } from "../../hooks/usePickedList";
-import { t } from "../../i18n";
+import { t, tn } from "../../i18n";
 import { useToast } from "../../ToastContext";
 import { notifyDuplicatesFound } from "../../utils/duplicateImportToast";
 import { datedPathFor, ensureDateInfos, forgetDateChoices } from "../../utils/dateChoices";
@@ -188,7 +188,7 @@ export default function CollectionAddButton({
           <div className="modal-card modal-card--wide" onMouseDown={(ev) => ev.stopPropagation()}>
             <h3 className="modal-card__title">{t("browser.collect.title")}</h3>
             <p className="modal-card__body">
-              {paths.length} {t("browser.collect.explain")}
+              {tn(paths.length, "browser.collect.explain")}
             </p>
             <div className="collect-list">
               {paths.map((p) => (

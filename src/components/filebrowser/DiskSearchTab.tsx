@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { invoke } from "../../busy";
 import { listen } from "@tauri-apps/api/event";
-import { t } from "../../i18n";
+import { t, tn } from "../../i18n";
 import { useToast } from "../../ToastContext";
 import type {
   DiskSearchDonePayload,
@@ -374,7 +374,7 @@ export default function DiskSearchTab({
       } else if (event.payload.cancelled) {
         showToast(t("diskSearch.cancelledToast"));
       } else {
-        showToast(`${event.payload.hits.length} ${t("diskSearch.doneToastSuffix")}`);
+        showToast(tn(event.payload.hits.length, "diskSearch.doneToastSuffix"));
         // A completed, non-cancelled search always leaves an index behind
         // for this root — either it already existed (cache hit) or the
         // walk just built and saved one — so the toggle becomes available
@@ -423,17 +423,17 @@ export default function DiskSearchTab({
     ? `${phaseLabel}${
         progress
           ? progress.phase === "counting"
-            ? `: ${progress.done} ${t("diskSearch.countingFoundSuffix")}`
+            ? `: ${tn(progress.done, "diskSearch.countingFoundSuffix")}`
             : `: ${progress.current_action} (${progress.done}/${progress.total})`
           : "…"
       }${etaText ? ` — ${t("diskSearch.etaSuffix")} ${etaText}` : ""}`
     : null;
   const hiddenParts = [
-    withinResultsDuplicatesRemoved > 0 ? `${withinResultsDuplicatesRemoved} ${t("diskSearch.duplicatesRemovedSuffix")}` : null,
-    alreadyInProjectHidden > 0 ? `${alreadyInProjectHidden} ${t("diskSearch.alreadyInProjectHiddenSuffix")}` : null,
+    withinResultsDuplicatesRemoved > 0 ? tn(withinResultsDuplicatesRemoved, "diskSearch.duplicatesRemovedSuffix") : null,
+    alreadyInProjectHidden > 0 ? tn(alreadyInProjectHidden, "diskSearch.alreadyInProjectHiddenSuffix") : null,
   ].filter((part): part is string => part !== null);
   const resultsText = hits
-    ? `${hits.length} ${t("diskSearch.resultsCount")}${hiddenParts.length > 0 ? ` (${hiddenParts.join(", ")})` : ""}`
+    ? `${tn(hits.length, "diskSearch.resultsCount")}${hiddenParts.length > 0 ? ` (${hiddenParts.join(", ")})` : ""}`
     : null;
 
   // `FileTileGrid` expects the same shape the folder browser already

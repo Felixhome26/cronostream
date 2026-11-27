@@ -1,4 +1,4 @@
-import { t } from "../../i18n";
+import { t, tn } from "../../i18n";
 
 interface Props {
   count: number;
@@ -12,7 +12,7 @@ export default function SelectionBar({ count, onEdit, onClear }: Props) {
   return (
     <div className="timeline-selection-bar">
       <span className="timeline-selection-bar__count">
-        {count} {t("timeline.selectionCountSuffix")}
+        {tn(count, "timeline.selectionCountSuffix")}
       </span>
       <button className="btn btn--primary" onClick={onEdit}>
         🔧 {t("timeline.selectionEditButton")}

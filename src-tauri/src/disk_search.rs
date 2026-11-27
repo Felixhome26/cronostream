@@ -501,7 +501,7 @@ fn get_or_build_index(
     let total = count_entries(root, |found, current_name| on_scan_progress(found, 0, current_name));
     if total > MAX_INDEX_ENTRIES {
         return Err(crate::trf!(
-            "Dieser Ordner enthält mehr als {MAX_INDEX_ENTRIES} Dateien — das ist zu groß, um ihn auf einmal zu durchsuchen. Bitte einen spezifischeren Unterordner wählen.",
+            "Dieser Ordner enthält mehr als {MAX_INDEX_ENTRIES} Dateien – zu viele, um ihn auf einmal zu durchsuchen. Bitte einen spezifischeren Unterordner wählen.",
             MAX_INDEX_ENTRIES = MAX_INDEX_ENTRIES
         ));
     }

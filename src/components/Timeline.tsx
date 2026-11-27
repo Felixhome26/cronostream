@@ -21,7 +21,7 @@ import type {
   ViewerNavMode,
   ViewerNavType,
 } from "../types";
-import { currentLanguage, t, type Language } from "../i18n";
+import { currentLanguage, t, type Language, tn } from "../i18n";
 import { canWebviewDecode, decodedOriginalUrl, fileUrl, loadMediaServerInfo, mediaUrl, type MediaServerInfo } from "../utils/mediaServer";
 import WildcardIcon from "./WildcardIcon";
 import { useFileDragOut } from "../hooks/useFileDragOut";
@@ -4597,7 +4597,7 @@ export default function Timeline({
       {invalidDateCount > 0 && (
         // Moves out from under the search bar, which claims the same corner.
         <div className={"timeline__notice" + (searchOpen ? " timeline__notice--shifted" : "")}>
-          ⚠ {invalidDateCount} {t("timeline.invalidDates")}
+          ⚠ {tn(invalidDateCount, "timeline.invalidDates")}
         </div>
       )}
       {showLoadingSpinner ? (

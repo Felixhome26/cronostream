@@ -377,7 +377,7 @@ pub async fn copy_project_items_to_folder(
             let dest_path = unique_dest_path(dest_dir, stem, ext);
 
             crate::safe_io::copy_durably(std::path::Path::new(&stored_path), &dest_path)
-                .map_err(|e| crate::trf!("Konnte '{original_filename}' nicht kopieren: {e}", original_filename = original_filename, e = e))?;
+                .map_err(|e| crate::trf!("Konnte „{original_filename}“ nicht kopieren: {e}", original_filename = original_filename, e = e))?;
             copied += 1;
             crate::progress::emit_progress(&app, &operation_id, done + 1, total, &original_filename);
         }

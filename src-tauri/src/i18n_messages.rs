@@ -13,6 +13,14 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
         "“{path}” contains too many entries including its subfolders to be watched.",
         "«{path}» contiene demasiadas entradas con todas sus subcarpetas para vigilarla.",
     ),
+    (
+        "Anhang „{name}“ hat weder Pfad noch Daten.",
+        "Attachment “{name}” has neither a path nor data.",
+        "El adjunto «{name}» no tiene ni ruta ni datos.",
+    ),
+    ("Größe: {size}", "Size: {size}", "Tamaño: {size}"),
+    ("Erstellt: {date}", "Created: {date}", "Creado: {date}"),
+    ("Geändert: {date}", "Modified: {date}", "Modificado: {date}"),
     ("CronoStream – Ablage", "CronoStream – Drop box", "CronoStream – Bandeja"),
     ("Ablage öffnen", "Open drop box", "Abrir bandeja"),
     ("Beenden", "Quit", "Salir"),
@@ -27,12 +35,12 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
         "AVFoundation: sin espacio de color",
     ),
     (
-        "Anlage nicht gefunden.",
+        "Anhang nicht gefunden.",
         "Attachment not found.",
         "No se encontró el adjunto.",
     ),
     (
-        "Anlage {number}",
+        "Anhang {number}",
         "Attachment {number}",
         "Adjunto {number}",
     ),
@@ -68,8 +76,8 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
     ),
     (
         "Das Gerät liefert keine Daten.",
-        "The device delivers no data.",
-        "El dispositivo no entrega datos.",
+        "The device is not delivering any data.",
+        "El dispositivo no envía datos.",
     ),
     (
         "Der Stream wurde während des Vorgangs geschlossen.",
@@ -83,7 +91,7 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
     ),
     (
         "Das Rückgängigmachen würde Phasen überschneiden lassen: {pairs}. Überlappung ist in „{group}“ nicht erlaubt.",
-        "Undoing this would make phases overlap: {pairs}. Overlap is not allowed in \"{group}\".",
+        "Undoing this would make phases overlap: {pairs}. Overlap is not allowed in “{group}”.",
         "Deshacer esto haría que las fases se solaparan: {pairs}. En «{group}» no se permite el solapamiento.",
     ),
     (
@@ -97,8 +105,8 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
         "El destino no tiene carpeta superior.",
     ),
     (
-        "Das Ziel liegt im Quellordner selbst — die Kopie würde sich dort endlos selbst kopieren. Bitte einen Ort außerhalb wählen.",
-        "The destination is inside the source folder itself — the copy would keep copying itself endlessly. Please choose a location outside it.",
+        "Das Ziel liegt im Quellordner selbst – die Kopie würde sich dort endlos selbst kopieren. Bitte einen Ort außerhalb wählen.",
+        "The destination is inside the source folder itself – the copy would keep copying itself endlessly. Please choose a location outside it.",
         "El destino está dentro de la propia carpeta de origen: la copia se copiaría a sí misma sin fin. Elegir una ubicación fuera de ella.",
     ),
     (
@@ -153,8 +161,8 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
     ),
     (
         "Der Themenbereich „{name}“ ist entfernt. Zuerst muss das Entfernen rückgängig gemacht werden.",
-        "The topic area \"{name}\" has been removed. Its removal has to be undone first.",
-        "El área temática «{name}» se ha quitado. Primero hay que deshacer su eliminación.",
+        "The topic area “{name}” has been removed. Its removal has to be undone first.",
+        "El área temática «{name}» se ha quitado. Primero hay que deshacer su retirada.",
     ),
     (
         "Der Titel",
@@ -203,7 +211,7 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
     ),
     (
         "Die Installation wurde abgebrochen (keine Berechtigung erteilt).",
-        "The installation was cancelled (no permission granted).",
+        "The installation was canceled (no permission granted).",
         "La instalación se canceló (no se concedió permiso).",
     ),
     (
@@ -213,7 +221,7 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
     ),
     (
         "Die Originaldatei von „{label}“ liegt nicht mehr im Quellordner. Das Ersetzen kann nicht rückgängig gemacht werden.",
-        "The original file of \"{label}\" is no longer in the source folder. The replacement cannot be undone.",
+        "The original file of “{label}” is no longer in the source folder. The replacement cannot be undone.",
         "El archivo original de «{label}» ya no está en la carpeta de origen. La sustitución no se puede deshacer.",
     ),
     (
@@ -228,12 +236,12 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
     ),
     (
         "Die Phase „{label}“ ist entfernt. Zuerst muss das Entfernen rückgängig gemacht werden.",
-        "The phase \"{label}\" has been removed. Its removal has to be undone first.",
-        "La fase «{label}» se ha quitado. Primero hay que deshacer su eliminación.",
+        "The phase “{label}” has been removed. Its removal has to be undone first.",
+        "La fase «{label}» se ha quitado. Primero hay que deshacer su retirada.",
     ),
     (
         "Die Phasen von „{group}“ würden sich überschneiden: {pairs}.",
-        "The phases of \"{group}\" would overlap: {pairs}.",
+        "The phases of “{group}” would overlap: {pairs}.",
         "Las fases de «{group}» se solaparían: {pairs}.",
     ),
     (
@@ -264,7 +272,7 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
     (
         "Diese Suche läuft nicht (mehr).",
         "This search is not running (anymore).",
-        "Esta búsqueda no está en curso (ya).",
+        "Esta búsqueda ya no está en curso.",
     ),
     (
         "Diese Textdatei konnte nicht gelesen werden.",
@@ -292,19 +300,19 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
         "Esta carpeta no contiene ningún stream.",
     ),
     (
-        "Dieser Ordner enthält mehr als {MAX_INDEX_ENTRIES} Dateien — das ist zu groß, um ihn auf einmal zu durchsuchen. Bitte einen spezifischeren Unterordner wählen.",
-        "This folder contains more than {MAX_INDEX_ENTRIES} files — too many to search at once. Please choose a more specific subfolder.",
+        "Dieser Ordner enthält mehr als {MAX_INDEX_ENTRIES} Dateien – zu viele, um ihn auf einmal zu durchsuchen. Bitte einen spezifischeren Unterordner wählen.",
+        "This folder contains more than {MAX_INDEX_ENTRIES} files – too many to search at once. Please choose a more specific subfolder.",
         "Esta carpeta contiene más de {MAX_INDEX_ENTRIES} archivos: demasiados para buscar de una vez. Elegir una subcarpeta más concreta.",
     ),
     (
-        "Dieser Ordner enthält mit allen Unterordnern mehr als {MAX_WALK_ENTRIES} Dateien — das ist zu groß, um alles auf einmal anzuzeigen. Bitte den Toggle ausschalten oder einen spezifischeren Unterordner wählen.",
-        "Including all subfolders, this folder contains more than {MAX_WALK_ENTRIES} files — too many to show at once. Please turn the switch off or choose a more specific subfolder.",
-        "Con todas sus subcarpetas, esta carpeta contiene más de {MAX_WALK_ENTRIES} archivos: demasiados para mostrarlos de una vez. Desactivar el interruptor o elegir una subcarpeta más concreta.",
+        "Dieser Ordner enthält mit allen Unterordnern mehr als {MAX_WALK_ENTRIES} Dateien – zu viele, um alles auf einmal anzuzeigen. Bitte „Dateien in Unterordnern anzeigen“ ausschalten oder einen spezifischeren Unterordner wählen.",
+        "Including all subfolders, this folder contains more than {MAX_WALK_ENTRIES} files – too many to show at once. Please turn off “Show files in subfolders” or choose a more specific subfolder.",
+        "Con todas sus subcarpetas, esta carpeta contiene más de {MAX_WALK_ENTRIES} archivos: demasiados para mostrarlos de una vez. Desactivar «Mostrar archivos de subcarpetas» o elegir una subcarpeta más concreta.",
     ),
     (
         "Dieser Ordner existiert nicht (mehr).",
         "This folder does not exist (anymore).",
-        "Esta carpeta no existe (ya).",
+        "Esta carpeta ya no existe.",
     ),
     (
         "Dieser Ordner gehört zu CronoStream selbst und wird nicht gelöscht.",
@@ -319,7 +327,7 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
     (
         "Dieser Pfad gehört nicht zum Aufnahme-Zwischenspeicher.",
         "This path does not belong to the recording cache.",
-        "Esta ruta no pertenece a la memoria temporal de grabación.",
+        "Esta ruta no pertenece a la caché de grabación.",
     ),
     (
         "Dieser Protokolleintrag existiert nicht mehr.",
@@ -334,7 +342,7 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
     (
         "Dieser Vorgang läuft nicht (mehr).",
         "This operation is not running (anymore).",
-        "Esta operación no está en curso (ya).",
+        "Esta operación ya no está en curso.",
     ),
     (
         "Dieser Zielordner existiert nicht.",
@@ -347,7 +355,7 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
         "Este stream eliminado ya no está disponible.",
     ),
     (
-        "Dieses Backup-Ziel existiert bereits. Bitte erneut versuchen.",
+        "Dieses Sicherungsziel existiert bereits. Bitte erneut versuchen.",
         "This backup destination already exists. Please try again.",
         "Este destino de copia de seguridad ya existe. Volver a intentarlo.",
     ),
@@ -363,7 +371,7 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
     ),
     (
         "Ein unvollständiger früherer Versuch liegt noch unter „{path}“. Bitte diesen Ordner prüfen und löschen, dann erneut starten.",
-        "An incomplete earlier attempt is still at \"{path}\". Please check and delete this folder, then start again.",
+        "An incomplete earlier attempt is still at “{path}”. Please check and delete this folder, then start again.",
         "Todavía hay un intento anterior incompleto en «{path}». Revisar y eliminar esa carpeta y volver a empezar.",
     ),
     (
@@ -428,12 +436,12 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
     ),
     (
         "In „{title}“ läge das Enddatum danach vor dem Startdatum.",
-        "In \"{title}\" the end date would then be before the start date.",
+        "In “{title}” the end date would then be before the start date.",
         "En «{title}» la fecha de fin quedaría antes de la fecha de inicio.",
     ),
     (
         "Installation abgebrochen: {e}",
-        "Installation cancelled: {e}",
+        "Installation canceled: {e}",
         "Instalación cancelada: {e}",
     ),
     (
@@ -462,9 +470,9 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
         "No se encontró ningún gestor de paquetes conocido.",
     ),
     (
-        "Konnte '{original_filename}' nicht kopieren: {e}",
-        "Could not copy '{original_filename}': {e}",
-        "No se pudo copiar '{original_filename}': {e}",
+        "Konnte „{original_filename}“ nicht kopieren: {e}",
+        "Could not copy “{original_filename}”: {e}",
+        "No se pudo copiar «{original_filename}»: {e}",
     ),
     (
         "Konnte Anhang nicht speichern: {e}",
@@ -477,7 +485,7 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
         "No se pudo crear la carpeta de adjuntos: {e}",
     ),
     (
-        "Konnte Anlage nicht schreiben: {e}",
+        "Konnte Anhang nicht schreiben: {e}",
         "Could not write attachment: {e}",
         "No se pudo escribir el adjunto: {e}",
     ),
@@ -598,7 +606,7 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
     ),
     (
         "Anhang „{name}“ fehlt im Quellordner.",
-        "Attachment \"{name}\" is missing from the source folder.",
+        "Attachment “{name}” is missing from the source folder.",
         "Falta el adjunto «{name}» en la carpeta de origen.",
     ),
     (
@@ -849,7 +857,7 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
     (
         "Konnte Zwischenspeicher nicht anlegen: {e}",
         "Could not create cache: {e}",
-        "No se pudo crear la memoria temporal: {e}",
+        "No se pudo crear la caché: {e}",
     ),
     (
         "Konnte das Protokoll nicht einlesen: {e}",
@@ -879,12 +887,12 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
     (
         "Konnte den Zwischenspeicher nicht anlegen: {e}",
         "Could not create the cache: {e}",
-        "No se pudo crear la memoria temporal: {e}",
+        "No se pudo crear la caché: {e}",
     ),
     (
         "Konnte den Zwischenspeicher nicht auflösen: {e}",
         "Could not resolve the cache: {e}",
-        "No se pudo resolver la memoria temporal: {e}",
+        "No se pudo resolver la caché: {e}",
     ),
     (
         "Konnte die Aufnahme nicht umbenennen: {e}",
@@ -953,12 +961,12 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
     ),
     (
         "Konnte „{name}“ nicht kopieren: {e}",
-        "Could not copy \"{name}\": {e}",
+        "Could not copy “{name}”: {e}",
         "No se pudo copiar «{name}»: {e}",
     ),
     (
         "Konnte „{name}“ nicht speichern: {e}",
-        "Could not save \"{name}\": {e}",
+        "Could not save “{name}”: {e}",
         "No se pudo guardar «{name}»: {e}",
     ),
     (
@@ -1017,8 +1025,8 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
         "Área temática no encontrada",
     ),
     (
-        "Unbekannte ID — Datei nicht im Stream gefunden.",
-        "Unknown ID — file not found in the stream.",
+        "Unbekannte ID – Datei nicht im Stream gefunden.",
+        "Unknown ID – file not found in the stream.",
         "ID desconocido: el archivo no se encontró en el stream.",
     ),
     (
@@ -1028,7 +1036,7 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
     ),
     (
         "Ungültige Farbe: „{value}“",
-        "Invalid color: \"{value}\"",
+        "Invalid color: “{value}”",
         "Color no válido: «{value}»",
     ),
     (
@@ -1053,7 +1061,7 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
     ),
     (
         "Ungültiges Datum: „{value}“",
-        "Invalid date: \"{value}\"",
+        "Invalid date: “{value}”",
         "Fecha no válida: «{value}»",
     ),
     (
@@ -1083,7 +1091,7 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
     ),
     (
         "ffmpeg gehört zur Installation von CronoStream – bitte CronoStream neu installieren.",
-        "ffmpeg is part of the stream installation – please reinstall CronoStream.",
+        "ffmpeg is part of the CronoStream installation – please reinstall CronoStream.",
         "ffmpeg forma parte de la instalación de CronoStream: reinstalar CronoStream.",
     ),
     (
@@ -1108,7 +1116,7 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
     ),
     (
         "nach {seconds} Sekunden ohne Ergebnis abgebrochen",
-        "cancelled after {seconds} seconds without a result",
+        "canceled after {seconds} seconds without a result",
         "cancelado tras {seconds} segundos sin resultado",
     ),
     (
@@ -1133,37 +1141,37 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
     ),
     (
         "„{a}“ ({a_start} – {a_end}) und „{b}“ ({b_start} – {b_end})",
-        "\"{a}\" ({a_start} – {a_end}) and \"{b}\" ({b_start} – {b_end})",
+        "“{a}” ({a_start} – {a_end}) and “{b}” ({b_start} – {b_end})",
         "«{a}» ({a_start} – {a_end}) y «{b}» ({b_start} – {b_end})",
     ),
     (
         "„{label}“ ist inzwischen erneut im Stream. Zuerst muss dieser Import rückgängig gemacht werden.",
-        "\"{label}\" is in the stream again by now. This import has to be undone first.",
+        "“{label}” has been added to the stream again in the meantime. This import has to be undone first.",
         "«{label}» vuelve a estar en el stream. Primero hay que deshacer esta importación.",
     ),
     (
         "„{label}“ wurde endgültig gelöscht und kann nicht wiederhergestellt werden.",
-        "\"{label}\" was permanently deleted and cannot be restored.",
+        "“{label}” was permanently deleted and cannot be restored.",
         "«{label}» se eliminó definitivamente y no se puede restaurar.",
     ),
     (
         "„{name}“ ist keine Datei.",
-        "\"{name}\" is not a file.",
+        "“{name}” is not a file.",
         "«{name}» no es un archivo.",
     ),
     (
-        "„{path}“ enthält mit allen Unterordnern mehr als {MAX_WALK_ENTRIES} Einträge — das ist zu viel für die Ablage. Bitte einen kleineren Ordner ablegen.",
-        "Including all subfolders, \"{path}\" contains more than {MAX_WALK_ENTRIES} entries — too many for the drop box. Please drop a smaller folder.",
+        "„{path}“ enthält mit allen Unterordnern mehr als {MAX_WALK_ENTRIES} Einträge – das ist zu viel für die Ablage. Bitte einen kleineren Ordner ablegen.",
+        "Including all subfolders, “{path}” contains more than {MAX_WALK_ENTRIES} entries – too many for the drop box. Please drop a smaller folder.",
         "Con todas sus subcarpetas, «{path}» contiene más de {MAX_WALK_ENTRIES} elementos: demasiados para la bandeja. Soltar una carpeta más pequeña.",
     ),
     (
         "„{path}“ existiert inzwischen bereits.",
-        "\"{path}\" already exists by now.",
-        "«{path}» ya existe.",
+        "“{path}” has been created in the meantime.",
+        "«{path}» se ha creado entretanto.",
     ),
     (
         "„Überlappung erlaubt“ kann nicht zurückgenommen werden, solange sich Phasen überschneiden: {pairs}.",
-        "\"Allow overlap\" cannot be turned off while phases overlap: {pairs}.",
+        "“Allow overlap” cannot be turned off while phases overlap: {pairs}.",
         "«Permitir solapamiento» no se puede desactivar mientras haya fases que se solapen: {pairs}.",
     ),
     (
@@ -1265,7 +1273,7 @@ pub const MESSAGES: &[(&str, &str, &str)] = &[
     ),
     (
         "Diese Streams konnten nicht gelöscht werden, sonst wurde noch nichts entfernt:\n{list}",
-        "These streams could not be deleted, nothing else has been removed yet:\n{list}",
+        "These streams could not be deleted; nothing else has been removed yet:\n{list}",
         "No se pudieron eliminar estos streams; todavía no se ha quitado nada más:\n{list}",
     ),
     (

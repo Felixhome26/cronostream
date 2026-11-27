@@ -1,4 +1,4 @@
-import { t } from "../../i18n";
+import { t, tn } from "../../i18n";
 import type { ReplaceOutcome } from "../../types";
 import { formatBytes } from "../DeleteStreamDialog";
 
@@ -23,9 +23,9 @@ export default function ReplaceReportDialog({ outcome, onClose }: Props) {
         <h2 className="modal-card__title">{t("replace.reportTitle")}</h2>
         <p className="modal-card__body">
           <strong>
-            {outcome.replaced} {t("replace.reportReplaced")}
+            {tn(outcome.replaced, "replace.reportReplaced")}
           </strong>
-          {outcome.failed.length > 0 && `, ${outcome.failed.length} ${t("fileOps.replaceFailedToast")}`}
+          {outcome.failed.length > 0 && `, ${tn(outcome.failed.length, "fileOps.replaceFailedToast")}`}
         </p>
         <div className="replace-report__totals">
           <div>

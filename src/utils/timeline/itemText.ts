@@ -1,5 +1,7 @@
 import type { ItemInfo } from "../../types";
 import { formatDateTime } from "../datetime";
+import { formatDecimal } from "../../i18n";
+import { formatBytes } from "../../components/DeleteStreamDialog";
 
 // How the timeline and its detail view name and describe a file: display
 // name, sizes, dates, mail sender and the mail body's frame. Moved out of
@@ -13,14 +15,7 @@ export function formatMetaDate(iso: string | null): string | null {
 }
 export function formatMetaSize(bytes: number | null): string | null {
   if (bytes == null) return null;
-  const units = ["B", "KB", "MB", "GB"];
-  let value = bytes;
-  let unitIndex = 0;
-  while (value >= 1024 && unitIndex < units.length - 1) {
-    value /= 1024;
-    unitIndex++;
-  }
-  return `${value.toFixed(value < 10 && unitIndex > 0 ? 1 : 0)} ${units[unitIndex]}`;
+  return formatBytes(bytes);
 }
 
 export function effectiveName(item: ItemInfo): string {
@@ -81,5 +76,5 @@ export function emailSenderAddress(sender: string | null): string | null {
 export function formatAttachmentSize(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  return `${formatDecimal(bytes / (1024 * 1024), 1)} MB`;
 }

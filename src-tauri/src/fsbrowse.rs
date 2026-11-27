@@ -271,7 +271,7 @@ pub fn list_dir_recursive(
         scanned_count += 1;
         if scanned_count > MAX_WALK_ENTRIES {
             return Err(crate::trf!(
-                "Dieser Ordner enthält mit allen Unterordnern mehr als {MAX_WALK_ENTRIES} Dateien — das ist zu groß, um alles auf einmal anzuzeigen. Bitte den Toggle ausschalten oder einen spezifischeren Unterordner wählen.",
+                "Dieser Ordner enthält mit allen Unterordnern mehr als {MAX_WALK_ENTRIES} Dateien – zu viele, um alles auf einmal anzuzeigen. Bitte „Dateien in Unterordnern anzeigen“ ausschalten oder einen spezifischeren Unterordner wählen.",
                 MAX_WALK_ENTRIES = MAX_WALK_ENTRIES
             ));
         }

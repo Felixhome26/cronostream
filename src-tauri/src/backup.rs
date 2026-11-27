@@ -37,7 +37,7 @@ pub fn start_backup(
     let backup_dir = Path::new(&destination_parent).join(format!("{project_name}-Backup-{timestamp}"));
 
     if backup_dir.exists() || copy_task::staging_path(&backup_dir).exists() {
-        return Err(crate::i18n::tr("Dieses Backup-Ziel existiert bereits. Bitte erneut versuchen.").into());
+        return Err(crate::i18n::tr("Dieses Sicherungsziel existiert bereits. Bitte erneut versuchen.").into());
     }
     // A backup into the project's own folder is the easy mistake here: the
     // folder dialog opens somewhere, and the project folder is a perfectly

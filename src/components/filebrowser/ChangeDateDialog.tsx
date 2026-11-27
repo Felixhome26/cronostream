@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { invoke } from "../../busy";
-import { t } from "../../i18n";
+import { t, tn } from "../../i18n";
 import { useToast } from "../../ToastContext";
 import { useProgress } from "../../ProgressContext";
 import type { ProjectFileEntry, TimestampEntry } from "../../types";
@@ -78,7 +78,7 @@ export default function ChangeDateDialog({ entries, thumbnailUrls, onCancel, onS
     startOperation({ id: operationId, label: t("fileOps.changeDateTitle"), total: timestampEntries.length });
     try {
       const updated = await invoke<number>("update_timestamps_batch", { entries: timestampEntries, operationId });
-      showToast(`${updated} ${t("fileOps.dateChangedToast")}`);
+      showToast(tn(updated, "fileOps.dateChangedToast"));
       onSaved();
     } catch (err) {
       showToast(String(err));

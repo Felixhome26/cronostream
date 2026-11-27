@@ -195,6 +195,15 @@ Gib für jede Eingabe-Datei genau einen Eintrag zurück, auch wenn du dir unsich
 /// the AI already has in its context.
 const FOLLOWUP_PROMPT_INTRO: &str = r#"Von der vorherigen Liste hast du nicht zu allen Dateien ein Ergebnis geliefert. Hier sind nur die fehlenden Dateien — bitte verarbeite sie nach demselben Schema wie zuvor und liefere für jede einen Eintrag."#;
 
+/// The one line of the prompt that follows the UI language: "reason" is
+/// shown in the review list as written, so it has to come back in the
+/// language the app is running in. Order de/en/es as `language_index()`.
+const REASON_LANGUAGE_LINE: [&str; 3] = [
+    "Schreibe die Begründung im Feld \"reason\" auf Deutsch.",
+    "Schreibe die Begründung im Feld \"reason\" auf Englisch (in English).",
+    "Schreibe die Begründung im Feld \"reason\" auf Spanisch (en español de España).",
+];
+
 fn build_export_content(items: &[AiExportCandidate], extra_instructions: Option<&str>, followup: bool) -> Result<String, String> {
     let data = serde_json::to_string_pretty(items).map_err(|e| e.to_string())?;
     let intro = if followup { FOLLOWUP_PROMPT_INTRO } else { EXPORT_PROMPT_INTRO };
@@ -202,7 +211,8 @@ fn build_export_content(items: &[AiExportCandidate], extra_instructions: Option<
         Some(text) => format!("\n\nZusätzliche Hinweise vom Nutzer (unbedingt berücksichtigen):\n{text}"),
         None => String::new(),
     };
-    Ok(format!("{intro}{extra_block}\n\n{EXPORT_PROMPT_OUTPUT_SPEC}\n\n```json\n{data}\n```\n"))
+    let reason_language = REASON_LANGUAGE_LINE[crate::i18n::language_index().min(2)];
+    Ok(format!("{intro}{extra_block}\n\n{EXPORT_PROMPT_OUTPUT_SPEC}\n\n{reason_language}\n\n```json\n{data}\n```\n"))
 }
 
 /// `async` + `spawn_blocking`: `fetch_candidates` reads EXIF per file,
@@ -376,7 +386,7 @@ fn parse_suggestions(conn: &Connection, content: &str) -> Result<Vec<ParsedSugge
             let known_item = known.get(&raw.id);
             let timestamp_valid = chrono::DateTime::parse_from_rfc3339(&raw.suggested_timestamp).is_ok();
             let (valid, error) = match (known_item, timestamp_valid) {
-                (None, _) => (false, Some(crate::i18n::tr("Unbekannte ID — Datei nicht im Stream gefunden.").to_string())),
+                (None, _) => (false, Some(crate::i18n::tr("Unbekannte ID – Datei nicht im Stream gefunden.").to_string())),
                 (Some(_), false) => (false, Some(crate::i18n::tr("Ungültiges Datum.").to_string())),
                 (Some(_), true) => (true, None),
             };

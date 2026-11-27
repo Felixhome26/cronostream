@@ -1,4 +1,4 @@
-import { t } from "../../i18n";
+import { t, tn } from "../../i18n";
 import { printExportNameExample } from "../../utils/printFilename";
 
 interface Props {
@@ -30,8 +30,8 @@ export default function PrintExportDialog({ photoCount, skippedCount, onCancel, 
           {t("fileOps.printExportExample")} <strong>{printExportNameExample()}</strong>
         </p>
         <p className="modal-card__body">
-          {photoCount} {t("fileOps.printExportPhotoCount")}
-          {skippedCount > 0 && ` ${skippedCount} ${t("fileOps.printExportSkipped")}`}
+          {tn(photoCount, "fileOps.printExportPhotoCount")}
+          {skippedCount > 0 && ` ${tn(skippedCount, "fileOps.printExportSkipped")}`}
         </p>
         <div className="modal-card__actions">
           <button className="btn" onClick={onCancel}>

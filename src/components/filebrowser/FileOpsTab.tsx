@@ -2,7 +2,7 @@ import { useState } from "react";
 import { invoke } from "../../busy";
 import { open as openDialog, save as saveDialog } from "@tauri-apps/plugin-dialog";
 import { writeText as writeClipboardText } from "@tauri-apps/plugin-clipboard-manager";
-import { t, tCount } from "../../i18n";
+import { t, tCount, tn } from "../../i18n";
 import { useToast } from "../../ToastContext";
 import { useConfirm } from "../../ConfirmContext";
 import type { PrintExportSummary, ProjectFileEntry, ReplaceOutcome, TransferDuplicate, TransferResult, TransferTarget } from "../../types";
@@ -241,7 +241,7 @@ export default function FileOpsTab({ restrictToIds, autoMarkIds, onSendToAi, onD
                 async (operationId) => {
                   const outcome = await invoke<ReplaceOutcome>("replace_project_items", { replacements, operationId });
                   if (outcome.failed.length > 0) {
-                    showToast(`${outcome.failed.length} ${t("fileOps.replaceFailedToast")}: ${outcome.failed[0]}`);
+                    showToast(`${tn(outcome.failed.length, "fileOps.replaceFailedToast")}: ${outcome.failed[0]}`);
                   }
                   setReplaceReport(outcome);
                   return outcome.replaced;
@@ -345,11 +345,11 @@ export default function FileOpsTab({ restrictToIds, autoMarkIds, onSendToAi, onD
           destFolder: dest,
         });
         if (summary.failed.length > 0) {
-          showToast(`${summary.failed.length} ${t("fileOps.printExportFailedToast")}: ${summary.failed[0].reason}`);
+          showToast(`${tn(summary.failed.length, "fileOps.printExportFailedToast")}: ${summary.failed[0].reason}`);
         }
         return summary.exported;
       },
-      (exported) => `${exported} ${t("fileOps.printExportToast")}`,
+      (exported) => tn(exported, "fileOps.printExportToast"),
       { label: t("fileOps.printExportButton"), total: photos.length },
     );
   }
@@ -391,8 +391,8 @@ export default function FileOpsTab({ restrictToIds, autoMarkIds, onSendToAi, onD
       },
       (transferred) =>
         request.mode === "move"
-          ? `${transferred} ${t("fileOps.movedToast")} ${target.name}`
-          : `${transferred} ${t("fileOps.copiedToast")} ${target.name}`,
+          ? `${tn(transferred, "fileOps.movedToast")} ${target.name}`
+          : `${tn(transferred, "fileOps.copiedToast")} ${target.name}`,
     );
   }
 

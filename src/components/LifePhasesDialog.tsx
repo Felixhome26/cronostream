@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type Dispatch, type SetStateAction } from "react";
 import { invoke } from "../busy";
-import { t } from "../i18n";
+import { t, tn } from "../i18n";
 import { useToast } from "../ToastContext";
 import type {
   PhaseGroupPatch,
@@ -524,7 +524,7 @@ function GroupHeader({
         }}
       />
       {!expanded && (
-        <span className="phases-group__count">{t("phases.phaseCount").replace("{n}", String(group.phases.length))}</span>
+        <span className="phases-group__count">{tn(group.phases.length, "phases.phaseCount")}</span>
       )}
       <ToggleSwitch checked={group.overlapAllowed} onChange={onOverlap} label={t("phases.overlapAllowed")} />
       <button className="phases-iconbtn" onClick={onRemove} title={t("phases.removeGroup")} aria-label={t("phases.removeGroup")}>

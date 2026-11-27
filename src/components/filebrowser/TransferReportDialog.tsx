@@ -1,4 +1,4 @@
-import { t } from "../../i18n";
+import { t, tn } from "../../i18n";
 import type { TransferResult } from "../../types";
 
 interface Props {
@@ -19,9 +19,9 @@ export default function TransferReportDialog({ mode, result, onConfirm }: Props)
         <h2 className="modal-card__title">{t("transfer.reportTitle")}</h2>
         <p className="modal-card__body">
           <strong>
-            {result.transferred} {t(mode === "move" ? "fileOps.movedToast" : "fileOps.copiedToast")} {result.targetName}
+            {tn(result.transferred, mode === "move" ? "fileOps.movedToast" : "fileOps.copiedToast")} {result.targetName}
           </strong>
-          {`, ${result.skipped.length} ${t("transfer.reportSkipped")}`}
+          {`, ${tn(result.skipped.length, "transfer.reportSkipped")}`}
         </p>
         <div className="replace-dialog__list">
           {result.skipped.map((s) => (

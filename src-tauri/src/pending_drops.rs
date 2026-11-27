@@ -92,7 +92,7 @@ fn collect_files_recursive(dir: &Path, out: &mut Vec<String>) -> Result<(), Stri
     for (seen, entry) in walk.enumerate() {
         if seen >= MAX_WALK_ENTRIES {
             return Err(crate::trf!(
-                "„{path}“ enthält mit allen Unterordnern mehr als {MAX_WALK_ENTRIES} Einträge — das ist zu viel für die Ablage. Bitte einen kleineren Ordner ablegen.",
+                "„{path}“ enthält mit allen Unterordnern mehr als {MAX_WALK_ENTRIES} Einträge – das ist zu viel für die Ablage. Bitte einen kleineren Ordner ablegen.",
                 path = dir.display(),
                 MAX_WALK_ENTRIES = MAX_WALK_ENTRIES
             ));

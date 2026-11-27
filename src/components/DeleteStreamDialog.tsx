@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { invoke } from "../busy";
-import { t } from "../i18n";
+import { formatDecimal, t, tn } from "../i18n";
 import { useWindowKeydown } from "../hooks/useWindowKeydown";
 import type { DeletionOutcome, DeletionPreview } from "../types";
 
@@ -15,6 +15,8 @@ interface DeleteStreamDialogProps {
   onDeleted: (outcome: DeletionOutcome) => void;
 }
 
+/// A file size for the UI ("1,5 MB" in de/es, "1.5 MB" in en). The one
+/// size formatter of the frontend; other size displays call it.
 export function formatBytes(bytes: number): string {
   const units = ["B", "KB", "MB", "GB", "TB"];
   let value = bytes;
@@ -23,7 +25,7 @@ export function formatBytes(bytes: number): string {
     value /= 1024;
     unit++;
   }
-  return `${value.toFixed(value < 10 && unit > 0 ? 1 : 0)} ${units[unit]}`;
+  return `${formatDecimal(value, value < 10 && unit > 0 ? 1 : 0)} ${units[unit]}`;
 }
 
 /// Deleting a whole stream, with its folder, from the disk.
@@ -122,7 +124,7 @@ export default function DeleteStreamDialog({
           <>
             <h3 className="modal-card__title">{t("delete.title")}</h3>
             <p className="modal-card__body">
-              <strong>{preview.name}</strong> — {preview.itemCount} {t("delete.filesSuffix")},{" "}
+              <strong>{preview.name}</strong> — {tn(preview.itemCount, "delete.filesSuffix")},{" "}
               {formatBytes(preview.sizeBytes)}
             </p>
             <p className="modal-card__body">{t("delete.explain")}</p>
@@ -148,7 +150,7 @@ export default function DeleteStreamDialog({
                 <strong>{t("delete.keepLog")}</strong>
                 <span className="modal-card__hint delete-dialog__keep-hint">
                   {keepLog
-                    ? `${t("delete.keepLogOn")} ${preview.restorableCount} ${t("delete.keepLogRestorable")}`
+                    ? `${t("delete.keepLogOn")} ${tn(preview.restorableCount, "delete.keepLogRestorable")}`
                     : t("delete.keepLogOff")}
                 </span>
               </span>

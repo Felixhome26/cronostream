@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { invoke } from "../../busy";
 import type { RecentProjectEntry } from "../../types";
-import { t } from "../../i18n";
+import { quoted, t, tf } from "../../i18n";
 import { useToast } from "../../ToastContext";
 
 interface Props {
@@ -42,7 +42,7 @@ export default function SendToProjectItems({ paths, onDone }: Props) {
       });
       showToast(
         queued > 0
-          ? `${t("browser.sendToProjectDone")} „${project.name}“ (${queued})`
+          ? `${tf("browser.sendToProjectDone", { name: quoted(project.name) })} (${queued})`
           : t("browser.sendToProjectAlready"),
       );
     } catch (err) {

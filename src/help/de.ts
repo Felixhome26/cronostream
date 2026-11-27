@@ -128,7 +128,7 @@ export const HELP_DE: HelpTexts = {
             "**Umbenennen:** ändert nur den angezeigten Namen, der Ordner auf der Festplatte behält seinen Namen.",
             "**Als Standard-Stream festlegen** bzw. **Standard-Stream aufheben:** Der Standard-Stream wird beim nächsten Start der App automatisch geöffnet, und zwar nur beim App-Start, nicht nach dem Zurück-Pfeil oder einem Sprachwechsel. Es kann nur einen geben. Lässt er sich nicht öffnen (Ordner fehlt, Laufwerk nicht eingehängt, in einem anderen Fenster offen), bleibt der Startbildschirm mit einem Hinweis stehen.",
             "**Aus Liste entfernen:** Der Ordner bleibt unberührt und lässt sich jederzeit über **Stream-Ordner öffnen** wieder hinzufügen.",
-            "**Endgültig löschen …:** löscht den ganzen Stream von der Festplatte, mit zwei Rückfragen.",
+            "**Endgültig löschen…:** löscht den ganzen Stream von der Festplatte, mit zwei Rückfragen.",
           ],
         },
         { p: "Das Suchfeld über den Kacheln erscheint erst ab 11 Streams. Bei vielen Streams scrollt nur die Kachelliste, nicht die ganze Seite." },
@@ -145,7 +145,7 @@ export const HELP_DE: HelpTexts = {
             "**In anderen Stream einfügen** (bzw. kopieren) wählen und im Zieldialog **＋ Neuen Stream anlegen**: Name und Speicherort eingeben, der neue Stream dient gleich als Ziel.",
           ],
         },
-        { p: "Als vollständige Sicherung mit Zeitstempel dient **Backup erstellen** unter 🛠 **Verwalten** › **Sicherung**. Das Original bleibt in beiden Fällen unverändert." },
+        { p: "Als vollständige Sicherung mit Zeitstempel dient **Sicherung erstellen** unter 🛠 **Verwalten** › **Sicherung**. Das Original bleibt in beiden Fällen unverändert." },
       ],
     },
     "start-loeschen": {
@@ -153,7 +153,7 @@ export const HELP_DE: HelpTexts = {
       blocks: [
         {
           steps: [
-            "Im Menü **⋯** der Kachel **Endgültig löschen …** wählen. CronoStream prüft den Ordner und zeigt Name, Dateizahl und Größe. Liegen fremde Dateien im Ordner, die nicht zum Stream gehören, werden sie namentlich aufgeführt, denn sie würden mitgelöscht.",
+            "Im Menü **⋯** der Kachel **Endgültig löschen…** wählen. CronoStream prüft den Ordner und zeigt Name, Dateizahl und Größe. Liegen fremde Dateien im Ordner, die nicht zum Stream gehören, werden sie namentlich aufgeführt, denn sie würden mitgelöscht.",
             "Über **Protokoll behalten** entscheiden (ab Werk an): Dann wird die Datenbank gesichert, bevor der Ordner gelöscht wird, und der Stream lässt sich später wiederherstellen. Ohne Haken ist das Löschen endgültig.",
             "**Weiter** und im zweiten Dialog **Endgültig löschen** bestätigen. Der Knopf ist einige Sekunden gesperrt, damit ihn kein versehentlicher Doppelklick auslöst.",
           ],
@@ -162,9 +162,9 @@ export const HELP_DE: HelpTexts = {
       ],
     },
     "start-wiederherstellen": {
-      title: "Gelöschten Stream oder Backup wiederherstellen",
+      title: "Gelöschten Stream oder Sicherung wiederherstellen",
       blocks: [
-        { p: "Beides liegt unter dem unauffälligen Link **Wiederherstellen & Papierkorb …** unten auf dem Startbildschirm." },
+        { p: "Beides liegt unter dem unauffälligen Link **Wiederherstellen & Papierkorb…** unten auf dem Startbildschirm." },
         { p: "**Gelöschter Stream**" },
         {
           steps: [
@@ -174,14 +174,14 @@ export const HELP_DE: HelpTexts = {
         },
         { p: "CronoStream liest die Dateien erneut aus ihren ursprünglichen Quellordnern ein. Namen, Daten, Notizen, Drehungen und der ganze Verlauf kehren zurück. Ein Bericht nennt Quellen, die sich seitdem geändert haben oder fehlen. Dateien ohne Quelle behalten ihren Verlauf, erscheinen aber nicht auf der Zeitleiste." },
         { p: "**Verwerfen** löscht das gesicherte Protokoll endgültig. Danach ist keine Wiederherstellung mehr möglich." },
-        { p: "**Backup**" },
+        { p: "**Sicherung**" },
         {
           steps: [
-            "Link öffnen und **Aus Backup wiederherstellen** wählen.",
-            "Den Backup-Ordner wählen, einen Namen eingeben und einen Speicherort wählen.",
+            "Link öffnen und **Aus Sicherung wiederherstellen** wählen.",
+            "Den Sicherungsordner wählen, einen Namen eingeben und einen Speicherort wählen.",
           ],
         },
-        { p: "CronoStream legt eine vollständige, unabhängige Kopie des Backups an und öffnet sie anschließend. Das Backup bleibt unverändert." },
+        { p: "CronoStream legt eine vollständige, unabhängige Kopie der Sicherung an und öffnet sie anschließend. Die Sicherung bleibt unverändert." },
       ],
     },
 
@@ -241,7 +241,7 @@ export const HELP_DE: HelpTexts = {
     "kopf-peek": {
       title: "Mini-Vorschau der Zeitleiste (Peek)",
       blocks: [
-        { p: "In den Datei-Operationen schwebt unten links eine kleine Vorschau der Zeitleiste. In welchen weiteren Ansichten sie erscheint, lässt sich unter ⚙ › **Zeitleiste & Spuren** › **Mini-Vorschau der Zeitleiste** je Ansicht festlegen. Ein Klick darauf blendet den Werkzeugkasten aus und gibt den Blick auf die echte Zeitleiste frei. Die Pille **Zurück zu …** führt mit allem Zustand in den zuletzt aktiven Reiter zurück." },
+        { p: "In den Datei-Operationen schwebt unten links eine kleine Vorschau der Zeitleiste. In welchen weiteren Ansichten sie erscheint, lässt sich unter ⚙ › **Zeitleiste & Spuren** › **Mini-Vorschau der Zeitleiste** je Ansicht festlegen. Ein Klick darauf blendet den Werkzeugkasten aus und gibt den Blick auf die echte Zeitleiste frei. Die Pille **Zurück zu…** führt mit allem Zustand in den zuletzt aktiven Reiter zurück." },
         { p: "Vorschau und Pille lassen sich mit der Maus verschieben. Die Vorschau lässt sich außerdem verkleinern oder ausblenden." },
       ],
     },
@@ -340,7 +340,7 @@ export const HELP_DE: HelpTexts = {
         {
           list: [
             "**Tagebucheintrag hier hinzufügen:** neuer Eintrag mit dem Datum der Klickstelle, also auch rückwirkend",
-            "**Zwischenablage einfügen** (nur wenn ein Bild in der Zwischenablage liegt): fragt, ob das Bild als normale Bilddatei oder als Tagebucheintrag hinzugefügt werden soll, jeweils mit dem Datum der Klickstelle",
+            "**Aus Zwischenablage einfügen** (nur wenn ein Bild in der Zwischenablage liegt): fragt, ob das Bild als normale Bilddatei oder als Tagebucheintrag hinzugefügt werden soll, jeweils mit dem Datum der Klickstelle",
           ],
         },
       ],
@@ -394,7 +394,7 @@ export const HELP_DE: HelpTexts = {
             "Zu den Dateien zoomen, die zusammengehören, z. B. ein Geburtstag, der über mehrere Stapel verteilt ist.",
             "Alle Dateien mit Strg-Klick markieren.",
             "**Bearbeiten** klicken. Die Datei-Operationen öffnen sich mit genau diesen Dateien.",
-            "**Aktionen** › **Notiz hinzufügen …** wählen, z. B. „Omas 80. Geburtstag“ eingeben und **Hinzufügen** klicken.",
+            "**Aktionen** › **Notiz hinzufügen…** wählen, z. B. „Omas 80. Geburtstag“ eingeben und **Hinzufügen** klicken.",
           ],
         },
         { p: "Ab jetzt findet die Suche alle diese Dateien. Ist eine davon in der Detailansicht geöffnet, zeigt **Alle mit dieser Notiz (N)** alle zusammen als Cluster, egal wie weit sie auf der Zeitleiste verstreut sind." },
@@ -408,8 +408,8 @@ export const HELP_DE: HelpTexts = {
         { p: "Ein Klick auf eine Einzelkachel, auf eine Kachel im Stapel oder Cluster oder ein Doppelklick auf einen Suchtreffer öffnet die Detailansicht." },
         {
           list: [
-            "**Blättern:** Pfeiltasten ←/→ oder die runden Pfeilknöpfe, in zeitlicher Reihenfolge über die ganze Zeitleiste. Welche Dateiarten dabei durchlaufen werden, legt die Einstellung **Navigation im Medien-Viewer** fest. Aus einem Cluster heraus bleibt das Blättern in dessen Dateien.",
-            "**Filter-Symbol oben links:** öffnet ein Popover, in dem sich die Dateitypen (Bilder, Videos, Audio, Dokumente, Alle) für das Blättern live umschalten lassen. Der Typ der aktuellen Datei bleibt dabei eingeschaltet. Die Auswahl gilt nur bis zum Schließen der Detailansicht; die Einstellung **Navigation im Medien-Viewer** bleibt der Startwert. Im Such-Cluster gibt es das Symbol nicht.",
+            "**Blättern:** Pfeiltasten ←/→ oder die runden Pfeilknöpfe, in zeitlicher Reihenfolge über die ganze Zeitleiste. Welche Dateiarten dabei durchlaufen werden, legt die Einstellung **Navigation in der Detailansicht** fest. Aus einem Cluster heraus bleibt das Blättern in dessen Dateien.",
+            "**Filter-Symbol oben links:** öffnet ein kleines Fenster, in dem sich die Dateitypen (Bilder, Videos, Audio, Dokumente, Alle) für das Blättern live umschalten lassen. Der Typ der aktuellen Datei bleibt dabei eingeschaltet. Die Auswahl gilt nur bis zum Schließen der Detailansicht; die Einstellung **Navigation in der Detailansicht** bleibt der Startwert. Im Such-Cluster gibt es das Symbol nicht.",
             "**Schließen:** Esc, das ✕ oben rechts oder ein Klick neben die Karte. Die Zeitleiste springt dann zur zuletzt angesehenen Datei, die Kachel leuchtet kurz auf; sie liegt dabei oben auf ihrem Stapel. Liegt der Startpunkt außer Sicht, erscheint links neben der Kachel ein Chip „↩ Zurück zu <Monat Jahr>“ (oder Esc), der zur alten Ansicht samt Cluster-Raster zurückführt. Wurde innerhalb eines Cluster-Rasters geblättert, führt das Schließen wie bisher ins Raster zurück.",
             "**Rechtsklick auf das Medium:** dasselbe Menü wie auf der Zeitleiste.",
           ],
@@ -428,7 +428,7 @@ export const HELP_DE: HelpTexts = {
       title: "Video und Audio abspielen",
       blocks: [
         { p: "Videos und Audios starten von selbst im eingebauten Player. Er hat Wiedergabe/Pause, eine Zeitleiste zum Springen, ±10 Sekunden, Lautstärke und Stummschalten, Wiedergabegeschwindigkeit von 0,5× bis 2× und bei Videos einen Vollbild-Knopf." },
-        { p: "Spielt der Player ein Format nicht ab (alte WMA, WMV, DivX-AVI, Cinepak/Indeo, GSM- oder ADPCM-WAV, AMR u. a.), meldet er „Format wird für die Wiedergabe umgewandelt …“. Die Datei wird einmalig mit ffmpeg nach WebM (VP9/Opus) umgewandelt und die Kopie abgespielt. Die Kopien liegen im Cache-Ordner des Rechners (höchstens 2 GB), das Original im Stream bleibt unverändert." },
+        { p: "Spielt der Player ein Format nicht ab (alte WMA, WMV, DivX-AVI, Cinepak/Indeo, GSM- oder ADPCM-WAV, AMR u. a.), meldet er „Format wird für die Wiedergabe umgewandelt…“. Die Datei wird einmalig mit ffmpeg nach WebM (VP9/Opus) umgewandelt und die Kopie abgespielt. Die Kopien liegen im Cache-Ordner des Rechners (höchstens 2 GB), das Original im Stream bleibt unverändert." },
       ],
     },
     "detail-dokumente": {
@@ -437,7 +437,7 @@ export const HELP_DE: HelpTexts = {
         {
           list: [
             "**PDFs und Dokumente:** Vorschau bzw. der ausgelesene Text, dazu **In Standard-App öffnen**. Ließ sich kein Text lesen, steht das dort.",
-            "**E-Mails (.eml, Outlook-.msg):** Kopf mit Betreff, Von, An, Cc und Datum, darunter der Text. Rechts listet **Anlagen** alle Anhänge mit Größe. Ein Klick öffnet eine Anlage im Standardprogramm. In die Mail eingebettete Bilder (im HTML oder als Anhang, auf den der Text verweist) werden angezeigt, höchstens 25 MB je Mail. Bilder aus dem Internet bleiben gesperrt. Links im Text (Webadressen, E-Mail-Adressen, Telefonnummern) öffnen sich beim Klick im Standardprogramm, Webseiten also im Browser.",
+            "**E-Mails (.eml, Outlook-.msg):** Kopf mit Betreff, Von, An, Cc und Datum, darunter der Text. Rechts stehen unter **Anhänge** alle Anhänge mit Größe. Ein Klick öffnet einen Anhang im Standardprogramm. In die Mail eingebettete Bilder (im HTML oder als Anhang, auf den der Text verweist) werden angezeigt, höchstens 25 MB je Mail. Bilder aus dem Internet bleiben gesperrt. Links im Text (Webadressen, E-Mail-Adressen, Telefonnummern) öffnen sich beim Klick im Standardprogramm, Webseiten also im Browser.",
             "**Sonstige Dateien:** Name und **In Standard-App öffnen**. Ist die Datei ein Programm oder Skript (.exe, .bat, .sh, .desktop, .lnk …), fragt vorher ein Dialog, ob sie wirklich geöffnet werden soll. Das gilt für alle Stellen, an denen Dateien extern geöffnet werden (Zeitleiste, E-Mail- und Tagebuch-Anhänge, Dateibrowser).",
             "**Tagebucheinträge** öffnen ihren eigenen Dialog.",
           ],
@@ -449,14 +449,14 @@ export const HELP_DE: HelpTexts = {
       blocks: [
         { p: "Die Pille mit Datum und Uhrzeit in der Detailansicht anklicken. Sie wird zur Datumseingabe; Enter übernimmt, Esc bricht ab. Daneben zeigt ein Abzeichen, woher das Datum stammt: Metadaten, Dateiname, Erstellt, Geändert, Eigenes Datum, Von KI übernommen oder Aufgenommen." },
         { p: "Geändert wird nur der Zeitstempel in CronoStream, die Datei auf der Festplatte bleibt unverändert. Die Änderung steht im Protokoll." },
-        { p: "Ob Datum und Uhrzeit zusätzlich dezent über dem Bild stehen, regelt die Einstellung **Zeitstempel als Overlay anzeigen**." },
+        { p: "Ob Datum und Uhrzeit zusätzlich dezent über dem Bild stehen, regelt die Einstellung **Zeitstempel im Bild einblenden**." },
       ],
     },
     "detail-name-notiz": {
       title: "Name und Notiz",
       blocks: [
         { p: "**Name:** In das Namensfeld klicken, ändern und mit Enter oder **Bestätigen** speichern (Esc bricht ab). Das ändert nur den Anzeigenamen in CronoStream, nicht den Dateinamen auf der Festplatte." },
-        { p: "**Notiz:** Text ins Feld „Notiz zu dieser Datei …“ schreiben. Die Notiz speichert sich automatisch, kurz nach dem letzten Tastendruck, beim Weiterblättern und beim Schließen. Die Suche findet Notizen." },
+        { p: "**Notiz:** Text ins Feld „Notiz zu dieser Datei…“ schreiben. Die Notiz speichert sich automatisch, kurz nach dem letzten Tastendruck, beim Weiterblättern und beim Schließen. Die Suche findet Notizen." },
         { p: "**Alle mit dieser Notiz (N):** Haben mindestens zwei Dateien exakt denselben Notiztext, erscheint dieser Knopf. Er öffnet alle diese Dateien als Cluster." },
       ],
     },
@@ -512,7 +512,7 @@ export const HELP_DE: HelpTexts = {
             "**Auf das Fenster ziehen:** Dateien oder Ordner aus dem Dateimanager auf das Hauptfenster ziehen.",
             "**Ablage-Fenster (📥):** ein kleines Fenster zum Sammeln, das immer im Vordergrund bleibt.",
             "**Dateibrowser (+):** Ordner durchsehen und markieren (Übersicht, Einzelbild), die Festplatte durchsuchen oder eine Pfadliste importieren.",
-            "**Zwischenablage:** Strg+V auf der Zeitleiste oder Rechtsklick › **Zwischenablage einfügen**.",
+            "**Zwischenablage:** Strg+V auf der Zeitleiste oder Rechtsklick › **Aus Zwischenablage einfügen**.",
             "**Neu erzeugen:** Tagebucheinträge und Video-/Audioaufnahmen.",
             "**Aus einem anderen Stream:** **In anderen Stream einfügen** oder Kopieren/Verschieben in den Datei-Operationen.",
           ],
@@ -540,7 +540,7 @@ export const HELP_DE: HelpTexts = {
             "**Datei nicht gefunden:** Die Datei wurde inzwischen verschoben oder gelöscht und kann nicht hinzugefügt werden.",
           ],
         },
-        { p: "Unten lassen sich optional **Daten manuell überprüfen / korrigieren** und/oder **Nach dem Import Daten mit KI überprüfen** anhaken; **Hinzufügen (N)** übernimmt die Dateien. Beim Schließen meldet CronoStream, wie viele Dateien hinzugekommen sind." },
+        { p: "Unten lassen sich optional **Datumsangaben von Hand prüfen / korrigieren** und/oder **Nach dem Import Datumsangaben mit KI prüfen** anhaken; **Hinzufügen (N)** übernimmt die Dateien. Beim Schließen meldet CronoStream, wie viele Dateien hinzugekommen sind." },
       ],
     },
     "add-ablage": {
@@ -607,7 +607,7 @@ export const HELP_DE: HelpTexts = {
             "**Dateigröße** mindestens/höchstens.",
             "**Duplikate ausblenden:** zeigt von mehrfach gefundenen Exemplaren derselben Datei nur eines.",
             "**Bereits im Stream enthaltene Dateien ausblenden:** erkennt auch umbenannte Kopien.",
-            "**Inhaltsprüfung:** „schnell“ vergleicht Größe und einen kurzen Ausschnitt, „gründlich“ die komplette Datei Byte für Byte (sicherer, aber langsamer).",
+            "**Inhaltsprüfung:** „Schnell“ vergleicht Größe und einen kurzen Ausschnitt, „Gründlich“ die komplette Datei Byte für Byte (sicherer, aber langsamer).",
             "**Letzte Suchen:** Das Suchfeld merkt sich die letzten 50 Festplattensuchen samt Filtern, für alle Streams gemeinsam. Die Auswahl wechselt in den damaligen Ordner und sucht sofort.",
             "**Aus dem Index laden:** verwendet die letzte Suche in diesem Ordner, ohne die Festplatte neu zu lesen. Zeitraum, Typ und Größe lassen sich dann frei ändern.",
           ],
@@ -637,7 +637,7 @@ export const HELP_DE: HelpTexts = {
       title: "Dateien an einen anderen Stream schicken",
       blocks: [
         { p: "**In anderen Stream einfügen** (Rechtsklick auf eine Kachel in der Zeitleiste oder im Dateibrowser) legt die Datei auf die Warteliste des gewählten Streams. Sie erscheint dort im Prüffenster, sobald er das nächste Mal geöffnet wird." },
-        { p: "Sofort übertragen lassen sich Dateien in den Datei-Operationen mit **In anderen Stream kopieren …** oder **verschieben …**." },
+        { p: "Sofort übertragen lassen sich Dateien in den Datei-Operationen mit **In anderen Stream kopieren…** oder **verschieben…**." },
       ],
     },
 
@@ -681,7 +681,7 @@ export const HELP_DE: HelpTexts = {
         {
           steps: [
             "In den Datei-Operationen die Dateien markieren (oder auf der Zeitleiste auswählen und **Bearbeiten** klicken).",
-            "**Aktionen** › **Datum ändern …** wählen (auch per Rechtsklick).",
+            "**Aktionen** › **Datum ändern…** wählen (auch per Rechtsklick).",
             "Je Datei erscheint eine Karte mit Vorschau, „Bisher: …“ und eigener Datumseingabe.",
             "Bei mehreren Dateien oben ein Datum und den **Zeitversatz** (Min. pro Datei, Vorgabe 5) eingeben und **Für alle übernehmen** klicken. Die erste Datei bekommt das Datum, die zweite 5 Minuten später usw., ideal für Fotoserien.",
             "Einzelne Karten bei Bedarf nachbessern und **Speichern** klicken. Erst dann wird geschrieben, alles in einem Schritt.",
@@ -709,22 +709,22 @@ export const HELP_DE: HelpTexts = {
         { p: "Für Dateien mit unsicherem Datum, etwa eingescannte Fotos, kann eine KI aus Dateiname, Ordnerpfad und Metadaten oft das echte Datum schätzen. CronoStream selbst enthält keine KI und spricht mit keiner. Alles läuft über die Zwischenablage. Der Reiter liegt unter ✨ **Prüfen** › **Datum per KI korrigieren**." },
         {
           steps: [
-            "**Dateien auswählen:** Filter für Zeitraum (ab Werk alle Dateien), Datumsfeld, Dateiname, **Nur unsichere Daten** und **Bereits per KI datierte ausblenden**. Dann **Weiter**.",
+            "**Dateien auswählen:** Filter für Zeitraum (ab Werk alle Dateien), Datumsfeld, Dateiname, **Nur unsichere Datumsangaben** und **Bereits per KI datierte ausblenden**. Dann **Weiter**.",
             "Optional **Zusätzliche Anweisungen an die KI** eingeben, z. B. „Alle Bilder mit IMG_ im Namen stammen aus dem Osterurlaub 2012“.",
             "**In die Zwischenablage kopieren** (oder **Als Datei speichern**) und den Text in ein beliebiges KI-Chatprogramm einfügen.",
             "Die Antwort der KI kopieren und **Jetzt aus der Zwischenablage lesen und importieren** klicken.",
-            "Die Liste prüfen: bisheriges Datum, Vorschlag (änderbar), Konfidenz und Begründung. Unerwünschte Zeilen abwählen und **Übernehmen** klicken.",
+            "Die Liste prüfen: bisheriges Datum, Vorschlag (änderbar), Sicherheit und Begründung. Unerwünschte Zeilen abwählen und **Übernehmen** klicken.",
           ],
         },
-        { p: "Ein Bericht zeigt „X Datum geändert, Y unverändert“, auf Wunsch mit **Änderungen anzeigen**. Alles landet als eine Aktion „Datum per KI übernommen“ im Protokoll und lässt sich ganz oder pro Datei zurücknehmen." },
+        { p: "Ein Bericht zeigt „X geändert, Y unverändert“, auf Wunsch mit **Änderungen anzeigen**. Alles landet als eine Aktion „Datum per KI übernommen“ im Protokoll und lässt sich ganz oder pro Datei zurücknehmen." },
       ],
     },
     "datum-ki-details": {
       title: "KI-Datierung: was weitergegeben wird und was bei Lücken hilft",
       blocks: [
         { p: "**Weitergegeben** werden nur Dateiname, Ordnerpfad, bisheriges Datum und dessen Quelle, Dateisystem-Zeiten und eingebettete Metadaten (z. B. EXIF-Aufnahmedatum, Zeitzone, GPS-Zeitstempel). Bilder, Videos und Dokumentinhalte werden nie übertragen. Ob und bei welcher KI der Text eingefügt wird, bleibt eine eigene Entscheidung." },
-        { p: "**Fehlende Antworten:** Hat die KI nicht alle Einträge beantwortet, bietet CronoStream **Fehlende in Zwischenablage kopieren** an. Diesen kurzen Nachtrag im selben Chat einfügen und die Antwort erneut importieren; die neuen Vorschläge kommen zu den vorhandenen dazu. Bei sehr vielen Dateien ist **Als Datei speichern** oft zuverlässiger." },
-        { p: "**Prüfen:** Ein Klick auf die Begründung zeigt alle Rohdaten der Datei. **Unveränderte ausblenden** verbirgt Zeilen, deren Tag gleich bleibt. Die Konfidenz ist farbig markiert: hoch (grün), mittel (gelb), niedrig (orange)." },
+        { p: "**Fehlende Antworten:** Hat die KI nicht alle Einträge beantwortet, bietet CronoStream **Fehlende in die Zwischenablage kopieren** an. Diesen kurzen Nachtrag im selben Chat einfügen und die Antwort erneut importieren; die neuen Vorschläge kommen zu den vorhandenen dazu. Bei sehr vielen Dateien ist **Als Datei speichern** oft zuverlässiger." },
+        { p: "**Prüfen:** Ein Klick auf die Begründung zeigt alle Rohdaten der Datei. **Unveränderte ausblenden** verbirgt Zeilen, deren Tag gleich bleibt. Die Sicherheit ist farbig markiert: hoch (grün), mittel (gelb), niedrig (orange)." },
       ],
     },
 
@@ -751,23 +751,23 @@ export const HELP_DE: HelpTexts = {
         { p: "Erst aktiv, wenn etwas markiert ist. Dieselben Einträge stehen im Rechtsklick-Menü, dort zusätzlich das Drehen von Bildern." },
         {
           list: [
-            "**Datum ändern …:** einzeln oder gestaffelt mit Zeitversatz",
+            "**Datum ändern…:** einzeln oder gestaffelt mit Zeitversatz",
             "**An KI zur Datierung übergeben:** öffnet die KI-Datierung mit genau diesen Dateien",
-            "**Notiz hinzufügen …:** hängt einen Begriff an die Notiz aller markierten Dateien (mit Komma an eine bestehende Notiz, ohne Doppelungen)",
+            "**Notiz hinzufügen…:** hängt einen Begriff an die Notiz aller markierten Dateien (mit Komma an eine bestehende Notiz, ohne Doppelungen)",
             "**Links drehen (90°)** / **Rechts drehen (90°):** dreht alle markierten Fotos; nur der Drehwert wird gespeichert, die Datei bleibt unverändert. Ausgegraut, sobald eine markierte Datei kein Foto ist",
-            "**In anderen Stream kopieren …** / **verschieben …**",
-            "**Druckexport …:** Fotos mit Datum und Uhrzeit als Dateinamen in einen Ordner kopieren",
-            "**Pfadliste in Zwischenablage** / **Pfadliste als Textdatei …**",
+            "**In anderen Stream kopieren…** / **verschieben…**",
+            "**Druckexport…:** Fotos mit Datum und Uhrzeit als Dateinamen in einen Ordner kopieren",
+            "**Pfadliste in Zwischenablage** / **Pfadliste als Textdatei…**",
             "**Aus dem Stream entfernen:** in den Papierkorb",
           ],
         },
-        { p: "Daneben steht der Knopf **Datei im Stream ersetzen …**. Er arbeitet unabhängig von der Markierung." },
+        { p: "Daneben steht der Knopf **Datei im Stream ersetzen…**. Er arbeitet unabhängig von der Markierung." },
       ],
     },
     "verw-uebertragen": {
       title: "In einen anderen Stream kopieren oder verschieben",
       blocks: [
-        { p: "Nach **In anderen Stream kopieren …** bzw. **verschieben …** wird das Ziel aus der Liste der Streams gewählt. Ein gerade woanders geöffneter Stream ist gesperrt. Über **＋ Neuen Stream anlegen** im Zieldialog lässt sich ein neuer anlegen (Name und Speicherort), der gleich als Ziel dient." },
+        { p: "Nach **In anderen Stream kopieren…** bzw. **verschieben…** wird das Ziel aus der Liste der Streams gewählt. Ein gerade woanders geöffneter Stream ist gesperrt. Über **＋ Neuen Stream anlegen** im Zieldialog lässt sich ein neuer anlegen (Name und Speicherort), der gleich als Ziel dient." },
         {
           list: [
             "**Kopieren:** Die Dateien kommen zusätzlich ins Ziel, hier bleibt alles unverändert.",
@@ -775,7 +775,7 @@ export const HELP_DE: HelpTexts = {
             "**Duplikatprüfung:** Vorhanden heißt gleicher Quellpfad oder gleicher Inhalt (Größe, Schnellhash, BLAKE3; fehlende Hashes im Ziel werden nachberechnet). Zuerst erscheint der Dialog „Dateien schon vorhanden“ mit **Vorhandene überspringen** oder **Trotzdem kopieren** bzw. **Trotzdem verschieben**.",
             "Danach zeigt ein Ergebnisdialog alle übersprungenen Dateien mit Grund. Nach der Bestätigung sind sie in den Datei-Operationen markiert; beim Verschieben lassen sie sich dort entfernen.",
             "**Notizen** kommen mit, damit auch die Markierung des Privatmodus. Privat bleibt eine Datei im Ziel allerdings nur, wenn dort derselbe Markierungstext eingerichtet ist.",
-            "**Tagebucheinträge** kommen vollständig an: Text, alle Anhänge in ihrer Reihenfolge und Notiz. Ein Eintrag mit gleichem Text und Zeitpunkt im Ziel gilt als schon vorhanden. Fehlt ein Anhang im Quellordner, wird der Eintrag mit der Meldung „Anhang „…“ fehlt im Quellordner.“ übersprungen und beim Verschieben hier nicht entfernt.",
+            "**Tagebucheinträge** kommen vollständig an: Text, alle Anhänge in ihrer Reihenfolge und Notiz. Ein Eintrag mit gleichem Text und Zeitpunkt im Ziel gilt als schon vorhanden. Fehlt ein Anhang im Quellordner, wird der Eintrag mit der Meldung „Anhang ‚…‘ fehlt im Quellordner.“ übersprungen und beim Verschieben hier nicht entfernt.",
             "Beide Seiten bekommen einen Protokolleintrag.",
           ],
         },
@@ -784,7 +784,7 @@ export const HELP_DE: HelpTexts = {
     "verw-druckexport": {
       title: "Druckexport für Fotobuch- und Fotodruck-Dienste",
       blocks: [
-        { p: "Viele Druckdienste sortieren Fotos nach Datum und Uhrzeit im Dateinamen oder drucken sie auf die Rückseite. **Druckexport …** kopiert die markierten Fotos in einen frei wählbaren Ordner und benennt jede Kopie nach Datum und Uhrzeit aus der Zeitleiste, z. B. „09.10.2026 - 14.30 Uhr.jpg“." },
+        { p: "Viele Druckdienste sortieren Fotos nach Datum und Uhrzeit im Dateinamen oder drucken sie auf die Rückseite. **Druckexport…** kopiert die markierten Fotos in einen frei wählbaren Ordner und benennt jede Kopie nach Datum und Uhrzeit aus der Zeitleiste, z. B. „09.10.2026 - 14.30 Uhr.jpg“." },
         {
           list: [
             "Zwei Fotos in derselben Minute bekommen „- 2“, „- 3“ … angehängt.",
@@ -798,8 +798,8 @@ export const HELP_DE: HelpTexts = {
     "verw-pfadliste": {
       title: "Pfadliste: für externe Programme",
       blocks: [
-        { p: "**Pfadliste in Zwischenablage** bzw. **Pfadliste als Textdatei …** erzeugt einen Text mit einem vollständigen Pfad pro Zeile, und zwar zu den Kopien im Stream-Ordner." },
-        { p: "Damit lassen sich z. B. viele große Videos in einem externen Konvertierungsprogramm stapelweise verkleinern. Die Ergebnisse kommen anschließend mit **Datei im Stream ersetzen …** zurück, ohne Datum, Notizen oder Namen zu verlieren." },
+        { p: "**Pfadliste in Zwischenablage** bzw. **Pfadliste als Textdatei…** erzeugt einen Text mit einem vollständigen Pfad pro Zeile, und zwar zu den Kopien im Stream-Ordner." },
+        { p: "Damit lassen sich z. B. viele große Videos in einem externen Konvertierungsprogramm stapelweise verkleinern. Die Ergebnisse kommen anschließend mit **Datei im Stream ersetzen…** zurück, ohne Datum, Notizen oder Namen zu verlieren." },
       ],
     },
     "verw-ersetzen": {
@@ -808,7 +808,7 @@ export const HELP_DE: HelpTexts = {
         { p: "Tauscht Dateien im Stream gegen eine andere Version derselben Datei, z. B. gegen nachträglich komprimierte Videos." },
         {
           steps: [
-            "**Datei im Stream ersetzen …** klicken, die Erklärung lesen und **Ordner wählen …**. Unterordner werden mit durchsucht.",
+            "**Datei im Stream ersetzen…** klicken, die Erklärung lesen und **Ordner wählen…**. Unterordner werden mit durchsucht.",
             "Die Trefferliste prüfen. Eine Datei passt, wenn ihr Name den Namen der Stream-Datei (ohne Endung) als ganzes Wort enthält, evtl. mit Zusatz und anderer Endung: „Urlaub.mov“ passt zu „Urlaub_komprimiert.mp4“, nicht zu „Urlaub2.mp4“. Der Dateityp muss gleich sein. Bei mehreren Kandidaten ist eine Auswahl nötig.",
             "**Dateien ersetzen** klicken. Ein Bericht zeigt Vorher, Nachher und den gesparten Speicher.",
           ],
@@ -835,17 +835,17 @@ export const HELP_DE: HelpTexts = {
       title: "Reiter „Duplikate“: den ganzen Stream prüfen",
       blocks: [
         { p: "**Jetzt Duplikat-Prüfung durchführen** durchsucht den gesamten Stream nach Dateien mit gleichem Fingerabdruck. Das ist nützlich für Dateien, die vor dem Einschalten der Duplikat-Erkennung hinzugekommen sind. Die Prüfung läuft auch beim Wechsel in einen anderen Reiter weiter." },
-        { p: "Das Ergebnis („12 mögliche Duplikate in 5 Gruppen gefunden“) bleibt unter dem Knopf stehen, zusammen mit dem Knopf **An Dateioperationen übergeben**. Dort sind alle Beteiligten zu sehen; die überflüssigen werden markiert und entfernt. Welche Fassung bleibt, entscheidet nie die App." },
-        { p: "**Ähnliche Bilder suchen** findet zusätzlich Fotos, die gleich aussehen, ohne dieselbe Datei zu sein: verkleinerte, von WhatsApp neu komprimierte oder neu gespeicherte Kopien. Dafür bekommt jedes Foto einen Bild-Fingerabdruck aus seinem Vorschaubild. Fast einfarbige Bilder wie Himmel, Wände oder dunkle Aufnahmen bleiben außen vor, ebenso Bilder mit sehr wenig Struktur. Eine Gruppe sammelt die Bilder, die ihrem ersten Bild ähneln; eine lange Serie ähnlicher Aufnahmen ergibt deshalb mehrere kleine Gruppen. Die erste Suche dauert länger, weil dabei jedes Foto seinen Fingerabdruck bekommt. Auch hier kommt das Ergebnis als Meldung mit **An Dateioperationen übergeben**, und es bleibt ein Vorschlag." },
+        { p: "Das Ergebnis („12 mögliche Duplikate in 5 Gruppen gefunden“) bleibt unter dem Knopf stehen, zusammen mit dem Knopf **An Datei-Operationen übergeben**. Dort sind alle Beteiligten zu sehen; die überflüssigen werden markiert und entfernt. Welche Fassung bleibt, entscheidet nie die App." },
+        { p: "**Ähnliche Bilder suchen** findet zusätzlich Fotos, die gleich aussehen, ohne dieselbe Datei zu sein: verkleinerte, von WhatsApp neu komprimierte oder neu gespeicherte Kopien. Dafür bekommt jedes Foto einen Bild-Fingerabdruck aus seinem Vorschaubild. Fast einfarbige Bilder wie Himmel, Wände oder dunkle Aufnahmen bleiben außen vor, ebenso Bilder mit sehr wenig Struktur. Eine Gruppe sammelt die Bilder, die ihrem ersten Bild ähneln; eine lange Serie ähnlicher Aufnahmen ergibt deshalb mehrere kleine Gruppen. Die erste Suche dauert länger, weil dabei jedes Foto seinen Fingerabdruck bekommt. Auch hier kommt das Ergebnis als Meldung mit **An Datei-Operationen übergeben**, und es bleibt ein Vorschlag." },
       ],
     },
     "verw-sicherung": {
-      title: "Sicherung (Backup) erstellen",
+      title: "Sicherung erstellen",
       blocks: [
-        { p: "🛠 **Verwalten** › **Sicherung** › **Backup erstellen**, dann einen Zielordner wählen. Ein Fortschrittsfenster zeigt „n von m Dateien kopiert“, **Abbrechen** räumt Halbfertiges auf." },
-        { p: "Es entsteht ein Ordner mit dem Namen des Streams und einem Zeitstempel: Dateien, Vorschaubilder, Datenbank und Protokoll. Die Sicherung ist selbst ein vollständiger Stream. Zum Zurückkehren wird sie auf dem Startbildschirm über **Wiederherstellen & Papierkorb …** › **Aus Backup wiederherstellen** als neue Kopie angelegt und geöffnet (alternativ direkt über **Stream-Ordner öffnen**)." },
+        { p: "🛠 **Verwalten** › **Sicherung** › **Sicherung erstellen**, dann einen Zielordner wählen. Ein Fortschrittsfenster zeigt „n von m Dateien kopiert“, **Abbrechen** räumt Halbfertiges auf." },
+        { p: "Es entsteht ein Ordner mit dem Namen des Streams und einem Zeitstempel: Dateien, Vorschaubilder, Datenbank und Protokoll. Die Sicherung ist selbst ein vollständiger Stream. Zum Zurückkehren wird sie auf dem Startbildschirm über **Wiederherstellen & Papierkorb…** › **Aus Sicherung wiederherstellen** als neue Kopie angelegt und geöffnet (alternativ direkt über **Stream-Ordner öffnen**)." },
         { p: "Das Ziel darf nicht im Stream-Ordner selbst liegen." },
-        { p: "**Vorhandene Sicherung aktualisieren …** bringt eine früher angelegte Sicherung auf den neuesten Stand, statt jedes Mal alles neu zu kopieren: den Ordner der Sicherung wählen, kopiert werden nur neue und geänderte Dateien, dazu der aktuelle Stand der Datenbank. Dateien, die es im Stream nicht mehr gibt, bleiben in der Sicherung erhalten. Ein versehentlich gelöschtes Foto ist dort also noch da. Ein Ordner, der keine Sicherung dieses Streams ist, wird abgelehnt. Enthält der Ordner Änderungen, die es hier nicht gibt (etwa ein eigenständig weitergeführtes Duplikat), oder gehört er zu einem Stream mit anderem Namen, fragt die App vorher nach. Die bisherige Datenbank des Ordners bleibt als „cronostream.db.vor-aktualisierung“ darin liegen." },
+        { p: "**Vorhandene Sicherung aktualisieren…** bringt eine früher angelegte Sicherung auf den neuesten Stand, statt jedes Mal alles neu zu kopieren: den Ordner der Sicherung wählen, kopiert werden nur neue und geänderte Dateien, dazu der aktuelle Stand der Datenbank. Dateien, die es im Stream nicht mehr gibt, bleiben in der Sicherung erhalten. Ein versehentlich gelöschtes Foto ist dort also noch da. Ein Ordner, der keine Sicherung dieses Streams ist, wird abgelehnt. Enthält der Ordner Änderungen, die es hier nicht gibt (etwa ein eigenständig weitergeführtes Duplikat), oder gehört er zu einem Stream mit anderem Namen, fragt die App vorher nach. Die bisherige Datenbank des Ordners bleibt als „cronostream.db.vor-aktualisierung“ darin liegen." },
       ],
     },
     "verw-archiv": {
@@ -854,7 +854,7 @@ export const HELP_DE: HelpTexts = {
         { p: "🛠 **Verwalten** › **Archiv prüfen** › **Archiv prüfen** sieht nach, ob alles noch vollständig ist. Die Prüfung liest nur und ändert nichts an den Dateien." },
         {
           list: [
-            "**Fehlende Dateien:** stehen auf der Zeitleiste oder hängen an einem Tagebucheintrag, fehlen aber im Stream-Ordner. Dateien der Zeitleiste lassen sich über das Protokoll oder den Papierkorb aus der Originalquelle wiederholen, sofern diese noch da ist.",
+            "**Fehlende Dateien:** stehen auf der Zeitleiste oder hängen an einem Tagebucheintrag, fehlen aber im Stream-Ordner. Dateien der Zeitleiste lassen sich über das Protokoll oder den Papierkorb erneut aus der Originalquelle holen, sofern diese noch da ist.",
             "**Fehlende Vorschaubilder:** lassen sich mit **Vorschaubilder neu erzeugen** wiederherstellen, alle auf einmal. Danach zeigt eine schnelle Prüfung den neuen Stand, ohne die Dateien erneut ganz zu lesen.",
             "**Dateien ohne Eintrag:** liegen im Stream-Ordner, gehören aber zu keinem Eintrag, etwa Reste eines abgebrochenen Kopiervorgangs. Die App löscht sie nicht.",
             "**Veränderte Inhalte:** nur mit **Inhalte vollständig lesen**. Beim ersten Mal bekommt jede Datei einen Fingerabdruck, bei späteren Prüfungen fällt auf, wenn sich eine Datei verändert hat, ohne dass die App sie geändert hat, etwa durch einen Plattenschaden. Eine Sicherung oder die Originalquelle hat dann vermutlich noch die richtige Fassung.",
@@ -985,11 +985,11 @@ export const HELP_DE: HelpTexts = {
         { p: "⚙ öffnet die Einstellungen. Links steht eine Leiste mit **Kategorien**, rechts die Einstellungen der gewählten Kategorie. Die zuletzt gewählte Kategorie bleibt in dieser Sitzung erhalten, auch nach einem Sprachwechsel." },
         {
           list: [
-            "**System & Sprache:** Sprache der Oberfläche, Erscheinungsbild (Farbschema **Hell** oder **Dunkel**, ab Werk Dunkel; gilt für den ganzen Rechner, Ablage und Programmsymbol folgen mit; auch oben rechts auf dem Startbildschirm umstellbar) Start (Willkommensbildschirm, Startmenü, Schreibtisch, Ablage, Autostart) und Deinstallieren.",
+            "**System & Sprache:** Sprache der Oberfläche, Erscheinungsbild (Farbschema **Hell** oder **Dunkel**, ab Werk Dunkel; gilt für den ganzen Rechner, Ablage und Programmsymbol folgen mit; auch oben rechts auf dem Startbildschirm umstellbar), Start (Willkommensbildschirm, Startmenü, Desktop, Ablage, Autostart) und Deinstallieren.",
             "**Dateien & Duplikate:** Arbeitskopie beim Entfernen, Duplikat-Erkennung, frühestes Jahr, Sprung zur Duplikat-Verwaltung.",
             "**Zeitleiste & Spuren:** Reihenfolge der Spuren, Datum durch Verschieben von Kacheln, Mini-Vorschau der Zeitleiste.",
             "**Stapel & Zoom:** Auslöser, Aktion und Zoom-Bremse der Stapel, Mauszeiger folgt dem aufgeklappten Stapel.",
-            "**Medien & Viewer:** Navigation im Medien-Viewer, Zeitstempel-Overlay, Video-Vorschaubild.",
+            "**Medien & Detailansicht:** Navigation in der Detailansicht, Zeitstempel im Bild, Video-Vorschaubild.",
             "**Privatsphäre:** der Privatmodus.",
             "**Über CronoStream:** Version, Urheberrecht und Lizenzen.",
           ],
@@ -1074,13 +1074,13 @@ export const HELP_DE: HelpTexts = {
       ],
     },
     "set-medien": {
-      title: "Einstellungen: Medien & Viewer",
+      title: "Einstellungen: Medien & Detailansicht",
       blocks: [
         {
           list: [
-            "**Navigation im Medien-Viewer:** **Nur gleiche Kategorie** (von Foto zu Foto), **Alle Medien** (ab Werk, chronologisch über alle Spuren) oder **Benutzerdefiniert** mit Schaltern für Bilder, Videos, Audios und Dokumente.",
-            "**Zeitstempel als Overlay anzeigen** (an): Datum und Uhrzeit dezent am unteren Rand in der Detailansicht.",
-            "**Video-Vorschaubild (Thumbnail):** Position in Prozent der Videolänge (ab Werk 10). Mit **Übernehmen** gilt sie für neue Videos. **Bestehende Video-Thumbnails jetzt neu erzeugen** erneuert zusätzlich alle vorhandenen.",
+            "**Navigation in der Detailansicht:** **Nur gleiche Kategorie** (von Foto zu Foto), **Alle Medien** (ab Werk, chronologisch über alle Spuren) oder **Benutzerdefiniert** mit Schaltern für Bilder, Videos, Audios und Dokumente.",
+            "**Zeitstempel im Bild einblenden** (an): Datum und Uhrzeit dezent am unteren Rand in der Detailansicht.",
+            "**Video-Vorschaubild (Thumbnail):** Position in Prozent der Videolänge (ab Werk 10). Mit **Übernehmen** gilt sie für neue Videos. **Vorhandene Video-Vorschaubilder jetzt neu erzeugen** erneuert zusätzlich alle vorhandenen.",
           ],
         },
       ],
@@ -1095,12 +1095,12 @@ export const HELP_DE: HelpTexts = {
             "**Startmenü-Eintrag für CronoStream:** startet das Hauptprogramm über das Startmenü.",
             "**Startmenü-Eintrag für die Ablage:** öffnet nur die Ablage als kleinen Kreis, ohne Hauptfenster.",
             "**Ablage beim Systemstart öffnen:** öffnet die Ablage nach der Anmeldung automatisch als kleinen Kreis.",
-            "**Verknüpfung auf dem Schreibtisch** (ab Werk aus): legt CronoStream als Symbol auf den Schreibtisch. Unter Linux ist der Starter gleich ausführbar und als vertrauenswürdig markiert.",
+            "**Verknüpfung auf dem Desktop** (ab Werk aus): legt CronoStream als Symbol auf den Desktop. Unter Linux ist der Starter gleich ausführbar und als vertrauenswürdig markiert.",
           ],
         },
-        { p: "Die vier Schalter für Startmenü, Autostart und Schreibtisch erscheinen nur im Linux-AppImage und in der installierten Windows-Version, dort verhalten sie sich gleich. Beim ersten Start bietet das Willkommensfenster außerdem das **Erscheinungsbild** (Hell oder Dunkel) zur Wahl an, solange noch keines gespeichert ist; **Loslegen** speichert die Vorauswahl. Die vier Schalter bietet es einmalig an (**Einrichtung auf diesem Rechner**); schon vorhandene Einträge, etwa vom Windows-Installer, werden dabei übernommen. Später lassen sie sich hier ändern." },
+        { p: "Die vier Schalter für Startmenü, Autostart und Desktop erscheinen nur im Linux-AppImage und in der installierten Windows-Version, dort verhalten sie sich gleich. Beim ersten Start bietet das Willkommensfenster außerdem das **Erscheinungsbild** (Hell oder Dunkel) zur Wahl an, solange noch keines gespeichert ist; **Loslegen** speichert die Vorauswahl. Die vier Schalter bietet es einmalig an (**Einrichtung auf diesem Rechner**); schon vorhandene Einträge, etwa vom Windows-Installer, werden dabei übernommen. Später lassen sie sich hier ändern." },
         { p: "Unter Linux liegen die Startmenü-Einträge im Menüordner **CronoStream**, zusammen mit **CronoStream deinstallieren**. Unter Windows legt der Installer einen Startmenü-Ordner an (Name auf einer eigenen Seite des Installers wählbar, ab Werk **CronoStream**) mit Programm, **CronoStream Ablage** und **CronoStream deinstallieren**. Installer und Deinstaller sprechen Deutsch, Englisch oder Spanisch, je nach Sprache von Windows, sonst Englisch; die Einträge heißen dann entsprechend. Ein ausgeschalteter Eintrag wird unter Windows nur beiseitegelegt und beim Einschalten zurückgeholt; fehlt er ganz, wird er neu angelegt." },
-        { p: "**Überwachter Ordner** (⚙ › **System & Sprache**): Ein gewählter Ordner wird überwacht. Neue Dateien darin kommen automatisch in die Ablage, auch bei geschlossenem Hauptfenster, solange die Ablage läuft. Bereits vorhandene Dateien werden nicht übernommen. **Unterordner einbeziehen** nimmt auch Dateien aus Unterordnern auf. Unfertige Dateien (etwa .part oder .tmp) werden erst nach dem Ende des Schreibens aufgenommen. Ist der Ordner nicht erreichbar (Laufwerk getrennt), setzt die Überwachung fort, sobald er wieder da ist. **Nicht mehr überwachen** beendet sie." },
+        { p: "**Überwachter Ordner** (⚙ › **System & Sprache**): Ein gewählter Ordner wird überwacht. Neue Dateien darin kommen automatisch in die Ablage, auch bei geschlossenem Hauptfenster, solange die Ablage läuft. Bereits vorhandene Dateien werden nicht übernommen. **Unterordner einbeziehen** nimmt auch Dateien aus Unterordnern auf. Unfertige Dateien (etwa .part oder .tmp) werden erst nach dem Ende des Schreibens aufgenommen. Ist der Ordner nicht erreichbar (Laufwerk getrennt), wird die Überwachung fortgesetzt, sobald er wieder da ist. **Nicht mehr überwachen** beendet sie." },
       ],
     },
 
@@ -1115,7 +1115,7 @@ export const HELP_DE: HelpTexts = {
             "**Windows:** Danach startet das Windows-Deinstallationsprogramm ohne weitere Rückfrage und entfernt das Programm selbst.",
           ],
         },
-        { p: "Unter Windows lässt sich CronoStream auch wie gewohnt über die Windows-Einstellungen (Apps) deinstallieren. Der Deinstaller entfernt dann Programm, Startmenü-Ordner, Schreibtisch-Verknüpfung und Autostart, mit der Option zum Löschen der App-Daten auch Einstellungen und Zwischenspeicher. Streams bleiben dabei immer erhalten." },
+        { p: "Unter Windows lässt sich CronoStream auch wie gewohnt über die Windows-Einstellungen (Apps) deinstallieren. Der Deinstaller entfernt dann Programm, Startmenü-Ordner, Desktop-Verknüpfung und Autostart, mit der Option zum Löschen der App-Daten auch Einstellungen und Zwischenspeicher. Streams bleiben dabei immer erhalten." },
         { note: "In den App-Daten liegen auch die gesicherten Protokolle gelöschter Streams. Nach dem Entfernen lassen sich diese Streams nicht mehr wiederherstellen." },
       ],
     },
@@ -1133,7 +1133,7 @@ export const HELP_DE: HelpTexts = {
             "**Kombination aufnehmen** wählen und die gewünschte Tastenkombination drücken: Strg und ein Buchstabe, außer den üblichen wie C, V oder X. Auch zwei Sondertasten sind möglich, etwa Strg+Umschalt und ein Buchstabe. Sie braucht Strg oder Alt und eine weitere Taste; schon belegte Kombinationen wie Strg+F werden abgelehnt, Esc bricht ab. Zur Kontrolle ist sie einmal im Klartext zu sehen, nach **Übernehmen** ist sie unkenntlich. **Anzeigen** und **Verbergen** schalten die Klartextanzeige in den Einstellungen um.",
             "**Notizinhalt** festlegen: Eine Datei gilt als privat, wenn ihre Notiz diesen Text enthält. Groß- und Kleinschreibung zählen nicht.",
             "Unter **Wo ausgeblendet wird** den Umfang wählen (siehe unten). Bei **Automatisch wieder ausblenden** lässt sich eine Zahl von Minuten ohne Bedienung eintragen; 0 heißt aus (ab Werk). Das Kästchen **Symbol links unten anzeigen** (ab Werk an) blendet das Auge ein oder aus.",
-            "**Privatmodus einrichten** wählen. Danach erscheint einmalig der **Wiederherstellungscode**. Er gehört an einen sicheren Ort; **Code ist notiert** schließt die Einrichtung ab.",
+            "**Privatmodus einrichten** wählen. Danach erscheint einmalig der **Wiederherstellungscode**. Er gehört an einen sicheren Ort; **Code notiert** schließt die Einrichtung ab.",
           ],
         },
         { p: "**Umfang**" },
@@ -1285,7 +1285,7 @@ export const HELP_DE: HelpTexts = {
             "**Videos:** MP4, MOV, MKV, WebM, AVI, WMV, FLV, 3GP, MPG",
             "**Audio:** MP3, WAV, M4A, FLAC, OGG, AAC, WMA, AIFF",
             "**Dokumente:** PDF, DOCX, DOC, ODT, RTF, TXT (auch in ANSI und UTF-16), CSV, XLS, XLSX, mit Textsuche",
-            "**E-Mails:** EML und Outlook-MSG, mit Anlagen und Textsuche",
+            "**E-Mails:** EML und Outlook-MSG, mit Anhängen und Textsuche",
           ],
         },
         { p: "Andere Dateien lassen sich ebenfalls hinzufügen. Sie erscheinen ohne Vorschau in der Dokumente-Spur und öffnen sich im Standardprogramm." },
@@ -1297,7 +1297,7 @@ export const HELP_DE: HelpTexts = {
         { p: "CronoStream bildet für jede Datei einen kurzen Fingerabdruck aus Größe sowie Anfang und Ende des Inhalts. Gleicher Fingerabdruck heißt: mögliches Duplikat, auch unter anderem Namen. Das geht auch bei großen Videos schnell." },
         {
           list: [
-            "**Beim Hinzufügen:** als Vergleichskarte im Prüffenster. Fällt später beim Import noch ein Verdacht auf, kommt eine Meldung mit **An Dateioperationen übergeben**.",
+            "**Beim Hinzufügen:** als Vergleichskarte im Prüffenster. Fällt später beim Import noch ein Verdacht auf, kommt eine Meldung mit **An Datei-Operationen übergeben**.",
             "**Für den ganzen Bestand:** Reiter **Duplikate** unter Verwalten.",
             "**Bei der Festplattensuche:** **Duplikate ausblenden** und **Bereits im Stream enthaltene Dateien ausblenden**, wahlweise mit gründlicher Inhaltsprüfung.",
           ],
@@ -1316,8 +1316,8 @@ export const HELP_DE: HelpTexts = {
     "faq-arbeitet": {
       title: "Die App arbeitet: Fortschritt und Abbrechen",
       blocks: [
-        { p: "Längere Vorgänge zeigen oben rechts eine Fortschrittskarte mit Balken und aktuellem Dateinamen, kurze Wartezeiten unten rechts die Pille „Arbeitet …“. Kopieren, Sicherung und Festplattensuche lassen sich abbrechen, Halbfertiges räumt CronoStream selbst auf." },
-        { p: "Rückmeldungen erscheinen als kleine Karten unten in der Mitte, manche mit einem Aktionsknopf (z. B. **An Dateioperationen übergeben**)." },
+        { p: "Längere Vorgänge zeigen oben rechts eine Fortschrittskarte mit Balken und aktuellem Dateinamen, kurze Wartezeiten unten rechts die Pille „Arbeitet…“. Kopieren, Sicherung und Festplattensuche lassen sich abbrechen, Halbfertiges räumt CronoStream selbst auf." },
+        { p: "Rückmeldungen erscheinen als kleine Karten unten in der Mitte, manche mit einem Aktionsknopf (z. B. **An Datei-Operationen übergeben**)." },
       ],
     },
   },

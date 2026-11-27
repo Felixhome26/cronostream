@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { invoke } from "../../busy";
-import { t } from "../../i18n";
+import { t, tn } from "../../i18n";
 import { useProgress } from "../../ProgressContext";
 import { useToast } from "../../ToastContext";
 import { formatBytes } from "../DeleteStreamDialog";
@@ -66,7 +66,7 @@ export default function ArchiveTab({ onDataChanged }: { onDataChanged?: () => vo
     startOperation({ id: operationId, label: t("archive.thumbnailsProgress"), total: report.missingThumbnailsCount });
     try {
       const made = await invoke<number>("regenerate_thumbnails", { operationId });
-      showToast(t("archive.thumbnailsDone").replace("{count}", String(made)));
+      showToast(tn(made, "archive.thumbnailsDone"));
       onDataChanged?.();
     } catch (e) {
       showToast(typeof e === "string" ? e : t("archive.error"));
@@ -107,9 +107,9 @@ export default function ArchiveTab({ onDataChanged }: { onDataChanged?: () => vo
       {report && (
         <div className="archive-tab__report">
           <p className="archive-tab__summary">
-            {t("archive.checked").replace("{count}", String(report.itemsChecked))}
+            {tn(report.itemsChecked, "archive.checked")}
             {report.contentsChecked && report.fingerprintsAdded > 0 && (
-              <> · {t("archive.fingerprintsAdded").replace("{count}", String(report.fingerprintsAdded))}</>
+              <> · {tn(report.fingerprintsAdded, "archive.fingerprintsAdded")}</>
             )}
           </p>
           <Section ok={report.missingFilesCount === 0} title={t("archive.missingFiles")} count={report.missingFilesCount} items={report.missingFiles}>

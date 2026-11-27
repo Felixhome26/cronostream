@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { invoke } from "../busy";
-import { t } from "../i18n";
+import { t, tn } from "../i18n";
 import type { UninstallPlan, UninstallTarget, UninstallTargetKind } from "../types";
 import { formatBytes } from "./DeleteStreamDialog";
 
@@ -168,7 +168,7 @@ export default function UninstallDialog({ onClose }: { onClose: () => void }) {
             </ul>
             {plan.keptDeletedStreams > 0 && (
               <p className="delete-dialog__error">
-                {t("uninstall.keptDeleted").replace("{n}", String(plan.keptDeletedStreams))}
+                {tn(plan.keptDeletedStreams, "uninstall.keptDeleted")}
               </p>
             )}
 

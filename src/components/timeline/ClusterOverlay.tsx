@@ -1,6 +1,6 @@
 import type { Dispatch, ReactNode, SetStateAction } from "react";
 import type { ItemInfo } from "../../types";
-import { t } from "../../i18n";
+import { t, tn } from "../../i18n";
 import { CLUSTER_FILTER_ORDER, LANE_LABEL_KEY, type FileTypeFilter } from "../../utils/timeline/lanes";
 
 /// Which set of items the open cluster card is showing. A period cluster is
@@ -66,10 +66,10 @@ export default function ClusterOverlay({
           {source.kind === "period"
             ? source.title
             : source.kind === "virtual"
-              ? `📔 ${items.length} ${t("diary.filesHeading")}`
+              ? `📔 ${tn(items.length, "diary.filesHeading")}`
               : source.kind === "note"
                 ? `🔗 ${items.length} ${t("timeline.noteClusterHeading")}`
-                : `${items.length} ${t("search.resultsHeading")}`}
+                : tn(items.length, "search.resultsHeading")}
         </div>
 
         {heroItem && (

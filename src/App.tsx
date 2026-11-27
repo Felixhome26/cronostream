@@ -6,7 +6,7 @@ import StartScreen from "./components/StartScreen";
 import ProjectShell from "./components/ProjectShell";
 import type { ProjectInfo } from "./types";
 import { useFullscreen } from "./useFullscreen";
-import { t, useLanguage } from "./i18n";
+import { quoted, t, useLanguage } from "./i18n";
 import { ToastProvider } from "./ToastContext";
 import { ProgressProvider } from "./ProgressContext";
 import { ConfirmProvider } from "./ConfirmContext";
@@ -92,7 +92,7 @@ function App() {
                 <div className="modal-overlay project-opening" role="status" aria-live="polite">
                   <div className="project-opening__spinner" />
                   <p className="project-opening__label">
-                    {t("start.openingProjectPrefix")} „{openingLabel}"…
+                    {t("start.openingProjectPrefix")} {quoted(openingLabel)}…
                   </p>
                 </div>
               )}

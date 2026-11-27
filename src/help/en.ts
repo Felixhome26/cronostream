@@ -27,7 +27,7 @@ export const HELP_EN: HelpTexts = {
       title: "What is CronoStream?",
       blocks: [
         {
-          p: "CronoStream arranges photos, videos, audio recordings, documents, e-mails and diary entries on one horizontal timeline – earlier on the left, later on the right. A “Stream” is a project in its own folder. Any number of them can be created, for example one for the family and one just for documents.",
+          p: "CronoStream arranges photos, videos, audio recordings, documents, emails and diary entries on one horizontal timeline – earlier on the left, later on the right. A “stream” is a project in its own folder. Any number of them can be created, for example one for the family and one just for documents.",
         },
         {
           list: [
@@ -127,7 +127,7 @@ export const HELP_EN: HelpTexts = {
             "**Rename:** only changes the displayed name, the folder on disk keeps its name.",
             "**Set as default stream** or **Clear default stream:** the default stream opens automatically the next time the app starts, but only at app start, not after the back arrow or a language change. Only one can be the default. If it cannot be opened (folder missing, drive not mounted, open in another window), the start screen stays with a notice.",
             "**Remove from list:** the folder stays untouched and can be added back at any time via **Open stream folder**.",
-            "**Delete permanently …:** deletes the whole stream from disk, after two confirmations.",
+            "**Delete permanently…:** deletes the whole stream from disk, after two confirmations.",
           ],
         },
         { p: "The search field above the tiles only appears from 11 streams. With many streams only the tile list scrolls, not the whole page." },
@@ -141,7 +141,7 @@ export const HELP_EN: HelpTexts = {
           steps: [
             "Open the stream and choose 🛠 **Manage** › **File operations**.",
             "Mark all files with Ctrl+A.",
-            "Choose **Paste into another stream** (or copy) and, in the target dialog, **＋ Create new stream**: enter a name and location, and the new stream serves as the target right away.",
+            "Choose **Add to another stream** (or copy) and, in the target dialog, **＋ Create new stream**: enter a name and location, and the new stream serves as the target right away.",
           ],
         },
         { p: "For a complete timestamped copy, use **Create backup** under 🛠 **Manage** › **Backup**. In both cases the original stays unchanged." },
@@ -152,7 +152,7 @@ export const HELP_EN: HelpTexts = {
       blocks: [
         {
           steps: [
-            "In the tile’s **⋯** menu, choose **Delete permanently …**. CronoStream checks the folder and shows name, file count and size. Foreign files in the folder that don't belong to the stream are listed by name, because they would be deleted too.",
+            "In the tile’s **⋯** menu, choose **Delete permanently…**. CronoStream checks the folder and shows name, file count and size. Foreign files in the folder that don't belong to the stream are listed by name, because they would be deleted too.",
             "Decide on **Keep the history** (on by default): the database is then saved before the folder is deleted, so the stream can be restored later. Without it, deleting is final.",
             "Click **Continue**, then confirm **Delete permanently** in the second dialog. The button stays locked for a few seconds so an accidental double click can't trigger it.",
           ],
@@ -163,7 +163,7 @@ export const HELP_EN: HelpTexts = {
     "start-wiederherstellen": {
       title: "Restore a deleted stream or a backup",
       blocks: [
-        { p: "Both are under the unobtrusive link **Restore & recycle bin …** at the bottom of the start screen." },
+        { p: "Both are under the unobtrusive link **Restore & trash…** at the bottom of the start screen." },
         { p: "**Deleted stream**" },
         {
           steps: [
@@ -228,7 +228,7 @@ export const HELP_EN: HelpTexts = {
         { p: "+, ✨, 🛠 and ⚙ open the same fullscreen layer above the timeline, each in a different area. The areas are chosen on the left, the tabs at the top. The left bar can be expanded and collapsed." },
         {
           list: [
-            "**Add:** Overview, Single image, Search drive, Import list",
+            "**Add:** Overview, Single image, Search disk, Import list",
             "**Review:** Fix date with AI",
             "**Manage:** File operations, History, Duplicates, Trash, Backup",
             "**Settings:** all settings and “About CronoStream”",
@@ -240,7 +240,7 @@ export const HELP_EN: HelpTexts = {
     "kopf-peek": {
       title: "Mini timeline preview (peek)",
       blocks: [
-        { p: "In File operations, a small preview of the timeline floats at the bottom left. Other views can be added under ⚙ › **Timeline & Lanes** › **Mini timeline preview**, one switch per view. Clicking it hides the toolbox and reveals the real timeline. The **Back to …** pill returns to the last active tab with everything as it was." },
+        { p: "In File operations, a small preview of the timeline floats at the bottom left. Other views can be added under ⚙ › **Timeline & lanes** › **Mini timeline preview**, one switch per view. Clicking it hides the toolbox and reveals the real timeline. The **Back to…** pill returns to the last active tab with everything as it was." },
         { p: "The preview and the pill can be dragged to another position. The preview can also be shrunk or hidden." },
       ],
     },
@@ -269,8 +269,8 @@ export const HELP_EN: HelpTexts = {
     "zl-spuren": {
       title: "Lanes: documents, images, videos, audio",
       blocks: [
-        { p: "Each kind of file has its own horizontal lane. E-mails, diary entries and other files share the documents lane. A lane only appears when the stream contains files of that kind – the first video makes the video lane appear." },
-        { p: "The existing lanes share the height. The fewer lanes there are, the larger the tiles. The order is set in the settings (**Lane Order & Visibility**)." },
+        { p: "Each kind of file has its own horizontal lane. Emails, diary entries and other files share the documents lane. A lane only appears when the stream contains files of that kind – the first video makes the video lane appear." },
+        { p: "The existing lanes share the height. The fewer lanes there are, the larger the tiles. The order is set in the settings (**Lane order & visibility**)." },
       ],
     },
     "zl-kacheln": {
@@ -281,7 +281,7 @@ export const HELP_EN: HelpTexts = {
             "**Images and videos:** thumbnail, the date on hover.",
             "**Documents and PDFs:** an icon at first, the page preview on hover.",
             "**Audio:** audio image with the file name.",
-            "**E-mails:** envelope icon with sender and date, sender and recipient on hover.",
+            "**Emails:** envelope icon with sender and date, sender and recipient on hover.",
             "**Diary entries:** diary image with the first line of text, the date and, if any, a paper clip with the number of attachments. The pencil on the tile opens the entry straight for editing.",
           ],
         },
@@ -324,7 +324,7 @@ export const HELP_EN: HelpTexts = {
           list: [
             "**N Edit** (only with an active selection): hands the marked files to file operations",
             "**Open in default app**",
-            "**Show file in stream folder** / **Show file in source folder** (greyed out if the original no longer exists)",
+            "**Show file in stream folder** / **Show file in source folder** (grayed out if the original no longer exists)",
             "For images: **Rotate 90° left/right**, **Rotate 180°**. This only rotates the display, the file stays unchanged.",
             "**Add to another stream**: puts the file in another stream's queue",
             "**Remove**: takes the file out of the stream (into the trash)",
@@ -339,7 +339,7 @@ export const HELP_EN: HelpTexts = {
         {
           list: [
             "**Add diary entry here:** new entry dated at the clicked spot, so entries about the past are possible too",
-            "**Paste clipboard** (only when an image is on the clipboard): asks whether to add the image as a normal image file or as a diary entry, dated at the clicked spot",
+            "**Paste from clipboard** (only when an image is on the clipboard): asks whether to add the image as a normal image file or as a diary entry, dated at the clicked spot",
           ],
         },
       ],
@@ -376,7 +376,7 @@ export const HELP_EN: HelpTexts = {
             "**Esc** or the ✕ in the selection bar clears the selection.",
           ],
         },
-        { p: "A bar “N selected” with an **Edit** button then appears at the bottom centre." },
+        { p: "A bar “N selected” with an **Edit** button then appears at the bottom center." },
       ],
     },
     "auswahl-bearbeiten": {
@@ -393,7 +393,7 @@ export const HELP_EN: HelpTexts = {
             "Zoom to the files that belong together, e.g. a birthday spread over several stacks.",
             "Mark all of them with Ctrl+click.",
             "Click **Edit**. File operations open with exactly these files.",
-            "Choose **Actions** › **Add note …**, enter e.g. “Grandma's 80th birthday” and click **Add**.",
+            "Choose **Actions** › **Add note…**, enter e.g. “Grandma's 80th birthday” and click **Add**.",
           ],
         },
         { p: "From now on search finds all these files. When one of them is open in the detail view, **All with this note (N)** shows them all together as a cluster, however far apart they are on the timeline." },
@@ -407,8 +407,8 @@ export const HELP_EN: HelpTexts = {
         { p: "Clicking a single tile, a tile in a stack or cluster, or double-clicking a search hit opens the detail view." },
         {
           list: [
-            "**Browse:** arrow keys ←/→ or the round arrow buttons, in chronological order across the whole timeline. Which kinds of file are included is set by **Navigation in Media Viewer**. Opened from a cluster, browsing stays within its files.",
-            "**Filter icon at the top left:** opens a popover where the file types (images, videos, audio, documents, All) used for browsing can be switched live. The type of the current file stays on. The choice lasts only until the detail view is closed; the **Navigation in Media Viewer** setting remains the starting value. The icon is not shown in a search cluster.",
+            "**Browse:** arrow keys ←/→ or the round arrow buttons, in chronological order across the whole timeline. Which kinds of file are included is set by **Navigation in the detail view**. Opened from a cluster, browsing stays within its files.",
+            "**Filter icon at the top left:** opens a popover where the file types (images, videos, audio, documents, All) used for browsing can be switched live. The type of the current file stays on. The choice lasts only until the detail view is closed; the **Navigation in the detail view** setting remains the starting value. The icon is not shown in a search cluster.",
             "**Close:** Esc, the ✕ at the top right, or a click next to the card. The timeline then jumps to the file last viewed, and its tile flashes briefly; it sits on top of its stack. If the starting point is out of sight, a chip “↩ Back to <Month Year>” (or Esc) appears to the left of the tile and leads back to the earlier view including the cluster grid. If browsing happened inside a cluster grid, closing returns to the grid as before.",
             "**Right-click on the media:** the same menu as on the timeline.",
           ],
@@ -427,17 +427,17 @@ export const HELP_EN: HelpTexts = {
       title: "Play video and audio",
       blocks: [
         { p: "Videos and audio start playing in the built-in player on their own. It has play/pause, a seek bar, ±10 seconds, volume and mute, playback speed from 0.5× to 2× and, for videos, a fullscreen button." },
-        { p: "If the player cannot play a format (old WMA, WMV, DivX AVI, Cinepak/Indeo, GSM or ADPCM WAV, AMR and others), it says “Converting the format for playback …”. The file is converted once with ffmpeg to WebM (VP9/Opus) and the copy is played. The copies live in the computer's cache folder (2 GB at most); the original in the stream stays unchanged." },
+        { p: "If the player cannot play a format (old WMA, WMV, DivX AVI, Cinepak/Indeo, GSM or ADPCM WAV, AMR and others), it says “Converting the format for playback…”. The file is converted once with ffmpeg to WebM (VP9/Opus) and the copy is played. The copies live in the computer's cache folder (2 GB at most); the original in the stream stays unchanged." },
       ],
     },
     "detail-dokumente": {
-      title: "Documents, PDFs and e-mails",
+      title: "Documents, PDFs and emails",
       blocks: [
         {
           list: [
             "**PDFs and documents:** preview or the extracted text, plus **Open in default app**. If no text could be read, it says so.",
-            "**E-mails (.eml, Outlook .msg):** header with subject, from, to, cc and date, then the text. On the right, **Attachments** lists all attachments with their size; a click opens one in its default program. Images embedded in the mail (in the HTML or as an attachment the text refers to) are shown, 25 MB per mail at most. Images from the internet stay blocked. Links in the text (web addresses, e-mail addresses, phone numbers) open in the default program on click, web pages in the browser.",
-            "**Other files:** name and **Open in default app**. If the file is a program or script (.exe, .bat, .sh, .desktop, .lnk …), a dialog first asks whether it should really be opened. This applies everywhere files are opened externally (timeline, e-mail and diary attachments, file browser).",
+            "**Emails (.eml, Outlook .msg):** header with subject, from, to, cc and date, then the text. On the right, **Attachments** lists all attachments with their size; a click opens one in its default program. Images embedded in the mail (in the HTML or as an attachment the text refers to) are shown, 25 MB per mail at most. Images from the internet stay blocked. Links in the text (web addresses, email addresses, phone numbers) open in the default program on click, web pages in the browser.",
+            "**Other files:** name and **Open in default app**. If the file is a program or script (.exe, .bat, .sh, .desktop, .lnk …), a dialog first asks whether it should really be opened. This applies everywhere files are opened externally (timeline, email and diary attachments, file browser).",
             "**Diary entries** open their own dialog.",
           ],
         },
@@ -446,7 +446,7 @@ export const HELP_EN: HelpTexts = {
     "detail-zeitstempel": {
       title: "Change a file's date and time",
       blocks: [
-        { p: "Click the pill with date and time in the detail view. It turns into the date input; Enter applies, Esc cancels. A badge next to it shows where the date came from: Metadata, Filename, Created, Modified, Custom date, From AI or Recorded." },
+        { p: "Click the pill with date and time in the detail view. It turns into the date input; Enter applies, Esc cancels. A badge next to it shows where the date came from: Metadata, File name, Created, Modified, Custom date, From AI or Recorded." },
         { p: "Only the timestamp in CronoStream changes; the file on disk stays as it is. The change is recorded in the history." },
         { p: "Whether date and time are also shown subtly over the image is controlled by **Show timestamp overlay**." },
       ],
@@ -455,7 +455,7 @@ export const HELP_EN: HelpTexts = {
       title: "Name and note",
       blocks: [
         { p: "**Name:** Click the name field, edit it and save with Enter or **Confirm** (Esc cancels). This only changes the display name in CronoStream, not the file name on disk." },
-        { p: "**Note:** Type into “Note on this file …”. The note saves itself – shortly after the last keystroke, when moving on and when closing. Search finds notes." },
+        { p: "**Note:** Type into “Note on this file…”. The note saves itself – shortly after the last keystroke, when moving on and when closing. Search finds notes." },
         { p: "**All with this note (N):** If at least two files have exactly the same note text, this button appears. It opens all of them as a cluster." },
       ],
     },
@@ -463,13 +463,13 @@ export const HELP_EN: HelpTexts = {
       title: "Sort out files in the detail view",
       blocks: [
         { p: "The red **Remove** button or the Delete key takes the file out of the stream and shows the next one straight away – that's how a collection gets sorted through in minutes. Removed files are in the trash and can be brought back from there or from the history." },
-        { note: "If **Delete local copy on removal** is switched on, CronoStream asks first: the working copy and the entry are then deleted permanently at once." },
+        { note: "If **Delete working copy on removal** is switched on, CronoStream asks first: the working copy and the entry are then deleted permanently at once." },
       ],
     },
     "detail-herausziehen": {
       title: "Drag files into other programs",
       blocks: [
-        { p: "Drag the media in the detail view with the mouse button held down into another program, such as an e-mail or a file manager. A copy is created there. In an enlarged image dragging pans the image; to drag it out, hold Alt as well." },
+        { p: "Drag the media in the detail view with the mouse button held down into another program, such as an email or a file manager. A copy is created there. In an enlarged image dragging pans the image; to drag it out, hold Alt as well." },
       ],
     },
 
@@ -480,7 +480,7 @@ export const HELP_EN: HelpTexts = {
         { p: "🔍 in the header or Ctrl+F opens the search bar above the timeline. The search runs shortly after the last keystroke and ignores upper/lower case." },
         {
           list: [
-            "**What is searched:** display and original name, the text of PDFs, documents, e-mails and diary entries, all notes, and the file names of diary attachments.",
+            "**What is searched:** display and original name, the text of PDFs, documents, emails and diary entries, all notes, and the file names of diary attachments.",
             "**Date range:** the **Date range** switch shows from/to fields. Text and date range can be combined or used alone.",
             "**Recent searches:** a click into the empty search field, on ▾ or the ↓ key opens the list of the last 50 searches of this stream (8 visible, scrollable with the mouse wheel or arrow keys). Click or Enter restores text and filters, × removes an entry, **Clear history** all of them. Ctrl+F alone does not open the list.",
             "**Close:** the search bar's ✕, 🔍 or Esc.",
@@ -510,8 +510,8 @@ export const HELP_EN: HelpTexts = {
           list: [
             "**Drag onto the window:** drag files or folders from the file manager onto the main window.",
             "**Drop box window (📥):** a small collecting window that always stays on top.",
-            "**File browser (+):** browse and mark folders (Overview, Single image), search the drive or import a path list.",
-            "**Clipboard:** Ctrl+V on the timeline or right-click › **Paste clipboard**.",
+            "**File browser (+):** browse and mark folders (Overview, Single image), search the disk or import a path list.",
+            "**Clipboard:** Ctrl+V on the timeline or right-click › **Paste from clipboard**.",
             "**Create new:** diary entries and video/audio recordings.",
             "**From another stream:** **Add to another stream**, or copy/move in file operations.",
           ],
@@ -522,7 +522,7 @@ export const HELP_EN: HelpTexts = {
     "add-drop": {
       title: "Drag files onto the main window",
       blocks: [
-        { p: "As soon as files are dragged over the window, an overlay says “Release to add the files”. Folders are expanded into their files, hidden files are skipped. Then the **Dropped files** review window opens. **E-mails** can also be dragged straight from the mail program, likewise into the drop box window and into a diary entry: on Windows, mails and attachments from Outlook (classic); several mails dragged together from Evolution are split into individual e-mails. Such files are kept temporarily in the local app data (folder “dropped_files”) and deleted after being added or removed from the drop box. If nothing can be taken from what was dragged, a message appears." },
+        { p: "As soon as files are dragged over the window, an overlay says “Release to add the files”. Folders are expanded into their files, hidden files are skipped. Then the **Dropped files** review window opens. **Emails** can also be dragged straight from the mail program, likewise into the drop box window and into a diary entry: on Windows, mails and attachments from Outlook (classic); several mails dragged together from Evolution are split into individual emails. Such files are kept temporarily in the local app data (folder “dropped_files”) and deleted after being added or removed from the drop box. If nothing can be taken from what was dragged, a message appears." },
       ],
     },
     "add-pruefen": {
@@ -531,15 +531,15 @@ export const HELP_EN: HelpTexts = {
         { p: "All files in the queue end up here, whether they were dragged onto the main window, collected in the drop box or sent from another stream. Each tile shows a thumbnail." },
         {
           list: [
-            "**Date choice under each tile:** every date candidate found, e.g. “(Metadata)”, “(Filename)”, “(Created)”, “(Modified)”. The best source is preselected.",
-            "**E-mail tiles** show subject, sender and mail date.",
+            "**Date choice under each tile:** every date candidate found, e.g. “(Metadata)”, “(File name)”, “(Created)”, “(Modified)”. The best source is preselected.",
+            "**Email tiles** show subject, sender and mail date.",
             "**Cross on the tile:** takes the file off the queue. Nothing happens on disk.",
             "**Clear list:** takes all files off the queue at once. Here too, the files on disk stay untouched.",
             "**Possible duplicate:** a comparison card with “Already in the stream” and “Newly dropped” side by side. Discard one by one or with **Discard all duplicates**.",
             "**File not found:** the file has been moved or deleted since and cannot be added.",
           ],
         },
-        { p: "At the bottom, **Review / correct dates manually** and/or **Review with AI after import** can be ticked; **Add (N)** brings the files in. On closing, CronoStream reports how many files were added." },
+        { p: "At the bottom, **Review / correct dates by hand** and/or **Review dates with AI after import** can be checked; **Add (N)** brings the files in. On closing, CronoStream reports how many files were added." },
       ],
     },
     "add-ablage": {
@@ -548,7 +548,7 @@ export const HELP_EN: HelpTexts = {
         { p: "📥 opens a small window that always stays on top. While browsing the file manager, finds can be dragged into it without worrying about dates or checks. They are listed with icon and name, and a counter shows “N waiting”. If a file has gone missing since, its row is struck through. The × on a row removes it from the drop box, and **Clear list** (at the bottom) removes all entries at once. The files on disk stay untouched." },
         { p: "The **−** next to the close cross shrinks the drop box to a small circle with the stream icon and the number of waiting files. Files can be dropped onto the circle too. A double-click restores the normal view." },
         { p: "The window has no system title bar. It is moved by the top bar with logo and title; the circle can be dragged anywhere." },
-        { p: "The drop box also runs without the main window. In the Linux AppImage and the installed Windows version, there can be a start menu entry for just the drop box, and it can open at system start (⚙ › **System & Language** › **Startup**, see “Startup: welcome, start menu and autostart”). With the --ablage parameter, the program starts with just the drop box. A second start ends up in the program that is already running instead of opening another one: with --ablage it shows the circle, otherwise the main window." },
+        { p: "The drop box also runs without the main window. In the Linux AppImage and the installed Windows version, there can be a start menu entry for just the drop box, and it can open at system start (⚙ › **System & language** › **Startup**, see “Startup: welcome, start menu and autostart”). With the --ablage parameter, the program starts with just the drop box. A second start ends up in the program that is already running instead of opening another one: with --ablage it shows the circle, otherwise the main window." },
         { p: "Without a main window, the drop box sits in the system tray as an icon and needs very little memory. A left click on the icon opens the circle; the menu offers **Open drop box** and **Quit**. A right click on the circle or its ✕ puts it back in the tray, even if the drop box was opened from the main window (the tray icon is then created on the first right click), and **Quit** in the tray menu ends the program. Without a tray (for example because a library is missing) the circle stays visible, and its ✕ then ends the program. On GNOME the tray icon only appears with the “AppIndicator” extension. If the main window is closed while the drop box is open, the drop box keeps running and the tray icon stays; it is then only ended via **Quit** in the tray icon's right-click menu." },
         { p: "On Wayland the app starts through XWayland, because Wayland lets a window neither choose its own position nor stay on top, and the drop box needs both. The main window may look slightly softer under fractional scaling." },
         { p: "The list survives closing the app. In the main window, the round **Dropped files** button at the bottom right shows what is waiting; a click opens the review window." },
@@ -561,29 +561,29 @@ export const HELP_EN: HelpTexts = {
         {
           list: [
             "**Click:** shows the file in the preview on the right. Images can be zoomed and rotated there, video and audio played. The preview's edge can be dragged.",
-            "**E-mail in the preview:** subject, sender and mail date, the sorting date only if it differs. This also applies to the drive search and the file operations.",
+            "**Email in the preview:** subject, sender and mail date, the sorting date only if it differs. This also applies to the disk search and the file operations.",
             "**Scrolling into the preview image** (wheel forwards) opens free zoom, like the magnifier. Only the image area reacts; outside it and when scrolling backwards the preview scrolls as before. Also applies when searching the disk.",
-            "**Double click or Space:** marks the file for adding (golden frame with a tick).",
+            "**Double click or Space:** marks the file for adding (golden frame with a check mark).",
             "**Folders:** a click offers to mark the whole folder (optionally with subfolders), a double click opens it.",
             "**Arrow keys** move through the grid, **Ctrl+A** marks every file that can be added.",
             "**↑ Parent folder**, **Show files in subfolders**, type chips (photos, videos, audio, documents), **Hide files already in the stream** and **Sort** (name, size, created, modified, with a direction arrow).",
             "**Right-click:** open in default program, show folder, add to another stream.",
           ],
         },
-        { p: "Files that are already there carry the band “Already in CronoStream”. Under each tile is the date that would be used when adding, with its source in brackets. Marked files that are already there can be taken out of the stream again with **Remove (N)**. If **Delete local copy on removal** is switched on, a dialog asks first, because the files are then deleted for good." },
+        { p: "Files that are already there carry the band “Already in the stream”. Under each tile is the date that would be used when adding, with its source in brackets. Marked files that are already there can be taken out of the stream again with **Remove (N)**. If **Delete working copy on removal** is switched on, a dialog asks first, because the files are then deleted for good." },
       ],
     },
     "add-sammlung": {
-      title: "The collection and “Add to CronoStream”",
+      title: "The collection and “Add to the stream”",
       blocks: [
         { p: "Everything marked, in all visited folders and tabs, goes into one shared collection. It survives changing folders and even quitting the app." },
-        { p: "As soon as something is collected, the golden **Add to CronoStream** button with a counter appears at the bottom right. It opens the list of all collected files. Single ones can be taken out with **Remove from list**. With the same two review boxes as in the review window, **Add** brings them in." },
+        { p: "As soon as something is collected, the golden **Add to the stream** button with a counter appears at the bottom right. It opens the list of all collected files. Single ones can be taken out with **Remove from list**. With the same two review boxes as in the review window, **Add** brings them in." },
       ],
     },
     "add-einzelbild": {
       title: "The “Single image” tab",
       blocks: [
-        { p: "For going through photo folders like an album: one large image at a time, with its neighbours preloaded. The folder is the one chosen on the left." },
+        { p: "For going through photo folders like an album: one large image at a time, with its neighbors preloaded. The folder is the one chosen on the left." },
         {
           keys: [
             ["→", "Next image"],
@@ -595,20 +595,20 @@ export const HELP_EN: HelpTexts = {
       ],
     },
     "add-festplatte": {
-      title: "The “Search drive” tab",
+      title: "The “Search disk” tab",
       blocks: [
         { p: "Searches from the folder chosen on the left for matching files. The search runs in the background and the app stays usable." },
         {
           list: [
             "**Search term:** part of the file name (empty = all files of the chosen types).",
-            "**Include subfolders**, **File types** (images, videos, audio, documents, e-mails, other; nothing ticked = all).",
+            "**Include subfolders**, **File types** (images, videos, audio, documents, emails, other; nothing checked = all).",
             "**Limit date range** by **Date taken** or **Copied to the computer**.",
             "**File size** at least/at most.",
             "**Hide duplicates:** of several copies of the same file found, shows only one.",
-            "**Hide files already in the stream:** also recognises renamed copies.",
-            "**Content check:** “fast” compares size and a short excerpt, “thorough” the whole file byte by byte (safer, but slower).",
-            "**Recent searches:** the search field remembers the last 50 drive searches including their filters, shared by all streams. Picking one switches to that folder and searches at once.",
-            "**Load from index:** uses the last search of this folder without reading the drive again. Date range, type and size can still be changed freely.",
+            "**Hide files already in the stream:** also recognizes renamed copies.",
+            "**Content check:** “Fast” compares size and a short excerpt, “Thorough” the whole file byte by byte (safer, but slower).",
+            "**Recent searches:** the search field remembers the last 50 disk searches including their filters, shared by all streams. Picking one switches to that folder and searches at once.",
+            "**Load from index:** uses the last search of this folder without reading the disk again. Date range, type and size can still be changed freely.",
           ],
         },
         { p: "A progress band shows the phase and time left, **Cancel** stops the search. Hits appear in the same grid as in the overview and go into the collection when marked. Folders with more than about 200,000 files are refused – a narrower folder works then." },
@@ -617,7 +617,7 @@ export const HELP_EN: HelpTexts = {
     "add-liste": {
       title: "The “Import list” tab",
       blocks: [
-        { p: "**Open file** picks a text file (.txt) with a full path including the file name on every line, e.g. /home/user/222.jpg. Valid files are marked and go into the collection; files not found are counted. They are added as usual via **Add to CronoStream**." },
+        { p: "**Open file** picks a text file (.txt) with a full path including the file name on every line, e.g. /home/user/222.jpg. Valid files are marked and go into the collection; files not found are counted. They are added as usual via **Add to the stream**." },
       ],
     },
     "add-zwischenablage": {
@@ -636,7 +636,7 @@ export const HELP_EN: HelpTexts = {
       title: "Send files to another stream",
       blocks: [
         { p: "**Add to another stream** (right-click a tile on the timeline or in the file browser) puts the file into the chosen stream's queue. It shows up in that stream's review window the next time it is opened." },
-        { p: "For an immediate transfer, use **Copy to another stream …** or **Move to another stream …** in file operations." },
+        { p: "For an immediate transfer, use **Copy to another stream…** or **Move to another stream…** in file operations." },
       ],
     },
 
@@ -648,7 +648,7 @@ export const HELP_EN: HelpTexts = {
         {
           steps: [
             "WhatsApp file name (e.g. “IMG-20190612-WA0001”)",
-            "Embedded metadata: capture time (EXIF) for photos, sent date for e-mails",
+            "Embedded metadata: capture time (EXIF) for photos, sent date for emails",
             "Date in the file name (e.g. “20150207_150541”)",
             "File system: the creation date, unless it is later than the modification date – then the file was evidently copied later, and the modification date is used.",
           ],
@@ -680,7 +680,7 @@ export const HELP_EN: HelpTexts = {
         {
           steps: [
             "Mark the files in file operations (or select them on the timeline and click **Edit**).",
-            "Choose **Actions** › **Change date …** (also available on right-click).",
+            "Choose **Actions** › **Change date…** (also available on right-click).",
             "Each file gets a card with a preview, “Before: …” and its own date input.",
             "For several files, enter a date and the **Offset** (min per file, default 5) at the top and click **Apply to all**. The first file gets the date, the second 5 minutes later and so on – ideal for photo series.",
             "Adjust single cards if needed and click **Save**. Only then is anything written, all in one go.",
@@ -692,14 +692,14 @@ export const HELP_EN: HelpTexts = {
     "datum-nach-import": {
       title: "Check dates right after importing",
       blocks: [
-        { p: "The review window and the **Add to CronoStream** list both have two boxes. CronoStream remembers the choice." },
+        { p: "The review window and the **Add to the stream** list both have two boxes. CronoStream remembers the choice." },
         {
           list: [
             "**Review / correct dates manually:** after the import, file operations open with exactly the files just added.",
             "**Review with AI after import:** after the import, AI dating opens, limited to these files.",
           ],
         },
-        { p: "With both ticked, file operations come first; **Continue to AI review** leads on from there." },
+        { p: "With both checked, file operations come first; **Continue to AI review** leads on from there." },
       ],
     },
     "datum-ki": {
@@ -712,18 +712,18 @@ export const HELP_EN: HelpTexts = {
             "Optionally enter **Additional instructions for the AI**, e.g. “All pictures with IMG_ in the name are from the 2012 Easter holiday”.",
             "**Copy to clipboard** (or **Save as file**) and paste the text into any AI chat program.",
             "Copy the AI's answer and click **Read from clipboard now and import**.",
-            "Check the list: previous date, suggestion (editable), confidence and reasoning. Untick unwanted rows and click **Apply**.",
+            "Check the list: previous date, suggestion (editable), confidence and reasoning. Uncheck unwanted rows and click **Apply**.",
           ],
         },
-        { p: "A report shows “X date changed, Y unchanged”, with **Show changes** on request. Everything is recorded as one action “Date taken from AI” in the history and can be undone completely or per file." },
+        { p: "A report shows “X changed, Y unchanged”, with **Show changes** on request. Everything is recorded as one action “Date taken from AI” in the history and can be undone completely or per file." },
       ],
     },
     "datum-ki-details": {
       title: "AI dating: what is shared and what helps with gaps",
       blocks: [
         { p: "**Shared** are only the file name, folder path, previous date and its source, file system times and embedded metadata (e.g. EXIF capture date, time zone, GPS timestamp). Images, videos and document contents are never transferred. Whether and with which AI the text is pasted is a deliberate, separate decision." },
-        { p: "**Missing answers:** if the AI didn't answer every entry, CronoStream offers **Copy missing to clipboard**. Paste this short follow-up into the same chat and import the answer again; the new suggestions are added to the existing ones. With very many files, **Save as file** is often more reliable." },
-        { p: "**Checking:** clicking the reasoning shows all raw data of the file. **Hide unchanged** hides rows whose day stays the same. Confidence is colour-coded: high (green), medium (yellow), low (orange)." },
+        { p: "**Missing answers:** if the AI didn't answer every entry, CronoStream offers **Copy missing entries to clipboard**. Paste this short follow-up into the same chat and import the answer again; the new suggestions are added to the existing ones. With very many files, **Save as file** is often more reliable." },
+        { p: "**Checking:** clicking the reasoning shows all raw data of the file. **Hide unchanged** hides rows whose day stays the same. Confidence is color-coded: high (green), medium (yellow), low (orange)." },
       ],
     },
 
@@ -735,7 +735,7 @@ export const HELP_EN: HelpTexts = {
         {
           list: [
             "**Years (left):** **All years** or a single year with its count. The newest year is selected the first time.",
-            "**Filters at the top:** text field (searches file name and content), a **Date range** switch with **Timestamp in CronoStream** or **Added on** and from/to, type chips.",
+            "**Filters at the top:** text field (searches file name and content), a **Date range** switch with **Timestamp in the stream** or **Added on** and from/to, type chips.",
             "**Click:** shows the file in the preview on the right (warm white ring).",
             "**Double click or Space:** marks it for the batch action (red ring). Arrow keys move through the grid.",
             "**Select-all box** at the top left or **Ctrl+A:** mark all visible files or clear everything. Count and total size are shown next to it.",
@@ -750,23 +750,23 @@ export const HELP_EN: HelpTexts = {
         { p: "Only active when something is marked. The same entries are in the right-click menu, which also offers rotating images." },
         {
           list: [
-            "**Change date …:** one by one or staggered with an offset",
+            "**Change date…:** one by one or staggered with an offset",
             "**Send to AI for dating:** opens AI dating with exactly these files",
-            "**Add note …:** appends a term to the note of every marked file (after a comma if there already is one, without duplicates)",
-            "**Rotate left (90°)** / **Rotate right (90°):** rotates all marked photos; only the rotation value is saved, the file stays unchanged. Greyed out as soon as a marked file is not a photo",
-            "**Copy to another stream …** / **Move to another stream …**",
-            "**Print export …:** copy photos into a folder, named by date and time",
-            "**Path list to clipboard** / **Path list as text file …**",
+            "**Add note…:** appends a term to the note of every marked file (after a comma if there already is one, without duplicates)",
+            "**Rotate left (90°)** / **Rotate right (90°):** rotates all marked photos; only the rotation value is saved, the file stays unchanged. Grayed out as soon as a marked file is not a photo",
+            "**Copy to another stream…** / **Move to another stream…**",
+            "**Print export…:** copy photos into a folder, named by date and time",
+            "**Path list to clipboard** / **Path list as text file…**",
             "**Remove from CronoStream:** into the trash",
           ],
         },
-        { p: "Next to it is the **Replace file in CronoStream …** button. It works independently of what is marked." },
+        { p: "Next to it is the **Replace file in the stream…** button. It works independently of what is marked." },
       ],
     },
     "verw-uebertragen": {
       title: "Copy or move to another stream",
       blocks: [
-        { p: "After **Copy to another stream …** or **Move to another stream …**, the target is chosen from the list of streams. One that is open elsewhere right now is locked. **＋ Create new stream** in the target dialog creates a new one (name and location) that serves as the target right away." },
+        { p: "After **Copy to another stream…** or **Move to another stream…**, the target is chosen from the list of streams. One that is open elsewhere right now is locked. **＋ Create new stream** in the target dialog creates a new one (name and location) that serves as the target right away." },
         {
           list: [
             "**Copy:** the files are added to the target as well; everything here stays as it is.",
@@ -774,7 +774,7 @@ export const HELP_EN: HelpTexts = {
             "**Duplicate check:** already there means same source path or same content (size, quick hash, BLAKE3; missing hashes in the target are computed afterwards). First the “Files already there” dialog appears with **Skip existing** or **Copy anyway** / **Move anyway**.",
             "Afterwards a result dialog lists all skipped files with the reason. Once confirmed, they are marked in file operations; when moving, they can be removed there.",
             "**Notes** come along, and with them the private mode marker. A file only stays private in the target, though, if the same marker text is set up there.",
-            "**Diary entries** arrive complete: text, all attachments in their order, and note. An entry with the same text and time in the target counts as already there. If an attachment is missing in the source folder, the entry is skipped with the message “Attachment \"…\" is missing from the source folder.” and, when moving, is not removed here.",
+            "**Diary entries** arrive complete: text, all attachments in their order, and note. An entry with the same text and time in the target counts as already there. If an attachment is missing in the source folder, the entry is skipped with the message “Attachment ‘…’ is missing from the source folder.” and, when moving, is not removed here.",
             "Both sides get a history entry.",
           ],
         },
@@ -783,7 +783,7 @@ export const HELP_EN: HelpTexts = {
     "verw-druckexport": {
       title: "Print export for photo book and print services",
       blocks: [
-        { p: "Many print services sort photos by the date and time in the file name or print it on the back. **Print export …** copies the marked photos into a freely chosen folder and names each copy after the date and time on the timeline, e.g. “09.10.2026 - 14.30 Uhr.jpg”." },
+        { p: "Many print services sort photos by the date and time in the file name or print it on the back. **Print export…** copies the marked photos into a freely chosen folder and names each copy after the date and time on the timeline, e.g. “09.10.2026 - 14.30 Uhr.jpg”." },
         {
           list: [
             "Two photos in the same minute get “- 2”, “- 3” … appended.",
@@ -797,8 +797,8 @@ export const HELP_EN: HelpTexts = {
     "verw-pfadliste": {
       title: "Path list: for external programs",
       blocks: [
-        { p: "**Path list to clipboard** and **Path list as text file …** produce a text with one full path per line – the paths of the copies in the stream folder." },
-        { p: "This makes it possible, for example, to shrink many large videos in batch with an external conversion program. The results come back afterwards via **Replace file in CronoStream …**, without losing dates, notes or names." },
+        { p: "**Path list to clipboard** and **Path list as text file…** produce a text with one full path per line – the paths of the copies in the stream folder." },
+        { p: "This makes it possible, for example, to shrink many large videos in batch with an external conversion program. The results come back afterwards via **Replace file in the stream…**, without losing dates, notes or names." },
       ],
     },
     "verw-ersetzen": {
@@ -807,7 +807,7 @@ export const HELP_EN: HelpTexts = {
         { p: "Swaps files in the stream for another version of the same file, e.g. videos compressed afterwards." },
         {
           steps: [
-            "Click **Replace file in CronoStream …**, read the explanation and **Choose folder …**. Subfolders are searched too.",
+            "Click **Replace file in the stream…**, read the explanation and **Choose folder…**. Subfolders are searched too.",
             "Check the list of matches. A file matches if its name contains the name of the stream file (without extension) as a whole word, possibly with a suffix and a different extension: “Holiday.mov” matches “Holiday_compressed.mp4” but not “Holiday2.mp4”. The file type must be the same. With several candidates, one has to be chosen.",
             "Click **Replace files**. A report shows before, after and the space saved.",
           ],
@@ -834,17 +834,17 @@ export const HELP_EN: HelpTexts = {
       title: "The “Duplicates” tab: check the whole stream",
       blocks: [
         { p: "**Run duplicate check now** searches the entire stream for files with the same fingerprint – useful for files added before duplicate detection was switched on. The check keeps running when switching tabs." },
-        { p: "The result (“12 possible duplicates found in 5 groups”) stays below the button, together with the button **Hand off to file operations**. All files involved are shown there; the unneeded ones are marked and removed. The app never decides which version stays." },
-        { p: "**Find similar pictures** also finds photos that look the same without being the same file: copies that were scaled down, recompressed by WhatsApp or saved again. For this, every photo gets a picture fingerprint from its thumbnail. Nearly single-colour pictures such as sky, walls or dark shots are left out, as are pictures with very little structure. A group gathers the pictures that resemble its first picture, so a long series of similar shots gives several small groups. The first search takes longer, because every photo gets its fingerprint then. Here too the result comes as a message with **Hand off to file operations**, and it stays a suggestion." },
+        { p: "The result (“12 possible duplicates found in 5 groups”) stays below the button, together with the button **Hand off to File operations**. All files involved are shown there; the unneeded ones are marked and removed. The app never decides which version stays." },
+        { p: "**Find similar pictures** also finds photos that look the same without being the same file: copies that were scaled down, recompressed by WhatsApp or saved again. For this, every photo gets a picture fingerprint from its thumbnail. Nearly single-color pictures such as sky, walls or dark shots are left out, as are pictures with very little structure. A group gathers the pictures that resemble its first picture, so a long series of similar shots gives several small groups. The first search takes longer, because every photo gets its fingerprint then. Here too the result comes as a message with **Hand off to File operations**, and it stays a suggestion." },
       ],
     },
     "verw-sicherung": {
       title: "Create a backup",
       blocks: [
         { p: "🛠 **Manage** › **Backup** › **Create backup**, then a target folder. A progress window shows “n of m files copied”; **Cancel** cleans up anything half-finished." },
-        { p: "The result is a folder with the stream's name and a timestamp: files, thumbnails, database and history. The backup is itself a complete stream. To go back to it, use **Restore & recycle bin …** › **Restore from backup** on the start screen: it creates a new copy and opens it (alternatively open it directly via **Open stream folder**)." },
+        { p: "The result is a folder with the stream's name and a timestamp: files, thumbnails, database and history. The backup is itself a complete stream. To go back to it, use **Restore & trash…** › **Restore from backup** on the start screen: it creates a new copy and opens it (alternatively open it directly via **Open stream folder**)." },
         { p: "The target must not be inside the stream folder itself." },
-        { p: "**Update an existing backup …** brings an earlier backup up to date instead of copying everything again: choose the backup's folder; only new and changed files are copied, together with the current state of the database. Files that no longer exist in the stream stay in the backup, so a photo deleted by mistake is still there. A folder that is not a backup of this stream is refused. If the folder contains changes this stream does not have (for example a duplicate that was continued on its own) or belongs to a stream with another name, the app asks first. The folder's previous database stays in it as “cronostream.db.vor-aktualisierung”." },
+        { p: "**Update an existing backup…** brings an earlier backup up to date instead of copying everything again: choose the backup's folder; only new and changed files are copied, together with the current state of the database. Files that no longer exist in the stream stay in the backup, so a photo deleted by mistake is still there. A folder that is not a backup of this stream is refused. If the folder contains changes this stream does not have (for example a duplicate that was continued on its own) or belongs to a stream with another name, the app asks first. The folder's previous database stays in it as “cronostream.db.vor-aktualisierung”." },
       ],
     },
     "verw-archiv": {
@@ -859,7 +859,7 @@ export const HELP_EN: HelpTexts = {
             "**Changed contents:** only with **Read contents in full**. The first time, every file gets a fingerprint; later checks notice when a file changed although the app did not change it, for instance through disk damage. A backup or the original source then probably still holds the correct version.",
           ],
         },
-        { p: "Reading everything in full takes long for large archives. It is worth doing now and then, for example before updating a backup." },
+        { p: "Reading everything in full takes a long time for large archives. It is worth doing now and then, for example before updating a backup." },
       ],
     },
 
@@ -884,7 +884,7 @@ export const HELP_EN: HelpTexts = {
         {
           steps: [
             "Find the entry in the history and click **Undo**, or **Undo all** for batch actions. In an expanded entry there is a button per file too.",
-            "If the same file has been changed again since, “This file has changed since” appears with the newer changes. **Undo the newer changes first** reverts them as well, in the right order. Nothing is overwritten silently.",
+            "If the same file has been changed again since, “This file has been changed again since then” appears with the newer changes. **Undo the newer changes first** reverts them as well, in the right order. Nothing is overwritten silently.",
             "When undoing an import, CronoStream asks whether to keep or delete the copy in the stream folder. The originals are safe either way.",
           ],
         },
@@ -929,7 +929,7 @@ export const HELP_EN: HelpTexts = {
             "Click 🎬 (video) or 🎙️ (audio) in the header. With several devices connected, choose **Camera** and **Microphone** at the top; the last choice is remembered.",
             "**Start recording**. A red dot pulses and the time runs. Use **Pause** / **Resume** as needed.",
             "**Stop recording** and check the result in the player.",
-            "Enter a **Name of the recording** and **Add to CronoStream**, or **Discard and record again**.",
+            "Enter a **Name of the recording** and **Add to the stream**, or **Discard and record again**.",
           ],
         },
         { p: "The recording appears on the timeline at the current time; its date source is “Recorded”." },
@@ -951,7 +951,7 @@ export const HELP_EN: HelpTexts = {
         {
           list: [
             "**Create topic area** and enter a name. **Add phase** creates a draft row with empty date fields in it; the phase is saved only once **Start** and **End** are filled in.",
-            "Each phase has a title, **Start** and **End** (date input), the **ongoing** box (the end is then always today) and a **Colour** (palette or hex value, **Apply**). A new phase automatically gets a colour that is not yet used in any topic area.",
+            "Each phase has a title, **Start** and **End** (date input), the **ongoing** box (the end is then always today) and a **Color** (palette or hex value, **Apply**). A new phase automatically gets a color that is not yet used in any topic area.",
             "**Eye:** shows or hides a phase or a whole topic area. Half-filled means only some phases are visible.",
             "**Allow overlap** is set per topic area and is on by default for new topic areas. When it is off, an overlapping phase is not saved and the phases in the way are named.",
             "**Collapse:** the arrow on the left of a topic area hides its phases from the list; only the name and the number of phases stay visible. The state is remembered; **Add phase** expands the area again.",
@@ -966,11 +966,11 @@ export const HELP_EN: HelpTexts = {
     "ph-zeitleiste": {
       title: "Phases on the timeline",
       blocks: [
-        { p: "Phases are coloured bars in a band above the lanes, one row per topic area; overlapping phases stack. Resting on a bar shows its period." },
+        { p: "Phases are colored bars in a band above the lanes, one row per topic area; overlapping phases stack. Resting on a bar shows its period." },
         {
           list: [
             "**Click a bar:** zooms so the whole phase fills the window. **↩ Back** at the bottom left or Esc returns to the view before, as long as there was no manual zooming or panning in between.",
-            "**Right-click a bar:** **Rename**, **Change colour**, **Hide phase**, **Remove phase**.",
+            "**Right-click a bar:** **Rename**, **Change color**, **Hide phase**, **Remove phase**.",
             "**Arrow menu left of the band:** quickly show and hide topic areas.",
           ],
         },
@@ -984,13 +984,13 @@ export const HELP_EN: HelpTexts = {
         { p: "⚙ opens the settings. A bar of **categories** is on the left, the settings of the chosen category on the right. The category last chosen is kept for the session, even after a language change." },
         {
           list: [
-            "**System & Language:** interface language, appearance (colour scheme **Light** or **Dark**, dark by default; applies to the whole computer, the drop box and the program icon follow; can also be switched at the top right of the start screen) startup (welcome screen, start menu, desktop, drop box, autostart) and uninstalling.",
-            "**Files & Duplicates:** local copy on removal, duplicate detection, earliest year, shortcut to the duplicate manager.",
-            "**Timeline & Lanes:** lane order, changing the date by dragging tiles, mini timeline preview.",
+            "**System & language:** interface language, appearance (color scheme **Light** or **Dark**, dark by default; applies to the whole computer, the drop box and the program icon follow; can also be switched at the top right of the start screen), startup (welcome screen, start menu, desktop, drop box, autostart) and uninstalling.",
+            "**Files & duplicates:** working copy on removal, duplicate detection, earliest year, shortcut to the duplicate manager.",
+            "**Timeline & lanes:** lane order, changing the date by dragging tiles, mini timeline preview.",
             "**Stacks & Zoom:** trigger, action and zoom brake of the stacks, pointer follows the opened stack.",
-            "**Media & Viewer:** navigation in the media viewer, timestamp overlay, video thumbnail.",
+            "**Media & detail view:** navigation in the detail view, timestamp overlay, video thumbnail.",
             "**Privacy:** private mode.",
-            "**About CronoStream:** version, copyright and licences.",
+            "**About CronoStream:** version, copyright and licenses.",
           ],
         },
         { p: "Switches and selection fields (side-by-side buttons of which one is chosen) take effect immediately. For the earliest year, Enter or leaving the field confirms it (“✓ Saved”); for the video thumbnail, **Apply**. A symbol to the right of a setting shows where the choice applies (see “Where a setting applies”)." },
@@ -1002,15 +1002,15 @@ export const HELP_EN: HelpTexts = {
         {
           steps: [
             "Open **⚙ Settings**.",
-            "In the category **System & Language**, in the **Language** row, pick the language: **Deutsch**, **English** or **Español**.",
+            "In the category **System & language**, in the **Language** row, pick the language: **Deutsch**, **English** or **Español**.",
           ],
         },
-        { p: "This also works on the start screen, even before the first stream exists: at the top right, next to the coffee cup, are the buttons **Deutsch**, **English** and **Español** as well as **Light** and **Dark** for the colour scheme. The choice is the same as in the settings." },
+        { p: "This also works on the start screen, even before the first stream exists: at the top right, next to the coffee cup, are the buttons **Deutsch**, **English** and **Español** as well as **Light** and **Dark** for the color scheme. The choice is the same as in the settings." },
         { p: "The interface switches immediately, no restart needed. Settings stay open. Each language is listed in its own spelling, so it can be found even when the current language isn't understood." },
         { p: "On the very first start the interface follows the operating system language (German, English or Spanish), otherwise English applies. A saved choice always takes precedence." },
         {
           list: [
-            "The choice applies to all streams on this computer, including the start screen and the **Drop box**. That's why there is no \"Applies to\" here.",
+            "The choice applies to all streams on this computer, including the start screen and the **Drop box**. That's why there is no “Applies to” here.",
             "Date and time formats, the help, the program's messages, the picture on the empty timeline and the file names of the **Print export** follow the language too.",
             "Content stays as it is: names, notes, diary entries, life phases and the files themselves are not translated.",
           ],
@@ -1027,18 +1027,18 @@ export const HELP_EN: HelpTexts = {
             "**All:** for all streams on this computer. When switching, the current value is taken over – it does not change by switching.",
           ],
         },
-        { p: "There is no symbol in the categories **System & Language** and **About CronoStream**, because everything there applies to the whole computer, nor in **Privacy**, which always applies to its own stream only." },
+        { p: "There is no symbol in the categories **System & language** and **About CronoStream**, because everything there applies to the whole computer, nor in **Privacy**, which always applies to its own stream only." },
         { p: "By default every setting applies only to its own stream. That way a photo stream can behave differently from a document stream. Most settings take effect immediately." },
       ],
     },
     "set-allgemein": {
-      title: "Settings: Files & Duplicates",
+      title: "Settings: Files & duplicates",
       blocks: [
         {
           list: [
-            "**Delete local copy on removal** (off by default): removing a file also deletes its copy in the stream folder. Careful: removing is then final and does not go to the trash; the detail view and file operations therefore ask first. Originals stay untouched.",
+            "**Delete working copy on removal** (off by default): removing a file also deletes its copy in the stream folder. Careful: removing is then final and does not go to the trash; the detail view and file operations therefore ask first. Originals stay untouched.",
             "**Auto-detect duplicates on import** (on): checks new files against the collection and flags suspects for review.",
-            "**Quick check by filename and size** (on, sub-option): only checks when a file with the same name and size already exists. Switching it off also finds renamed duplicates – that takes longer.",
+            "**Quick check by file name and size** (on, sub-option): only checks when a file with the same name and size already exists. Switching it off also finds renamed duplicates – that takes longer.",
             "**Earliest year for dates** (1900): earlier years are rejected in every date input, dates in the future always.",
             "**Go to Duplicate Manager →:** opens the Duplicates tab.",
           ],
@@ -1046,11 +1046,11 @@ export const HELP_EN: HelpTexts = {
       ],
     },
     "set-zeitleiste": {
-      title: "Settings: Timeline & Lanes",
+      title: "Settings: Timeline & lanes",
       blocks: [
         {
           list: [
-            "**Lane Order & Visibility:** reorder the lanes by dragging the ⋮⋮ handle or with the arrow buttons. **Reset to default order** resets it. Lanes without content are hidden automatically.",
+            "**Lane order & visibility:** reorder the lanes by dragging the ⋮⋮ handle or with the arrow buttons. **Reset to default order** resets it. Lanes without content are hidden automatically.",
             "**Change date by dragging tiles** (off): tiles can be dragged sideways to a new date. Off means dragging moves the timeline.",
             "**Mini timeline preview** (File operations only by default): one switch per toolbox view for whether the floating preview and its back button appear.",
           ],
@@ -1062,9 +1062,9 @@ export const HELP_EN: HelpTexts = {
       blocks: [
         {
           list: [
-            "**Stack Trigger:** **Mouse pointer (Hover)** opens on resting, **Click** (default) only on a mouse click. A click always resolves a stack, whatever this setting says.",
-            "**Stack Action:** **Zoom into timeline** zooms until the stack dissolves into single tiles. **Expand stack (Fan out)** (default) shows the grid in place without changing the zoom.",
-            "**Hover Zoom Brake:** only applies to hover + zoom. **Step-by-step** stops after each step until the mouse moves. **Continuous** keeps zooming while the pointer rests. **Click only** (default) opens on resting and zooms only on click. When the brake does not apply at the moment, it is shown dimmed with a note and can still be set in advance.",
+            "**Stack trigger:** **Mouse pointer (hover)** opens on resting, **Click** (default) only on a mouse click. A click always resolves a stack, whatever this setting says.",
+            "**Stack action:** **Zoom into timeline** zooms until the stack dissolves into single tiles. **Expand stack (fan out)** (default) shows the grid in place without changing the zoom.",
+            "**Hover zoom brake:** only applies to hover + zoom. **Step by step** stops after each step until the mouse moves. **Continuous** keeps zooming while the pointer rests. **Click only** (default) opens on resting and zooms only on click. When the brake does not apply at the moment, it is shown dimmed with a note and can still be set in advance.",
             "**Pointer follows the opened stack** (switch, off by default): when a stack fans out, the pointer jumps to the middle tile, whose file is shown large at the top. This helps with stacks at the edge. It only applies when a stack fans out (with “Zoom into timeline” only when zooming no longer suffices to dissolve it) and only where the window system allows it: X11, Windows and macOS, not a pure Wayland session.",
             "**Zoom levels:** the switches **Show week grid** and **Show hour grid** (both on by default) decide which grid levels the timeline shows. Without the week grid, the day grid starts as soon as a month fills the window; without the hour grid, it stays at the day grid however far the zoom goes.",
             "**Mouse wheel opens and closes the detail view** (switch, on by default): one wheel step forward over the large preview of an opened stack opens the file, like a click. In the detail view, it takes about three steps back in a row to close it; a pause of over 0.6 seconds or a step forward resets the count. When an enlarged image returns into the frame while zooming out, the same scroll movement does not also close the detail view; the backward steps only count anew after a 0.7-second pause. With an enlarged image and over content that scrolls by itself (documents, texts), scrolling does not count. Afterwards the wheel briefly does not act on the timeline or the image zoom.",
@@ -1073,13 +1073,13 @@ export const HELP_EN: HelpTexts = {
       ],
     },
     "set-medien": {
-      title: "Settings: Media & Viewer",
+      title: "Settings: Media & detail view",
       blocks: [
         {
           list: [
-            "**Navigation in Media Viewer:** **Same category only** (photo to photo), **All media** (default, chronologically across all lanes) or **Custom** with switches for images, videos, audio and documents.",
+            "**Navigation in the detail view:** **Same category only** (photo to photo), **All media** (default, chronologically across all lanes) or **Custom** with switches for images, videos, audio and documents.",
             "**Show timestamp overlay** (on): date and time shown subtly along the bottom edge in the detail view.",
-            "**Video Preview Thumbnail:** position as a percentage of the video length (10 by default). **Apply** makes it apply to new videos. **Regenerate existing video thumbnails now** also renews all existing ones.",
+            "**Video preview thumbnail:** position as a percentage of the video length (10 by default). **Apply** makes it apply to new videos. **Regenerate existing video thumbnails now** also renews all existing ones.",
           ],
         },
       ],
@@ -1087,7 +1087,7 @@ export const HELP_EN: HelpTexts = {
     "set-start": {
       title: "Startup: welcome, start menu and autostart",
       blocks: [
-        { p: "⚙ › **System & Language** › **Startup** holds settings for the app itself. They apply to the whole computer, so there is no “Applies to” here." },
+        { p: "⚙ › **System & language** › **Startup** holds settings for the app itself. They apply to the whole computer, so there is no “Applies to” here." },
         {
           list: [
             "**Show welcome screen:** shows the short introduction every time the main window opens. In the welcome window, **Don't show again** turns it off; here it can be turned back on.",
@@ -1097,20 +1097,20 @@ export const HELP_EN: HelpTexts = {
             "**Shortcut on the desktop** (off by default): puts CronoStream on the desktop as an icon. On Linux, the launcher is made executable and marked as trusted right away.",
           ],
         },
-        { p: "The four switches for start menu, autostart and desktop only appear in the Linux AppImage and in the installed Windows version, and they behave the same on both. On the first start, the welcome window also lets you choose the **Appearance** (Light or Dark) as long as none is saved yet; **Get started** saves the preselection. It offers the switches once (**Setup on this computer**); entries that already exist, such as those from the Windows installer, are taken over. Afterwards they can be changed here." },
+        { p: "The four switches for start menu, autostart and desktop only appear in the Linux AppImage and in the installed Windows version, and they behave the same on both. On the first start, the welcome window also offers a choice of **Appearance** (Light or Dark) as long as none is saved yet; **Get started** saves the preselection. It offers the switches once (**Setup on this computer**); entries that already exist, such as those from the Windows installer, are taken over. Afterwards they can be changed here." },
         { p: "On Linux, the start menu entries sit in the menu folder **CronoStream**, together with **Uninstall CronoStream**. On Windows, the installer creates a start menu folder (its name can be chosen on a page of its own in the installer, **CronoStream** by default) with the program, **CronoStream Drop Box** and **Uninstall CronoStream**. Installer and uninstaller speak German, English or Spanish depending on the Windows language, English otherwise, and the entries are named accordingly. On Windows, an entry that is switched off is only set aside and brought back when switched on again; if it is missing entirely, it is created anew." },
-        { p: "**Watched folder** (⚙ › **System & Language**): a chosen folder is watched. New files in it go into the drop box automatically, even with the main window closed, as long as the drop box is running. Files already there are not picked up. **Include subfolders** also picks up files from subfolders. Unfinished files (such as .part or .tmp) are only picked up once writing has finished. If the folder is not reachable (drive disconnected), watching resumes as soon as it is back. **Stop watching** ends it." },
+        { p: "**Watched folder** (⚙ › **System & language**): a chosen folder is watched. New files in it go into the drop box automatically, even with the main window closed, as long as the drop box is running. Files already there are not picked up. **Include subfolders** also picks up files from subfolders. Unfinished files (such as .part or .tmp) are only picked up once writing has finished. If the folder is not reachable (drive disconnected), watching resumes as soon as it is back. **Stop watching** ends it." },
       ],
     },
 
     "set-deinstallieren": {
       title: "Removing CronoStream completely",
       blocks: [
-        { p: "⚙ › **System & Language** › **Uninstall** › **Remove…** or the start menu entry **Uninstall CronoStream** opens a dialog. It lists everything CronoStream has created on this computer outside the streams: settings, stream list, drop box waiting list, search index and log file, stored interface data, caches, recordings not yet added to a stream, start menu, menu folder and autostart entries, and leftovers under the former name LifeStream. After **Remove now** and a final confirmation, all of it is deleted and the app quits." },
+        { p: "⚙ › **System & language** › **Uninstall** › **Remove…** or the start menu entry **Uninstall CronoStream** opens a dialog. It lists everything CronoStream has created on this computer outside the streams: settings, stream list, drop box waiting list, search index and log file, stored interface data, caches, recordings not yet added to a stream, start menu, menu folder and autostart entries, and leftovers under the former name LifeStream. After **Remove now** and a final confirmation, all of it is deleted and the app quits." },
         {
           list: [
-            "**Streams** are kept. Only streams ticked one by one are deleted for good, together with their folder; none is ticked by default. Streams that are not in the stream list are left untouched.",
-            "**Also delete the program file** (Linux only, off by default): also deletes the AppImage file. Unticked, it stays where it is and can be started again or deleted by hand later.",
+            "**Streams** are kept. Only streams checked one by one are deleted for good, together with their folder; none is checked by default. Streams that are not in the stream list are left untouched.",
+            "**Also delete the program file** (Linux only, off by default): also deletes the AppImage file. Unchecked, it stays where it is and can be started again or deleted by hand later.",
             "**Windows:** afterwards the Windows uninstaller starts without asking again and removes the program itself.",
           ],
         },
@@ -1123,7 +1123,7 @@ export const HELP_EN: HelpTexts = {
       title: "Private mode: hiding files",
       blocks: [
         { p: "Private mode hides files whose note contains a certain text. They only come back after entering a password. It applies per stream and is set up under ⚙ › **Privacy**." },
-        { note: "This is a screen inside the app, not encryption: the files stay untouched in the stream folder. Backups always contain all files, hidden ones included." },
+        { note: "This is a privacy screen inside the app, not encryption: the files stay untouched in the stream folder. Backups always contain all files, hidden ones included." },
         { p: "**Setting up**" },
         {
           steps: [
@@ -1139,8 +1139,8 @@ export const HELP_EN: HelpTexts = {
         {
           list: [
             "**Timeline only:** the timeline and its search do not show private files. They can still be found in the file lists.",
-            "**Views only** (default): the timeline, search and file lists do not show them. The log still lists them.",
-            "**Everywhere:** also left out of the log and of exports. Backups stay complete.",
+            "**Views only** (default): the timeline, search and file lists do not show them. The history still lists them.",
+            "**Everywhere:** also left out of the history and of exports. Backups stay complete.",
           ],
         },
         { p: "**In daily use**" },
@@ -1165,9 +1165,9 @@ export const HELP_EN: HelpTexts = {
       ],
     },
     "set-ueber": {
-      title: "About CronoStream and licences",
+      title: "About CronoStream and licenses",
       blocks: [
-        { p: "At the very bottom of the settings are the version, the copyright and a note that CronoStream is free software under the EUPL-1.2 licence (free of charge and without warranty, with a link to the source code). **View Open Source Licenses** opens a searchable list titled “Licenses” that starts with CronoStream itself and covers all components used; a click shows the full licence text." },
+        { p: "At the very bottom of the settings are the version, the copyright and a note that CronoStream is free software under the EUPL-1.2 license (free of charge and without warranty, with a link to the source code). **View open-source licenses** opens a searchable list titled “Licenses” that starts with CronoStream itself and covers all components used; a click shows the full license text." },
         { p: "The **coffee cup** (tooltip “Buy me a coffee”) in the header between ? and fullscreen, at the top right of the start screen, opens the donation page in the browser." },
         { p: "**Updates:** by default, CronoStream asks felixheck.de at most once a day whether a newer version exists (a small file over HTTPS; only the IP address is transmitted, nothing about the computer, files or streams). If there is one, a notice with **Download** appears once per version; nothing is installed automatically. Without a connection, the check stays silent. The switch **Check for updates automatically** turns it off (per computer), **Check now** asks at once and also reports when there is no connection." },
       ],
@@ -1253,7 +1253,7 @@ export const HELP_EN: HelpTexts = {
             "**Delete permanently** (history) or **Delete + remove from database** (trash): cannot be undone.",
           ],
         },
-        { p: "The original outside the stream folder stays untouched in every case. With **Delete local copy on removal**, removing is already final." },
+        { p: "The original outside the stream folder stays untouched in every case. With **Delete working copy on removal**, removing is already final." },
       ],
     },
     "faq-sicherung": {
@@ -1284,7 +1284,7 @@ export const HELP_EN: HelpTexts = {
             "**Videos:** MP4, MOV, MKV, WebM, AVI, WMV, FLV, 3GP, MPG",
             "**Audio:** MP3, WAV, M4A, FLAC, OGG, AAC, WMA, AIFF",
             "**Documents:** PDF, DOCX, DOC, ODT, RTF, TXT (also in ANSI and UTF-16), CSV, XLS, XLSX, with text search",
-            "**E-mails:** EML and Outlook MSG, with attachments and text search",
+            "**Emails:** EML and Outlook MSG, with attachments and text search",
           ],
         },
         { p: "Other files can be added too. They appear without a preview in the documents lane and open in their default program." },
@@ -1296,12 +1296,12 @@ export const HELP_EN: HelpTexts = {
         { p: "CronoStream makes a short fingerprint for each file from its size plus the beginning and end of its content. The same fingerprint means a possible duplicate, even under a different name. This is fast even for large videos." },
         {
           list: [
-            "**When adding:** as a comparison card in the review window. If the import itself still finds a suspect later, a message with **Hand off to file operations** appears.",
+            "**When adding:** as a comparison card in the review window. If the import itself still finds a suspect later, a message with **Hand off to File operations** appears.",
             "**For the whole collection:** the **Duplicates** tab under Manage.",
-            "**In drive search:** **Hide duplicates** and **Hide files already in the stream**, optionally with a thorough content check.",
+            "**In disk search:** **Hide duplicates** and **Hide files already in the stream**, optionally with a thorough content check.",
           ],
         },
-        { p: "This is controlled by the settings **Auto-detect duplicates on import** and **Quick check by filename and size**." },
+        { p: "This is controlled by the settings **Auto-detect duplicates on import** and **Quick check by file name and size**." },
       ],
     },
     "faq-lokal": {
@@ -1309,14 +1309,14 @@ export const HELP_EN: HelpTexts = {
       blocks: [
         { p: "No. CronoStream works completely locally, without an account, cloud or upload. A small internal media server only delivers thumbnails to its own interface and cannot be reached from outside." },
         { p: "The only exception is a deliberate manual step: with AI dating, file names, paths and metadata are copied by hand into a freely chosen AI program – never file contents. Outside the AppImage, the recording dialog on Linux can also install ffmpeg via the package manager." },
-        { p: "Within the app, files can also be concealed: **private mode** (⚙ › Privacy) hides files with a certain note text by key combination. It is a screen, not encryption." },
+        { p: "Within the app, files can also be concealed: **private mode** (⚙ › Privacy) hides files with a certain note text by key combination. It is a privacy screen, not encryption." },
       ],
     },
     "faq-arbeitet": {
-      title: "The app is working: progress and cancelling",
+      title: "The app is working: progress and canceling",
       blocks: [
-        { p: "Longer operations show a progress card with a bar and the current file name at the top right; short waits show the “Working …” pill at the bottom right. Copying, backups and drive search can be cancelled; CronoStream cleans up anything half-finished itself." },
-        { p: "Feedback appears as small cards at the bottom centre, some with an action button (e.g. **Hand off to file operations**)." },
+        { p: "Longer operations show a progress card with a bar and the current file name at the top right; short waits show the “Working…” pill at the bottom right. Copying, backups and disk search can be canceled; CronoStream cleans up anything half-finished itself." },
+        { p: "Feedback appears as small cards at the bottom center, some with an action button (e.g. **Hand off to File operations**)." },
       ],
     },
   },

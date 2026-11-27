@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type RefObject } from "react";
 import { invoke } from "../busy";
 import { open as openDialog } from "@tauri-apps/plugin-dialog";
-import { t } from "../i18n";
+import { t, tn } from "../i18n";
 import { SETTING_KEYS, type AddItemsResult, type DatedPath, type ProjectInfo, type ProjectSettings, type SettingScope } from "../types";
 import { setEarliestDateYear } from "../utils/datetime";
 import { DEFAULT_LANE_STACK } from "../utils/fileKindLane";
@@ -90,11 +90,11 @@ function settingWrites(patch: Partial<ProjectSettings>): { key: string; value: s
 /// disk usage in parentheses. Returns "" while nothing has loaded yet.
 function formatStatsLine(counts: CategoryCounts, diskUsage: number | null): string {
   const parts: string[] = [];
-  if (counts.image > 0) parts.push(`${counts.image} ${t("timeline.laneImages")}`);
-  if (counts.video > 0) parts.push(`${counts.video} ${t("timeline.laneVideos")}`);
-  if (counts.audio > 0) parts.push(`${counts.audio} ${t("timeline.laneAudios")}`);
-  if (counts.document > 0) parts.push(`${counts.document} ${t("timeline.laneDocuments")}`);
-  if (counts.other > 0) parts.push(`${counts.other} ${t("project.statsOther")}`);
+  if (counts.image > 0) parts.push(tn(counts.image, "project.statsImages"));
+  if (counts.video > 0) parts.push(tn(counts.video, "project.statsVideos"));
+  if (counts.audio > 0) parts.push(tn(counts.audio, "project.statsAudios"));
+  if (counts.document > 0) parts.push(tn(counts.document, "project.statsDocuments"));
+  if (counts.other > 0) parts.push(tn(counts.other, "project.statsOther"));
   let line = parts.join(" · ");
   // An empty stream showed nothing but "(152 KB)" — the size of its own
   // database, with nothing saying what it belongs to.

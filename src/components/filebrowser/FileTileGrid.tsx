@@ -3,7 +3,7 @@ import { invoke } from "../../busy";
 import type { DirEntryInfo, DirListing, FileKind } from "../../types";
 import type { PickedList } from "../../hooks/usePickedList";
 import type { PathCollection } from "../../hooks/useCollection";
-import { t, tCount } from "../../i18n";
+import { t, tCount, tn } from "../../i18n";
 import { useFileDragOut } from "../../hooks/useFileDragOut";
 import { useEmailHeaders } from "../../hooks/useEmailHeaders";
 import { useToast } from "../../ToastContext";
@@ -20,6 +20,7 @@ import HelpHint from "./HelpHint";
 import ToggleSwitch from "./ToggleSwitch";
 import RevealInFolderItems from "./RevealInFolderItems";
 import SendToProjectItems from "./SendToProjectItems";
+import { formatBytes } from "../DeleteStreamDialog";
 import {
   allKindLanes,
   KIND_LANE_LABEL_KEY,
@@ -110,14 +111,7 @@ function formatDate(iso: string | null): string {
 
 function formatSize(bytes: number | null): string {
   if (bytes == null) return "–";
-  const units = ["B", "KB", "MB", "GB"];
-  let value = bytes;
-  let unitIndex = 0;
-  while (value >= 1024 && unitIndex < units.length - 1) {
-    value /= 1024;
-    unitIndex++;
-  }
-  return `${value.toFixed(value < 10 && unitIndex > 0 ? 1 : 0)} ${units[unitIndex]}`;
+  return formatBytes(bytes);
 }
 
 interface Props {
@@ -1516,7 +1510,7 @@ export default function FileTileGrid({
               <>
                 <h2 className="modal-card__title">{t("browser.folderConfirmTitle")}</h2>
                 <p className="modal-card__body">
-                  {`${folderPrompt.entry.name}: ${addableFiles(folderPrompt.files).length} ${t("browser.folderConfirmFiles")}`}
+                  {`${folderPrompt.entry.name}: ${tn(addableFiles(folderPrompt.files).length, "browser.folderConfirmFiles")}`}
                 </p>
                 <div className="modal-card__actions">
                   <button className="btn" onClick={() => setFolderPrompt(null)}>

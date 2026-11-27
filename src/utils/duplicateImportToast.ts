@@ -1,4 +1,4 @@
-import { t } from "../i18n";
+import { t, tn } from "../i18n";
 import type { DuplicateGroup } from "../types";
 
 type ShowToast = (message: string, options?: { durationMs?: number; action?: { label: string; onClick: () => void } }) => void;
@@ -12,7 +12,7 @@ export function notifyDuplicatesFound(showToast: ShowToast, groups: DuplicateGro
   if (groups.length === 0) return;
   const ids = groups.flatMap((group) => group.item_ids);
   showToast(
-    t("browser.duplicatesFoundOnInsert").replace("{count}", String(ids.length)).replace("{groups}", String(groups.length)),
+    tn(ids.length, "browser.duplicatesFoundOnInsert", { groups: tn(groups.length, "browser.duplicates.groupCount") }),
     {
       durationMs: 8000,
       action: { label: t("browser.duplicates.handoff"), onClick: () => onHandoff(ids) },

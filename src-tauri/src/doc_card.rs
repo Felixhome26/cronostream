@@ -49,10 +49,12 @@ pub fn render_doc_card(title: &str, meta: &DocMetadata, dest: &Path) -> Result<(
     let title_line_height = 42i32;
     let lines = wrap_text(title, &font_bold, title_scale, max_text_width, 4);
 
+    // Index 0 de, 1 en, 2 es — see `crate::i18n::language_index`.
+    let language = crate::i18n::language_index().min(2);
     let meta_lines: Vec<String> = [
-        meta.size_bytes.map(format_size).map(|s| format!("Größe: {s}")),
-        meta.fs_created.as_deref().and_then(format_date).map(|d| format!("Erstellt: {d}")),
-        meta.fs_modified.as_deref().and_then(format_date).map(|d| format!("Geändert: {d}")),
+        meta.size_bytes.map(|b| crate::trf!("Größe: {size}", size = format_size(b, language))),
+        meta.fs_created.as_deref().and_then(|d| format_date(d, language)).map(|d| crate::trf!("Erstellt: {date}", date = d)),
+        meta.fs_modified.as_deref().and_then(|d| format_date(d, language)).map(|d| crate::trf!("Geändert: {date}", date = d)),
     ]
     .into_iter()
     .flatten()
@@ -163,7 +165,9 @@ fn wrap_text(text: &str, font: &impl Font, scale: PxScale, max_width: i32, max_l
     lines
 }
 
-fn format_size(bytes: u64) -> String {
+/// "1,5 MB" in German and Spanish, "1.5 MB" in English (`language` as
+/// `crate::i18n::language_index`).
+fn format_size(bytes: u64, language: usize) -> String {
     const UNITS: [&str; 4] = ["B", "KB", "MB", "GB"];
     let mut value = bytes as f64;
     let mut unit = 0;
@@ -171,15 +175,20 @@ fn format_size(bytes: u64) -> String {
         value /= 1024.0;
         unit += 1;
     }
-    if unit == 0 {
-        format!("{value:.0} {}", UNITS[unit])
-    } else {
-        format!("{value:.1} {}", UNITS[unit])
-    }
+    let number = if unit == 0 { format!("{value:.0}") } else { format!("{value:.1}") };
+    let number = if language == 1 { number } else { number.replace('.', ",") };
+    format!("{number} {}", UNITS[unit])
 }
 
-fn format_date(rfc3339: &str) -> Option<String> {
-    chrono::DateTime::parse_from_rfc3339(rfc3339).ok().map(|dt| dt.format("%d.%m.%Y").to_string())
+/// The date as the frontend writes it (`src/utils/datetime.ts`):
+/// de 12.03.2024, en 03/12/2024, es 12/03/2024.
+fn format_date(rfc3339: &str, language: usize) -> Option<String> {
+    let pattern = match language {
+        1 => "%m/%d/%Y",
+        2 => "%d/%m/%Y",
+        _ => "%d.%m.%Y",
+    };
+    chrono::DateTime::parse_from_rfc3339(rfc3339).ok().map(|dt| dt.format(pattern).to_string())
 }
 
 #[cfg(test)]
@@ -217,15 +226,24 @@ mod tests {
 
     #[test]
     fn format_size_picks_sensible_units() {
-        assert_eq!(format_size(500), "500 B");
-        assert_eq!(format_size(2048), "2.0 KB");
-        assert_eq!(format_size(5 * 1024 * 1024), "5.0 MB");
+        assert_eq!(format_size(500, 0), "500 B");
+        assert_eq!(format_size(2048, 1), "2.0 KB");
+        assert_eq!(format_size(5 * 1024 * 1024, 1), "5.0 MB");
     }
 
     #[test]
-    fn format_date_formats_rfc3339_as_dd_mm_yyyy() {
-        assert_eq!(format_date("2024-03-12T10:00:00+00:00"), Some("12.03.2024".to_string()));
-        assert_eq!(format_date("not a date"), None);
+    fn format_size_uses_a_decimal_comma_in_german_and_spanish() {
+        assert_eq!(format_size(1536, 0), "1,5 KB");
+        assert_eq!(format_size(1536, 2), "1,5 KB");
+        assert_eq!(format_size(1536, 1), "1.5 KB");
+    }
+
+    #[test]
+    fn format_date_follows_the_ui_language() {
+        assert_eq!(format_date("2024-03-12T10:00:00+00:00", 0), Some("12.03.2024".to_string()));
+        assert_eq!(format_date("2024-03-12T10:00:00+00:00", 1), Some("03/12/2024".to_string()));
+        assert_eq!(format_date("2024-03-12T10:00:00+00:00", 2), Some("12/03/2024".to_string()));
+        assert_eq!(format_date("not a date", 0), None);
     }
 
     #[test]

@@ -176,7 +176,7 @@ pub fn ensure_destination_outside_source(src: &Path, dst: &Path) -> Result<(), S
 
     if resolved_dst.starts_with(&resolved_src) {
         return Err(
-            crate::i18n::tr("Das Ziel liegt im Quellordner selbst — die Kopie würde sich dort endlos selbst kopieren. Bitte einen Ort außerhalb wählen.")
+            crate::i18n::tr("Das Ziel liegt im Quellordner selbst – die Kopie würde sich dort endlos selbst kopieren. Bitte einen Ort außerhalb wählen.")
                 .to_string(),
         );
     }

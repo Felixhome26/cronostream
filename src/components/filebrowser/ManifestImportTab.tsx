@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { invoke } from "../../busy";
 import { open as openDialog } from "@tauri-apps/plugin-dialog";
-import { t } from "../../i18n";
+import { t, tn } from "../../i18n";
 import { useProgress } from "../../ProgressContext";
 import type { ManifestImportResult } from "../../types";
 import type { PickedList } from "../../hooks/usePickedList";
@@ -44,9 +44,9 @@ export default function ManifestImportTab({ picks, onInserted, onDuplicatesFound
       const result = await invoke<ManifestImportResult>("import_paths_from_manifest", { manifestPath, operationId });
       picks.addMany(result.valid);
       if (result.invalid_count > 0) {
-        setSummary(`${result.invalid_count} / ${result.total_lines} ${t("browser.manifest.invalidSummarySuffix")}`);
+        setSummary(`${result.invalid_count} / ${tn(result.total_lines, "browser.manifest.invalidSummarySuffix")}`);
       } else if (result.valid.length > 0) {
-        setSummary(`${result.valid.length} ${t("browser.manifest.allValidSummarySuffix")}`);
+        setSummary(tn(result.valid.length, "browser.manifest.allValidSummarySuffix"));
       }
     } catch {
       setSummary(t("browser.manifest.readFailed"));
@@ -71,7 +71,7 @@ export default function ManifestImportTab({ picks, onInserted, onDuplicatesFound
         {picks.count > 0 && (
           <div className="manifest-import__actions">
             <span className="manifest-import__count">
-              {picks.count} {t("browser.manifest.pickedBadge")}
+              {tn(picks.count, "browser.manifest.pickedBadge")}
             </span>
             <button className="btn btn--primary" onClick={() => setReviewOpen(true)}>
               {t("browser.insertButton")}

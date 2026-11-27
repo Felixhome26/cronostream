@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { t, timestampSourceLabel } from "../../i18n";
+import { t, timestampSourceLabel, tn } from "../../i18n";
 import { listItems } from "../../types";
 import type { ItemInfo } from "../../types";
 import { mediaUrl } from "../../utils/mediaServer";
@@ -345,7 +345,7 @@ export default function AiFileSelectStep({ restrictToIds, onNext }: Props) {
         </label>
 
         <span className="print-export__count">
-          {visibleSelectedCount} {t("browser.printExport.selectedSuffix")}
+          {tn(visibleSelectedCount, "browser.printExport.selectedSuffix")}
           {hiddenSelectedCount > 0 && (
             <span className="print-export__count-hidden" title={t("browser.printExport.outsideFilterHint")}>
               {" "}

@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { invoke } from "../busy";
 import { open as openDialog } from "@tauri-apps/plugin-dialog";
-import { LANGUAGES, LANGUAGE_NATIVE_NAMES, currentLanguage, setLanguage, t } from "../i18n";
+import { LANGUAGES, LANGUAGE_NATIVE_NAMES, currentLanguage, quoted, setLanguage, t } from "../i18n";
 import { setTheme, useTheme } from "../theme";
 import type { OpenPrecheckResult, OpenProjectResult, ProjectInfo, RecentProjectEntry } from "../types";
 import CopyProgress from "./CopyProgress";
@@ -285,7 +285,7 @@ export default function StartScreen({ onProjectOpened, onOpeningChange }: StartS
       // releasing it — its owner is gone, so taking over is safe. Only a
       // lock held by a live process keeps the default from opening.
       if (precheck.status !== "ready" && precheck.status !== "lock_stale") {
-        setError(`${t("start.defaultOpenFailed")} „${entry.name}"`);
+        setError(`${t("start.defaultOpenFailed")} ${quoted(entry.name)}`);
         return;
       }
       onOpeningChange(entry.name);
@@ -296,10 +296,10 @@ export default function StartScreen({ onProjectOpened, onOpeningChange }: StartS
       if (result.status === "opened") {
         await finishOpen(result.project);
       } else {
-        setError(`${t("start.defaultOpenFailed")} „${entry.name}"`);
+        setError(`${t("start.defaultOpenFailed")} ${quoted(entry.name)}`);
       }
     } catch {
-      setError(`${t("start.defaultOpenFailed")} „${entry.name}"`);
+      setError(`${t("start.defaultOpenFailed")} ${quoted(entry.name)}`);
     } finally {
       setBusy(false);
       onOpeningChange(null);
@@ -794,7 +794,7 @@ export default function StartScreen({ onProjectOpened, onOpeningChange }: StartS
           onDeleted={(outcome) => {
             setDeleting(null);
             showToast(
-              `${t("start.deletedToast")} „${outcome.name}" – ${formatBytes(outcome.freedBytes)} ${t("start.freedSuffix")}`,
+              `${t("start.deletedToast")} ${quoted(outcome.name)} – ${formatBytes(outcome.freedBytes)} ${t("start.freedSuffix")}`,
             );
             void refreshRecent();
           }}
@@ -805,7 +805,7 @@ export default function StartScreen({ onProjectOpened, onOpeningChange }: StartS
         <DeletedStreamsDialog
           onClose={() => setShowDeleted(false)}
           onRestored={(report) => {
-            showToast(`${t("start.restoredToast")} „${report.name}"`);
+            showToast(`${t("start.restoredToast")} ${quoted(report.name)}`);
             void refreshRecent();
           }}
         />

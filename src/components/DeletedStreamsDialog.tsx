@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { invoke } from "../busy";
 import { listen } from "@tauri-apps/api/event";
 import { open as openDialog } from "@tauri-apps/plugin-dialog";
-import { t } from "../i18n";
+import { t, tn } from "../i18n";
 import { useWindowKeydown } from "../hooks/useWindowKeydown";
 import type { DeletedStream, RestoreProgress, RestoreReport } from "../types";
 import { formatDateTime } from "../utils/datetime";
@@ -132,7 +132,7 @@ export default function DeletedStreamsDialog({
         {report && (
           <div className="restore__report">
             <p>
-              <strong>{report.name}</strong>: {report.restored} {t("restore.restoredSuffix")}
+              <strong>{report.name}</strong>: {tn(report.restored, "restore.restoredSuffix")}
             </p>
             {report.changed.length > 0 && (
               <p className="modal-card__hint">
@@ -151,7 +151,7 @@ export default function DeletedStreamsDialog({
           <div className="restore__form">
             <p className="modal-card__body">
               <strong>{restoring.name}</strong> — {restoring.restorableCount} {t("restore.ofSuffix")}{" "}
-              {restoring.itemCount} {t("restore.filesAvailable")}
+              {tn(restoring.itemCount, "restore.filesAvailable")}
             </p>
             {restoring.restorableCount < restoring.itemCount && (
               <p className="modal-card__hint">{t("restore.partialWarning")}</p>
@@ -191,7 +191,7 @@ export default function DeletedStreamsDialog({
                       <strong>{entry.name}</strong>
                       <span className="modal-card__hint">
                         {t("restore.deletedOn")} {formatWhen(entry.deletedAt)} · {entry.restorableCount}{" "}
-                        {t("restore.ofSuffix")} {entry.itemCount} {t("restore.filesAvailable")}
+                        {t("restore.ofSuffix")} {tn(entry.itemCount, "restore.filesAvailable")}
                       </span>
                       <span className="modal-card__hint restore__row-path">{entry.originalPath}</span>
                     </div>

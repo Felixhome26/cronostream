@@ -1,5 +1,5 @@
 import type { ItemInfo } from "../../types";
-import { t } from "../../i18n";
+import { t, tn } from "../../i18n";
 import { effectiveName, formatMetaDate } from "../../utils/timeline/itemText";
 
 // Stand-ins for the search result rows of files that have no thumbnail —
@@ -28,7 +28,7 @@ export default function SearchResultsList({ items, activeId, thumbs, onPick, onO
   return (
     <div className="timeline-search-results">
       <div className="timeline-search-results__header">
-        {items.length} {t("search.resultsHeading")}
+        {tn(items.length, "search.resultsHeading")}
       </div>
       <div className="timeline-search-results__list">
         {items.map((item, index) => (

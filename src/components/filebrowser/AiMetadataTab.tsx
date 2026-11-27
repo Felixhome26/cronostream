@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { invoke } from "../../busy";
 import { writeText as writeClipboardText, readText as readClipboardText } from "@tauri-apps/plugin-clipboard-manager";
-import { confidenceLabel, t } from "../../i18n";
+import { confidenceLabel, t, tn } from "../../i18n";
 import type { ActionLogEntry, AiApplyEntry, AiApplyResult, AiSuggestion } from "../../types";
 import { combineDateWithTimeOfDay, toDateOnlyValue } from "../../utils/datetime";
 import { useToast } from "../../ToastContext";
@@ -420,7 +420,7 @@ export default function AiMetadataTab({ restrictToIds, onClose }: Props) {
             {!showChanges && (
               <>
                 <p className="review-modal__intro">
-                  {appliedCount} {t("browser.aiMetadata.appliedToastSuffix")}
+                  {tn(appliedCount, "browser.aiMetadata.appliedToastSuffix")}
                 </p>
                 <p className="review-modal__intro">
                   {t("browser.aiMetadata.appliedBreakdown")

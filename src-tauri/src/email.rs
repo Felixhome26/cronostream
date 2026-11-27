@@ -232,11 +232,11 @@ fn clean_filename(raw: &str, index: usize) -> String {
         .map(|c| if c.is_control() || matches!(c, '/' | '\\' | ':' | '*' | '?' | '"' | '<' | '>' | '|') { '_' } else { c })
         .collect();
     let cleaned = cleaned.trim().trim_start_matches('.').to_string();
-    if cleaned.is_empty() { crate::trf!("Anlage {number}", number = index + 1) } else { cleaned }
+    if cleaned.is_empty() { crate::trf!("Anhang {number}", number = index + 1) } else { cleaned }
 }
 
 fn attachment_name(part: &mail_parser::MessagePart, index: usize) -> String {
-    let raw = part.attachment_name().map(str::to_string).unwrap_or_else(|| crate::trf!("Anlage {number}", number = index + 1));
+    let raw = part.attachment_name().map(str::to_string).unwrap_or_else(|| crate::trf!("Anhang {number}", number = index + 1));
     clean_filename(&raw, index)
 }
 
@@ -251,7 +251,7 @@ fn msg_attachment_name(attachment: &msg_parser::Attachment, index: usize) -> Str
     } else if !attachment.display_name.is_empty() {
         attachment.display_name.as_str()
     } else {
-        return crate::trf!("Anlage {number}", number = index + 1);
+        return crate::trf!("Anhang {number}", number = index + 1);
     };
     clean_filename(raw, index)
 }
@@ -283,21 +283,21 @@ pub fn list_attachments(path: &Path) -> Result<Vec<EmailAttachment>, String> {
 pub fn save_attachment(path: &Path, index: usize, dest_dir: &Path) -> Result<std::path::PathBuf, String> {
     if is_msg_format(path) {
         let outlook = Outlook::from_path(path).map_err(|e| crate::trf!("Ungültiges .msg-Format: {e}", e = e))?;
-        let attachment = outlook.attachments.get(index).ok_or_else(|| crate::i18n::tr("Anlage nicht gefunden.").to_string())?;
+        let attachment = outlook.attachments.get(index).ok_or_else(|| crate::i18n::tr("Anhang nicht gefunden.").to_string())?;
 
         std::fs::create_dir_all(dest_dir).map_err(|e| crate::trf!("Konnte Ordner nicht anlegen: {e}", e = e))?;
         let target = dest_dir.join(msg_attachment_name(attachment, index));
-        std::fs::write(&target, &attachment.payload_bytes).map_err(|e| crate::trf!("Konnte Anlage nicht schreiben: {e}", e = e))?;
+        std::fs::write(&target, &attachment.payload_bytes).map_err(|e| crate::trf!("Konnte Anhang nicht schreiben: {e}", e = e))?;
         return Ok(target);
     }
 
     let bytes = std::fs::read(path).map_err(|e| crate::trf!("Konnte Datei nicht lesen: {e}", e = e))?;
     let message = MessageParser::default().parse(&bytes).ok_or_else(|| crate::i18n::tr("Ungültiges E-Mail-Format.").to_string())?;
-    let part = message.attachments().nth(index).ok_or_else(|| crate::i18n::tr("Anlage nicht gefunden.").to_string())?;
+    let part = message.attachments().nth(index).ok_or_else(|| crate::i18n::tr("Anhang nicht gefunden.").to_string())?;
 
     std::fs::create_dir_all(dest_dir).map_err(|e| crate::trf!("Konnte Ordner nicht anlegen: {e}", e = e))?;
     let target = dest_dir.join(attachment_name(part, index));
-    std::fs::write(&target, part.contents()).map_err(|e| crate::trf!("Konnte Anlage nicht schreiben: {e}", e = e))?;
+    std::fs::write(&target, part.contents()).map_err(|e| crate::trf!("Konnte Anhang nicht schreiben: {e}", e = e))?;
     Ok(target)
 }
 

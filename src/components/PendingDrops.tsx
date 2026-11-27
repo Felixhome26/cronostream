@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { invoke, runBusy } from "../busy";
 import { listen } from "@tauri-apps/api/event";
-import { t } from "../i18n";
+import { t, tn } from "../i18n";
 import { useToast } from "../ToastContext";
 import type { AddItemsResult, DuplicateMatch, EmailHeader, PendingDropInfo } from "../types";
 import { fileUrl, loadMediaServerInfo, type MediaServerInfo } from "../utils/mediaServer";
@@ -416,7 +416,7 @@ export default function PendingDrops({ onImported, onToast, onCheckWithAi, onMan
       if (result.skipped.length > 0) {
         onToast(result.skipped[0].reason);
       } else if (result.added.length > 0) {
-        onToast(`${result.added.length} ${t("pending.addedToastSuffix")}`);
+        onToast(tn(result.added.length, "pending.addedToastSuffix"));
       }
       // "Daten manuell überprüfen"/"Mit KI überprüfen" checked: jump
       // straight into that review instead of leaving the user to find
@@ -476,7 +476,7 @@ export default function PendingDrops({ onImported, onToast, onCheckWithAi, onMan
     setOpen(false);
     try {
       const total = await invoke<number>("count_live_items");
-      onToast(`${inserted} ${t("pending.addedToastSuffix")} · ${total} ${t("pending.closeToastTotalSuffix")}`);
+      onToast(`${tn(inserted, "pending.addedToastSuffix")} · ${tn(total, "pending.closeToastTotalSuffix")}`);
     } catch {
       // no project open, or the count failed — closing still proceeds
     }

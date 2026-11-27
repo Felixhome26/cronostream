@@ -129,7 +129,7 @@ fn stage_attachment(dir: &Path, input: &AttachmentInput) -> Result<StagedAttachm
             crate::safe_io::write_durably(&stored, bytes)
                 .map_err(|e| crate::trf!("Konnte „{name}“ nicht speichern: {e}", name = input.name, e = e))?;
         }
-        (None, None) => return Err(format!("Anhang „{}“ hat weder Pfad noch Daten.", input.name)),
+        (None, None) => return Err(crate::trf!("Anhang „{name}“ hat weder Pfad noch Daten.", name = input.name)),
     }
 
     let kind = crate::items::kind_str(crate::fsbrowse::classify(&stored));

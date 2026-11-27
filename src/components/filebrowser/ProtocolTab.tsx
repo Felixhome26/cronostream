@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { invoke } from "../../busy";
 import { listen } from "@tauri-apps/api/event";
-import { t, tCount } from "../../i18n";
+import { t, tCount, tn } from "../../i18n";
 import { useProgress } from "../../ProgressContext";
 import { useToast } from "../../ToastContext";
 import { useConfirm } from "../../ConfirmContext";
@@ -95,7 +95,7 @@ function summaryFor(action: ActionLogAction): string {
         return single.label;
     }
   }
-  return `${action.entryCount} ${t(`log.count.${action.actionType}`)}`;
+  return tn(action.entryCount, `log.count.${action.actionType}`);
 }
 
 /// The action history, with the undo controls. This is the app's safety
@@ -294,7 +294,7 @@ export default function ProtocolTab({ onUndone }: { onUndone?: () => void } = {}
         switch (outcome.status) {
           case "done":
             setPending(null);
-            setMessage(`${outcome.undone} ${t("log.undoneSuffix")}`);
+            setMessage(tn(outcome.undone, "log.undoneSuffix"));
             await reload();
             onUndone?.();
             break;
@@ -347,7 +347,7 @@ export default function ProtocolTab({ onUndone }: { onUndone?: () => void } = {}
         itemIds: Array.from(selectedForPurge),
         operationId,
       });
-      setMessage(`${purged} ${t("log.purgedSuffix")}`);
+      setMessage(tn(purged, "log.purgedSuffix"));
       await reload();
     } catch (err) {
       setMessage(String(err));

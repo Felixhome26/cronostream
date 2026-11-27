@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { invoke } from "../busy";
 import { listen } from "@tauri-apps/api/event";
-import { t } from "../i18n";
+import { t, tn } from "../i18n";
 import type { CopyProgressPayload } from "../types";
 
 interface CopyProgressProps {
@@ -99,7 +99,7 @@ export default function CopyProgress({ taskId, title, onDone, onCancelled, onErr
         </div>
         <p className="progress-bar__status">
           {progress
-            ? `${progress.copied_files} / ${progress.total_files} ${t("copyProgress.filesSuffix")}`
+            ? `${progress.copied_files} / ${tn(progress.total_files, "copyProgress.filesSuffix")}`
             : t("copyProgress.preparing")}
         </p>
         <div className="modal-card__actions">
